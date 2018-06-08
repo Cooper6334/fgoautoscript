@@ -140,9 +140,8 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             }
             releaseImage(currentServant[i]);
         }
-        if(!(servantAlive[0] || servantAlive[1] || servantAlive[2])){
+        if(servantAlive[0] && servantAlive[1] && servantAlive[2]){
             console.log("All servant die bug");
-            return;
         }
     }
     releaseImage(screenShot);

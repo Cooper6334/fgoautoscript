@@ -3,6 +3,9 @@ var isDebug = false;
 var noApImage;
 var stageFullImage;
 var stageFullImage2;
+var selectFriendImage;
+var selectFriendImage2;
+var selectTeamImage;
 var finishStageImage = [];
 var currentStageImage = [];
 var cardListImage = [];
@@ -17,6 +20,8 @@ var friendPointTenImage;
 var friendPointReloadImage;
 var friendPointFullImage;
 var friendPointFullImage2;
+var friendPointNew;
+var friendPointBack;
 var starImage;
 
 var selectStartImage = [];
@@ -70,7 +75,7 @@ function loadImage(){
     stageFullImage = openImage(path+"/scripts/com.cooper.FGO/image/StageFull.png");
     stageFullImage2 = openImage(path+"/scripts/com.cooper.FGO/image/StageFull2.png");
 
-    for(var i=0;i<8;i++){
+    for(var i=0;i<9;i++){
         finishStageImage[i] = openImage(path+"/scripts/com.cooper.FGO/image/FinishStage"+i+".png");
     }
 
@@ -92,12 +97,18 @@ function loadImage(){
     skillUsedImage = openImage(path+"/scripts/com.cooper.FGO/image/SkillUsed.png");
     skillNullImage = openImage(path+"/scripts/com.cooper.FGO/image/SkillNull.png");
 
+    selectFriendImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectFriend1.png");
+    selectFriendImage2 = openImage(path+"/scripts/com.cooper.FGO/image/SelectFriend2.png");
+    selectTeamImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectTeam.png");
+
     friendPointCheckImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointCheck.png");
     friendPointTenImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointTen.png");
     friendPointFreeImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFree.png");
     friendPointReloadImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointReload.png");
     friendPointFullImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFull.png");
     friendPointFullImage2 = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFull2.png");
+    friendPointNew = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointNew.png");
+    friendPointBack = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointBack.png");
 
     selectStartImage[0] = openImage(path+"/scripts/com.cooper.FGO/image/SelectStart.png");
     selectStartImage[1] = openImage(path+"/scripts/com.cooper.FGO/image/SelectStart2.png");
@@ -116,7 +127,7 @@ function releaseAllImage(){
     releaseImage(stageFullImage);
     releaseImage(stageFullImage2);
 
-    for(var i=0;i<7;i++){
+    for(var i=0;i<9;i++){
         releaseImage(finishStageImage[i]);
     }
 
@@ -125,6 +136,10 @@ function releaseAllImage(){
         releaseImage(cardListImage[i]);
         releaseImage(selectStartImage[i]);
     }
+
+    releaseImage(selectFriendImage);
+    releaseImage(selectFriendImage2);
+    releaseImage(selectTeamImage);
     
     releaseImage(friendPointCheckImage);
     releaseImage(friendPointTenImage);
@@ -132,6 +147,8 @@ function releaseAllImage(){
     releaseImage(friendPointReloadImage);
     releaseImage(friendPointFullImage);
     releaseImage(friendPointFullImage2);
+    releaseImage(friendPointNew);
+    releaseImage(friendPointBack);
 
     releaseImage(skillCheckImage);
     releaseImage(skillUsedImage);
@@ -322,24 +339,10 @@ function isSameColor(r1,g1,b1,r2,g2,b2){
     return false;
 }
 
-/*
-function cropFriendImage(friendCnt){
-    var screenShot = getScreenshot();
-    var crop1 = cropImage(screenShot,100,460,260,195);
-    var crop2 = cropImage(screenShot,100,655,260,65);
-    var crop3 = cropImage(screenShot,360,1100,50,50);
-    saveImage(crop1,storagePath+"head"+friendCnt+".png");
-    saveImage(crop2,storagePath+"item"+friendCnt+".png");
-    saveImage(crop3,storagePath+"star"+friendCnt+".png");
-    releaseImage(screenShot);
-    releaseImage(crop1);
-    releaseImage(crop2);
-    releaseImage(crop3);  
-}
-*/
 function saveScreenShotImage(){
+    var path = getStoragePath();
     var currentdate = new Date();
-    var filepath = storagePath+"screenshot"+currentdate.getTime()+".png";
+    var filepath = path+"/screenshot"+currentdate.getTime()+".png";
     var screenShot = getScreenshot();
     saveImage(screenShot,filepath);
     releaseImage(screenShot);
@@ -347,12 +350,13 @@ function saveScreenShotImage(){
 }
 
 function saveCropImage(l,t,r,b){
+    var path = getStoragePath();
     var width = r-l;
     var height = b-t;
     var x = l;
     var y = t;
     var currentdate = new Date();
-    var filepath = storagePath+"crop"+currentdate.getTime()+"_"+x+"_"+y+"_"+width+"_"+height+".png";
+    var filepath = path+"/crop"+currentdate.getTime()+"_"+x+"_"+y+"_"+width+"_"+height+".png";
     var screenShot = getScreenshot();
     var crop = cropImage(screenShot,x,y,width,height);
     saveImage(crop,filepath);

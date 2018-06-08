@@ -33,10 +33,10 @@ function selectStage(useApple){
             tapScale(750,900,100);
             break;
             case 0://bronze
-            tap(750,1120,100);
+            tapScale(750,1120,100);
             break;
             case 3:
-            tap(750,350,100);
+            tapScale(750,350,100);
             break;
             case 4:
                 //wait for auto recover
@@ -75,6 +75,13 @@ function selectFriend(filter,servant,item,star){
         itemImage = openImage(path+"/FGO/friend_item/"+item+".png");
     }
     while(true){
+        var screenShot2 = getScreenshot();
+        if(!checkImage(screenShot2,selectFriendImage,1340,200,420,100)){
+            releaseImage(screenShot2);
+            sleep(3000);
+            continue;
+        }
+        releaseImage(screenShot2);
         var t = 1;
         for(var i = 0;i < 9;i++){//loop for filter
             if(!isScriptRunning){
@@ -116,12 +123,12 @@ function selectFriend(filter,servant,item,star){
                         }
                     }
                     if(itemImage != undefined){
-                        if(!checkImage(screenShot,itemImage,100,655,310,90)){
+                        if(!checkImage(screenShot,itemImage,100,655,310,90,0.9)){
                             i1 = false;
                         }else if(star == 1 && !checkImage(screenShot,starImage,377,713,14,14)){
                             star1 = false;
                         }
-                        if(!checkImage(screenShot,itemImage,100,1055,310,90)){
+                        if(!checkImage(screenShot,itemImage,100,1055,310,90,0.9)){
                             i2 = false;
                         }else if(star == 1 && !checkImage(screenShot,starImage,377,1113,14,14)){
                             star2 = false;
@@ -162,28 +169,39 @@ function reloadFriend(){
         }
         tapScale(1650,235,100);
         sleep(1000);
-        if(checkPixel(1800,1135,213,213,215)){
+        var screenShot = getScreenshot();
+        if(checkImage(screenShot,selectFriendImage2,1600,1080,150,80)){
             tapScale(1700,1135,100);
+            releaseImage(screenShot);
             waitLoading();
             return;
         }else{
             tapScale(1250,1135,100);
             sleep(5000);
         }
+        releaseImage(screenShot);
     }
 }
 
 function scrollFriendList(){
-    if(screenScale[0] != 1 || screenScale[1] != 1){
-        return;
-    }
     swipeScale(800,1000,800,201,50);
 }
 
 //-----------------------------------------------------team menu
 function selectTeam(team){
+    if(!isScriptRunning){
+        return;
+    }
     if(team < 0 || team >= 10){
         return;
+    }
+    while(true){
+        var screenShot = getScreenshot();
+        if(checkImage(screenShot,selectTeamImage,2270,1300,230,100)){
+            releaseImage(screenShot);
+            break;
+        }
+        releaseImage(screenShot);
     }
     var x = 1050 + 50*team;
     var x2 = 1050 + 50*((team+1)%10);
@@ -193,9 +211,17 @@ function selectTeam(team){
     sleep(2000);
 }
 
-function startQuest(){  
+function startQuest(){
     if(!isScriptRunning){
         return;
+    }
+    while(true){
+        var screenShot = getScreenshot();
+        if(checkImage(screenShot,selectTeamImage,2270,1300,230,100)){
+            releaseImage(screenShot);
+            break;
+        }
+        releaseImage(screenShot);
     }
     tapScale(2300,1335,100);
 }
@@ -206,11 +232,10 @@ function finishQuest(){
     }
     console.log("Wait for quest finish");
     sleep(500);
-    var positionX = [793,141,990,1294,222,215,2080,1792];
-    var positionY = [1294,317,165,362,142,137,1300,1191];
-    var positionW = [120,649,230,373,545,2141,270,221];
-    var positionH = [77,113,285,89,77,233,100,60];
-    //520,1180,270,100
+    var positionX = [793,141,990,1294,222,215,2080,1390,1792];
+    var positionY = [1294,317,165,362,142,137,1300,550,1191];
+    var positionW = [120,649,230,373,545,2141,270,510,221];
+    var positionH = [77,113,285,89,77,233,100,40,60];
     for(var i=0;i<30;i++){
         if(!isScriptRunning){
             return;
@@ -222,13 +247,13 @@ function finishQuest(){
             return;
         }
         else{
-            for(var j=1;j<7;j++){
+            for(var j=1;j<8;j++){
                 if(checkImage(screenShot,finishStageImage[j],positionX[j],positionY[j],positionW[j],positionH[j])){
                     tapScale(2300,1335,100);
                     break;
                 }
             }
-            if(checkImage(screenShot,finishStageImage[7],positionX[7],positionY[7],positionW[7],positionH[7])){
+            if(checkImage(screenShot,finishStageImage[8],positionX[8],positionY[8],positionW[8],positionH[8])){
                 tapScale(650,1200,100);
             }
         }

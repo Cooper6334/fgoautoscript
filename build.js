@@ -17,8 +17,8 @@ function loadApi(){
     var apiList = ["basic","start_stage","in_stage","auto_attack_ai","get_box"];    
     var path = getStoragePath();
     for(var i = 0;i<apiList.length;i++){
-        var s = readFile(path+"/scripts/com.cooper.FGO/uni_"+apiList[i]+".js");
-        if(s.length == 0){
+        var s = readFile(path+"/scripts/com.cooper.FGO/une_"+apiList[i]+".js");
+        if(s == undefined || s.length == 0){
             return false;
         }
         runScript(s);
@@ -33,7 +33,7 @@ function loadApi(){
     var path = getStoragePath();
     for(var i = 0;i<apiList.length;i++){
         var s = readFile(path+"/scripts/com.cooper.FGO/"+apiList[i]+".js");
-        if(s.length == 0){
+        if(s == undefined || s.length == 0){
             return false;
         }
         runEncryptedScript(s);

@@ -67,9 +67,15 @@ function getFriendPoint(){
                 sleep(3000);
                 releaseImage(screenShot3);
                 break;
+            }else if(checkImage(screenShot3,friendPointNew,2030,1300,300,100)){
+                tapScale(2180,1350,100);
+                sleep(5000);
+            }else if(checkImage(screenShot3,friendPointBack,60,25,60,115)){
+                tapScale(90,80,100);
+                sleep(5000);
             }else{
                 tapScale(1700,1135,100);
-                sleep(1000);    
+                sleep(3000);    
             }
             releaseImage(screenShot3);
         }
