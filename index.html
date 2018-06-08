@@ -315,9 +315,9 @@
                 dropdownAutoWidth: true
             });
         });
-        $("#addStartStage").click(function(){
+        $("#addStartQuest").click(function(){
             commandId++;
-            insertNewCommand(getStartStage(commandId));
+            insertNewCommand(getStartQuest(commandId));
         });
         $("#addFinish").click(function(){
             commandId++;
@@ -579,7 +579,7 @@ function getCurrentScript(){
                     newScript+="selectTeam("+$("#selectTeam"+itemId).val()+");";
                     break;
                     case "進入關卡":
-                    newScript+='startQuest();';
+                    newScript+="startQuest("+$("#useItem"+itemId).val()+");";
                     break;
                     case "結束關卡":
                     newScript+='finishQuest();';
@@ -879,6 +879,7 @@ function getFinishItem(id){
 }
 function getSelectStage(id){
     return getCommandItem(id,'選擇關卡',
+        '<label>開啟畫面上方的任務</label><br>'+
         '<li><label>自動吃果&nbsp;&nbsp;</label>'+
         '<select id = "autoApple'+id+'">'+
         '<option value = "-1" selected>無</option>'+
@@ -928,8 +929,16 @@ function getSelectTeam(id){
         '<option value = "8">隊伍9</option>'+
         '<option value = "9">隊伍10</option></select></li>');
 }
-function getStartStage(id){
-    return getCommandItem(id,'進入關卡','<label>開啟畫面上方的任務</label>');
+function getStartQuest(id){
+    return getCommandItem(id,'進入關卡',
+        '<li><label>使用活動道具&nbsp;&nbsp;</label>'+
+        '<select id = "useItem'+id+'">'+
+        '<option value = "-1" selected>不使用</option>'+
+        '<option value = "0">一</option>'+
+        '<option value = "1">二</option>'+
+        '<option value = "2">三</option>'+
+        '<option value = "3">四</option>'+
+        '<option value = "3">五</option></select></li>');
 }
 function getCheckSwitchStatus(id) {
     return $(id).is(':checked');
@@ -1155,8 +1164,22 @@ function resetScript(result){
             });
             $("#selectTeam"+commandId).val(content).trigger('change');
         }else if(checkstring(content,"startQuest")){
-            $("#skill-list").append(getStartStage(commandId));
+
+
+            content = content.replace('startQuest(','');
+            content = content.replace(')','');
+            $("#skill-list").append(getStartQuest(commandId));
             initCommandButton(commandId);
+            $("#useItem"+commandId).select2({
+                minimumResultsForSearch: -1,
+                dropdownAutoWidth: true
+            });
+            if(content.length == 0){
+                content = -1;
+            }
+            $("#useItem"+commandId).val(content).trigger('change');
+
+
         }else if(checkstring(content,"finishQuest")){
             $("#skill-list").append(getFinishItem(commandId));
             initCommandButton(commandId);
@@ -1365,7 +1388,7 @@ function onLog(message) {
               <button id="addSelectTeam" type="button">選擇隊伍</button>
           </div><br><br>
           <div  class="pull-left" style="margin-top:-4px">
-              <button id="addStartStage" type="button">進入關卡</button>
+              <button id="addStartQuest" type="button">進入關卡</button>
               <button id="addFinish" type="button">結束關卡</button>
           </div><br><br><br>
           <div  class="pull-left" style="margin-top:-4px">

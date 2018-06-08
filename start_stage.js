@@ -44,10 +44,12 @@ function selectStage(useApple){
         }
         sleep(1000);
         var screenShot2 = getScreenshot();
-        if(checkImage(screenShot,screenShot2,0,0,defaultScreenSize[0],defaultScreenSize[1])){
+        var size = getImageSize(screenShot2);
+        if(checkImage(screenShot,screenShot2,0,0,size.width,size.height)){
             console.log("no apple");
             releaseImage(screenShot);
             releaseImage(screenShot2);
+            isScriptRunning = false;
             return;
         }
         releaseImage(screenShot2);
@@ -65,7 +67,6 @@ function selectFriend(filter,servant,item,star){
         return;
     }
     var path = getStoragePath();
-    var position = [180,315,450,585,725,860,995,1130,1265];
     var servantImage;
     if(servant.length > 0){
         servantImage = openImage(path+"/FGO/friend_servant/"+servant+".png");
@@ -83,7 +84,7 @@ function selectFriend(filter,servant,item,star){
         }
         releaseImage(screenShot2);
         var t = 1;
-        for(var i = 0;i < 9;i++){//loop for filter
+        for(var i = 0;i < selectFriendPosition.length;i++){//loop for filter
             if(!isScriptRunning){
                 return;
             }
@@ -94,7 +95,7 @@ function selectFriend(filter,servant,item,star){
                 continue;
             }else{
                 t *= 2;
-                tapScale(position[i],250,100);
+                tapScale(selectFriendPosition[i],250,100);
                 sleep(1000);
             }
             for(var j = 0;j < 3;j++){ //loop for scroll
@@ -211,7 +212,7 @@ function selectTeam(team){
     sleep(2000);
 }
 
-function startQuest(){
+function startQuest(useItem){
     if(!isScriptRunning){
         return;
     }
@@ -224,40 +225,60 @@ function startQuest(){
         releaseImage(screenShot);
     }
     tapScale(2300,1335,100);
+    sleep(1500);
+
+    //check use item
+    var screenShot2 = getScreenshot();
+    if(checkImage(screenShot2,useItemImage,800,160,950,60)){
+        if(useItem == undefined || useItem == -1){
+            tapScale(1640,1300,100);
+        }else{
+            var itemPositionY = [400,700,1000];
+            var y;
+            if(useItem > 2){
+                y = 1000;
+                for(var i = 0; i < useItem - 2; i++){
+                    swipeScale(800,1000,800,650,20);
+                    sleep(500);
+                }
+            }else{
+                y = itemPositionY[useItem];
+            }
+            tapScale(1300,y,100);
+            sleep(1000);
+            tapScale(1655,1110,100);
+        }
+        releaseImage(screenShot2);
+        sleep(3000);
+        
+        var screenShot3 = getScreenshot();
+        if(checkImage(screenShot3,useItemImage,800,160,950,60)){
+            isScriptRunning = false;
+            console.log("No item");
+        }
+        releaseImage(screenShot3);
+    }
 }
 
 function finishQuest(){
-    if(!isScriptRunning){
-        return;
-    }
     console.log("Wait for quest finish");
     sleep(500);
-    var positionX = [793,141,990,1294,222,215,2080,1390,1792];
-    var positionY = [1294,317,165,362,142,137,1300,550,1191];
-    var positionW = [120,649,230,373,545,2141,270,510,221];
-    var positionH = [77,113,285,89,77,233,100,40,60];
     for(var i=0;i<30;i++){
         if(!isScriptRunning){
             return;
         }
-        var screenShot = getScreenshot();
-        if(checkImage(screenShot,finishStageImage[0],positionX[0],positionY[0],positionW[0],positionH[0])){
-            releaseImage(screenShot);
-            console.log("Quest finish");
-            return;
-        }
-        else{
-            for(var j=1;j<8;j++){
-                if(checkImage(screenShot,finishStageImage[j],positionX[j],positionY[j],positionW[j],positionH[j])){
-                    tapScale(2300,1335,100);
-                    break;
-                }
-            }
-            if(checkImage(screenShot,finishStageImage[8],positionX[8],positionY[8],positionW[8],positionH[8])){
+        var r = isQuestFinish();
+        switch(r){
+            case 0:
+                console.log("Quest finish");
+                return;
+            case 1:
                 tapScale(650,1200,100);
-            }
+                break;
+            case 2:
+                tapScale(2300,1335,100);
+                break;
         }
-        releaseImage(screenShot);
         sleep(1500);
     }
     isScriptRunning = false;

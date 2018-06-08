@@ -87,15 +87,17 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
         }
         console.log("AutoAttack start new turn");
         sleep(500);
+        /*
         var screenShot = getScreenshot();
         if(checkImage(screenShot,selectBackImage,2300,1340,180,50)){
             tapScale(2390,1350,100);
         }
         releaseImage(screenShot);
+        */
         var currentStage = getCurrentStage();
         if(until!=0 && until <= currentStage){
             break;
-        }else if(isQuestFinish()){
+        }else if(isQuestFinish() >= 0){
             break;
         }else{
             attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage);
@@ -103,6 +105,7 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
         if(until == 0){
             break;
         }
+        sleep(5000);
         waitUntilPlayerCanMoveOrFinish();
     }
     for(var i=0;i<3;i++){
@@ -111,17 +114,7 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
 }
 
 function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
-    var skillUsedPosition = [62,249,436,696,884,1071,1335,1523,1710];
     var screenShot = getScreenshot();
-
-    var skillUsed = [];
-    var m = 'skill_used:';
-    for(var i=0;i<9;i++){
-        skillUsed[i] = checkImage(screenShot,skillUsedImage,skillUsedPosition[i],1200,37,33);
-        m+=skillUsed[i]+",";
-    }
-    console.log(m);
-    sleep(100);
     var servantAlive = [];
     if(!servantInited){
         servantInited = true;
@@ -140,10 +133,20 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             }
             releaseImage(currentServant[i]);
         }
-        if(servantAlive[0] && servantAlive[1] && servantAlive[2]){
-            console.log("All servant die bug");
+        if(!(servantAlive[0] || servantAlive[1] || servantAlive[2])){
+            console.log("All servant die bug?");
+            var path = getStoragePath();
+            var currentdate = new Date();
+            saveImage(screenShot,path+"/AllDieBug_"+currentdate.getTime()+".png");
         }
     }
+    var skillUsed = [];
+    var m = 'skill_used:';
+    for(var i=0;i<9;i++){
+        skillUsed[i] = checkImage(screenShot,skillUsedImage,skillPositionX[i],skillPositionY,skillPositionW,skillPositionH);
+        m+=skillUsed[i]+",";
+    }
+    console.log(m);
     releaseImage(screenShot);
     for(var i =0;i<3;i++){
         for(var j=2;j>=0;j--){
@@ -231,6 +234,7 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
     }
     console.log("Ult:"+ultList);
     console.log("Card:"+cardList);
+    console.log("Status:"+cardStatus);
     for(var i =0;i<3;i++){
         if(ult[i] >= 0 && currentStage >= ult[i] && ultList[i] >= 0){
             useUlt(i);
@@ -296,8 +300,6 @@ function updateUltList(){
 }
 
 function updateCardList(){
-    var x = [126,638,1146,1664,2184];
-    var y = [1070,1100];
     var cardImageScore = [];
     var screenShot = getScreenshot();
 
@@ -306,14 +308,12 @@ function updateCardList(){
     var disableW = [65,60];
     var disableH = 65;
 
-    var offsetWeakX = 230;
-    var offsetWeakY = [-310,-340];
     var weakW = 100;
     var weakH = 30;
     //get card color
     for(var i=0;i<5;i++){
         for(var j =0;j<2;j++){
-            var card = cropImage(screenShot,x[i]* screenScale[0],y[j]* screenScale[1],300 * screenScale[0],100* screenScale[1]);
+            var card = cropImage(screenShot,updateCardListX[i]* screenScale[0],updateCardListY[j]* screenScale[1],300 * screenScale[0],100* screenScale[1]);
             for(var k=0;k<3;k++){
                 var resizeCard = resizeImage(cardListImage[k],300 * screenScale[0],100* screenScale[1]);
                 var score = getIdentityScore(card,resizeCard);
@@ -329,15 +329,15 @@ function updateCardList(){
     //get card status
     for(var i=0;i<5;i++){
         cardStatus[i] = -1;
-        for(var checkY = y[0];checkY < y[1];checkY+=2){
-            if(checkImage(screenShot,cardDisableImage[0],x[i] + offsetDisableX[0],y[j] + offsetDisableY,disableW[0], disableH) 
-                && checkImage(screenShot,cardDisableImage[1],x[i] + offsetDisableX[1],checkY + offsetDisableY,disableW[1], disableH)){
+        for(var checkY = updateCardListY[0];checkY < updateCardListY[1];checkY+=2){
+            if(checkImage(screenShot,cardDisableImage[0],updateCardListX[i] + offsetDisableX[0],updateCardListY[j] + offsetDisableY,disableW[0], disableH) 
+                && checkImage(screenShot,cardDisableImage[1],updateCardListX[i] + offsetDisableX[1],checkY + offsetDisableY,disableW[1], disableH)){
                 cardStatus[i] = 0;
                 break;
-            }else if(checkImage(screenShot,cardWeakImage[0],x[i] + offsetWeakX, checkY + offsetWeakY[0], weakW,weakH)){
+            }else if(checkImage(screenShot,cardWeakImage[0],updateCardListX[i] + updateCardListOffsetWeakX, checkY + updateCardListOffsetWeakY[0], weakW,weakH)){
                 cardStatus[i] = 1;
                 break;
-            }else if(checkImage(screenShot,cardWeakImage[1],x[i] + offsetWeakX, checkY + offsetWeakY[1], weakW,weakH)){
+            }else if(checkImage(screenShot,cardWeakImage[1],updateCardListX[i] + updateCardListOffsetWeakX, checkY + updateCardListOffsetWeakY[1], weakW,weakH)){
                 cardStatus[i] = 2;
                 break;
             }

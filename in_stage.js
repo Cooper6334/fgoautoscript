@@ -30,11 +30,11 @@ function waitUntilPlayerCanMove(){
         if(!isScriptRunning){
             return;
         }
-        sleep(3000);
         console.log("waitUntilPlayerCanMove");
         if(checkPlayerCanMove()){
             return;
         }
+        sleep(3000);
     }
 }
 
@@ -43,14 +43,14 @@ function waitUntilPlayerCanMoveOrFinish(){
         if(!isScriptRunning){
             return;
         }
-        sleep(5000);
         console.log("waitUntilPlayerCanMoveOrFinish");
         if(checkPlayerCanMove()){
             return;
         }
-        if(isQuestFinish()){
+        if(isQuestFinish() >= 0){
             return;            
         }
+        sleep(5000);
     }
 }
 
@@ -98,9 +98,8 @@ function useSkill(player,skill,target,checkUsed){
     }
     waitUntilPlayerCanMove();
     if(checkUsed == undefined || checkUsed == true){
-        var skillUsedPosition = [62,251,436,696,884,1071,1335,1523,1710];
         var screenShot = getScreenshot();
-        if(checkImage(screenShot,skillUsedImage,skillUsedPosition[player*3+skill],1200,37,33)){
+        if(checkImage(screenShot,skillUsedImage,skillPositionX[player*3+skill],skillPositionY,skillPositionW,skillPositionH)){
             console.log("skill already used");
             releaseImage(screenShot);
             return;
@@ -252,7 +251,7 @@ function getCurrentStage(){
     var width = 50* screenScale[0];
     var height = 50* screenScale[1];
     var screenShot = getScreenshot();
-    var crop = cropImage(screenShot,1720 * screenScale[0] + screenOffset[0],25 * screenScale[1] + screenOffset[1],width,height);
+    var crop = cropImage(screenShot,currentStageX * screenScale[0] + screenOffset[0],currentStageY * screenScale[1] + screenOffset[1],width,height);
     var score = [];
     for(var i=0;i<3;i++){
         var scaleImage = resizeImage(currentStageImage[i],width,height);
@@ -273,19 +272,23 @@ function getCurrentStage(){
 }
 
 function isQuestFinish(){
-    var positionX = [793,141,990,1294,222,215,1792];
-    var positionY = [1294,317,165,362,142,137,1191];
-    var positionW = [120,649,230,373,545,2141,221];
-    var positionH = [77,113,285,89,77,233,60];
+    var positionX = [2280,1792,990,1294,222,215,2080,1390,141,1480];
+    var positionY = [1340,1191,165,362,142,137,1300,550,317,500];
+    var positionW = [190,221,230,373,545,2141,270,510,649,420];
+    var positionH = [55,60,285,89,77,233,100,40,113,60];
     var screenShot = getScreenshot();
-    for(var j=0;j<7;j++){
-        if(checkImage(screenShot,finishStageImage[j],positionX[j],positionY[j],positionW[j],positionH[j])){
+    for(var i = 0;i<10;i++){
+        if(checkImage(screenShot,finishStageImage[i],positionX[i],positionY[i],positionW[i],positionH[i])){
             releaseImage(screenShot);
-            return true;
+            if(i<2){
+                return i;
+            }else{
+                return 2;
+            }
         }
     }
     releaseImage(screenShot);
-    return false;
+    return -1;
 }
 
 

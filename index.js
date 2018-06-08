@@ -13,9 +13,10 @@ function loadApi(){
     for(var i = 0;i<apiList.length;i++){
         var s = readFile(path+"/scripts/com.cooper.FGO/"+apiList[i]+".js");
         if(s == undefined || s.length == 0){
+            console.log("load api failed");
             return false;
         }
-        runEncryptedScript(s);
+        runScript(s);
     }
     console.log("load api success");
     return true;
@@ -41,6 +42,7 @@ function initHTML(){
         execute("cp "+path+"/scripts/com.cooper.FGO/BasicItem/friend1.png "+path+"/FGO/friend_servant/孔明.png");
         execute("cp "+path+"/scripts/com.cooper.FGO/BasicItem/friend2.png "+path+"/FGO/friend_servant/梅林.png");
         execute("cp "+path+"/scripts/com.cooper.FGO/BasicItem/item1.png "+path+"/FGO/friend_item/絆.png");
+        execute("cp "+path+"/scripts/com.cooper.FGO/BasicItem/item2.png "+path+"/FGO/friend_item/QP.png");
     }
     var scriptList = execute("ls "+path+"/FGO/script").replace(/.js/g,'').replace(/ /g,'').replace(/\r\n|\n/g,",");
     if(scriptList.slice(-1)==','){

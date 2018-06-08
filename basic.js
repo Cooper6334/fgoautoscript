@@ -23,6 +23,7 @@ var friendPointFullImage2;
 var friendPointNew;
 var friendPointBack;
 var starImage;
+var useItemImage;
 
 var selectStartImage = [];
 var selectBackImage;
@@ -35,6 +36,41 @@ var isScriptRunning = false;
 var defaultScreenSize = [2560,1440];
 var screenScale = [];
 var screenOffset = [];
+
+/*
+//JP------------------
+var skillPositionX =[62,251,436,696,884,1071,1335,1523,1710];
+var skillPositionY = 1200;
+var skillPositionW = 37;
+var skillPositionH = 33;
+
+var updateCardListX = [126,638,1146,1664,2184];
+var updateCardListY = [1070,1100];
+var updateCardListOffsetWeakX = 230;
+var updateCardListOffsetWeakY = [-310,-340];
+
+var currentStageX = 1720;
+var currentStageY = 25;
+
+var selectFriendPosition = [180,315,450,585,725,860,995,1130,1265];
+*/
+
+//TW------------------
+var skillPositionX =[47,236,427,682,871,1062,1320,1509,1700];
+var skillPositionY = 1185;
+var skillPositionW = 32;
+var skillPositionH = 32;
+
+var updateCardListX = [126,638,1148,1664,2184];
+var updateCardListY = [1070,1100];
+var updateCardListOffsetWeakY = 225;
+var updateCardListOffsetWeakY = [-310,-340];
+
+var currentStageX = 1700;
+var currentStageY = 25;
+
+var selectFriendPosition = [315,450,585,725,860,995,1130,1265];
+
 
 function startScript(loopTime,script){
     loadImage();
@@ -60,6 +96,7 @@ function initIDE(){
     isImageInit = false;
     isDebug = true;
     isScriptRunning = true;
+    loadApi();
     loadImage();
     initScreenSize();
 }
@@ -75,7 +112,7 @@ function loadImage(){
     stageFullImage = openImage(path+"/scripts/com.cooper.FGO/image/StageFull.png");
     stageFullImage2 = openImage(path+"/scripts/com.cooper.FGO/image/StageFull2.png");
 
-    for(var i=0;i<9;i++){
+    for(var i=0;i<10;i++){
         finishStageImage[i] = openImage(path+"/scripts/com.cooper.FGO/image/FinishStage"+i+".png");
     }
 
@@ -116,6 +153,7 @@ function loadImage(){
     selectBackImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectBack.png");
     
     starImage = openImage(path+"/scripts/com.cooper.FGO/image/Star.png");
+    useItemImage = openImage(path+"/scripts/com.cooper.FGO/image/UseItem.png");
     isImageInit = true;
 }
 
@@ -127,7 +165,7 @@ function releaseAllImage(){
     releaseImage(stageFullImage);
     releaseImage(stageFullImage2);
 
-    for(var i=0;i<9;i++){
+    for(var i=0;i<10;i++){
         releaseImage(finishStageImage[i]);
     }
 
@@ -157,6 +195,7 @@ function releaseAllImage(){
     releaseImage(selectBackImage);
 
     releaseImage(starImage);
+    releaseImage(useItemImage);
 }
 
 function initScreenSize(){
@@ -280,7 +319,7 @@ function tapScale(x,y,wait){
 
 function swipeScale(x,y,endX,endY,step){
     var size = getScreenSize();
-    if(size.width < size.height){
+    if(!isScriptRunning || size.width < size.height){
         return;
     }
     x = x * screenScale[0] + screenOffset[0];
@@ -293,8 +332,9 @@ function swipeScale(x,y,endX,endY,step){
     yStep = (endY - y) / step;
 
     tapDown(x, y, 40);
-    for (i = 0; i < step; i ++) {
-        moveTo(x + i * xStep, y + i * yStep, 4)
+    //avoid outside loop i
+    for (var s = 0; s < step; s ++) {
+        moveTo(x + s * xStep, y + s * yStep, 4)
     }
     moveTo(endX,endY,4);
     sleep(1000);
@@ -357,6 +397,21 @@ function saveCropImage(l,t,r,b){
     var y = t;
     var currentdate = new Date();
     var filepath = path+"/crop"+currentdate.getTime()+"_"+x+"_"+y+"_"+width+"_"+height+".png";
+    var screenShot = getScreenshot();
+    var crop = cropImage(screenShot,x,y,width,height);
+    saveImage(crop,filepath);
+    releaseImage(screenShot);
+    releaseImage(crop);
+    console.log("save crop at "+filepath);
+}
+
+function saveCropImage2(name,l,t,w,h){
+    var path = getStoragePath();
+    var width = w;
+    var height = h;
+    var x = l;
+    var y = t;
+    var filepath = path+"/"+name+".png";
     var screenShot = getScreenshot();
     var crop = cropImage(screenShot,x,y,width,height);
     saveImage(crop,filepath);
