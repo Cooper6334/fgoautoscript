@@ -7,6 +7,7 @@ function startAttack(){
     tapScale(2250,1115,100);
     sleep(5000);
 }
+
 function checkPlayerCanMove(){
     var screenShot = getScreenshot();
     var x = [2150,2320,2320];
@@ -14,16 +15,19 @@ function checkPlayerCanMove(){
     var w = [220,120,120];
     var h = [65,80,80];
     for(var i = 0;i<3;i++){
+        sleep(300);
         if(!checkImage(screenShot,selectStartImage[i],x[i],y[i],w[i],h[i])){
             releaseImage(screenShot);
             return false;
         }
     }
+    if(isDebug){
+        var path = getStoragePath();
+        saveImage(screenShot,path+"/last_can_move.png");
+    }
     releaseImage(screenShot);
     return true;
 }
-
-
 
 function waitUntilPlayerCanMove(){
     while(true){
@@ -34,7 +38,7 @@ function waitUntilPlayerCanMove(){
         if(checkPlayerCanMove()){
             return;
         }
-        sleep(3000);
+        sleep(2000);
     }
 }
 
@@ -143,6 +147,11 @@ function useSkill(player,skill,target,checkUsed){
         releaseImage(screenShot2);
         return;
     }
+    if(checkImage(screenShot2,skillFailedImage,1160,1070,240,80)){
+        tapScale(1280,1110,100);
+        releaseImage(screenShot2);
+        return;
+    }    
     if(checkImage(screenShot2,skillCheckImage,1070,325,420,85)){
         tapScale(1700,850,100);
         sleep(500);
@@ -272,12 +281,12 @@ function getCurrentStage(){
 }
 
 function isQuestFinish(){
-    var positionX = [2280,1792,990,1294,222,215,2080,1390,141,1480];
-    var positionY = [1340,1191,165,362,142,137,1300,550,317,500];
-    var positionW = [190,221,230,373,545,2141,270,510,649,420];
-    var positionH = [55,60,285,89,77,233,100,40,113,60];
+    var positionX = [2280,1792,990,1294,222,215,2080,1390,141,1480,1083];
+    var positionY = [1340,1191,165,362,142,137,1300,550,317,500,1337];
+    var positionW = [190,221,230,373,545,2141,270,510,649,420,376];
+    var positionH = [55,60,285,89,77,233,100,40,113,60,77];
     var screenShot = getScreenshot();
-    for(var i = 0;i<10;i++){
+    for(var i = 0;i<11;i++){
         if(checkImage(screenShot,finishStageImage[i],positionX[i],positionY[i],positionW[i],positionH[i])){
             releaseImage(screenShot);
             if(i<2){

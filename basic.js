@@ -14,6 +14,7 @@ var cardWeakImage = [];
 var skillCheckImage;
 var skillUsedImage;
 var skillNullImage;
+var skillFailedImage;
 var friendPointCheckImage;
 var friendPointFreeImage;
 var friendPointTenImage;
@@ -37,41 +38,6 @@ var defaultScreenSize = [2560,1440];
 var screenScale = [];
 var screenOffset = [];
 
-/*
-//JP------------------
-var skillPositionX =[62,251,436,696,884,1071,1335,1523,1710];
-var skillPositionY = 1200;
-var skillPositionW = 37;
-var skillPositionH = 33;
-
-var updateCardListX = [126,638,1146,1664,2184];
-var updateCardListY = [1070,1100];
-var updateCardListOffsetWeakX = 230;
-var updateCardListOffsetWeakY = [-310,-340];
-
-var currentStageX = 1720;
-var currentStageY = 25;
-
-var selectFriendPosition = [180,315,450,585,725,860,995,1130,1265];
-*/
-
-//TW------------------
-var skillPositionX =[47,236,427,682,871,1062,1320,1509,1700];
-var skillPositionY = 1185;
-var skillPositionW = 32;
-var skillPositionH = 32;
-
-var updateCardListX = [126,638,1148,1664,2184];
-var updateCardListY = [1070,1100];
-var updateCardListOffsetWeakY = 225;
-var updateCardListOffsetWeakY = [-310,-340];
-
-var currentStageX = 1700;
-var currentStageY = 25;
-
-var selectFriendPosition = [315,450,585,725,860,995,1130,1265];
-
-
 function startScript(loopTime,script){
     loadImage();
     initScreenSize();
@@ -92,10 +58,12 @@ function stopScript(){
     console.log("User press stop");
 }
 
-function initIDE(){
+function initIDE(serverString){
+    server = serverString;
     isImageInit = false;
     isDebug = true;
     isScriptRunning = true;
+    initServer();
     loadApi();
     loadImage();
     initScreenSize();
@@ -103,57 +71,57 @@ function initIDE(){
 
 function loadImage(){
     if(isImageInit){
-        return;
+        releaseAllImage();
     }
-    var path = getStoragePath();
 
-    noApImage = openImage(path+"/scripts/com.cooper.FGO/image/NoAP.png");
+    noApImage = openImage(imagePath+"NoAP.png");
 
-    stageFullImage = openImage(path+"/scripts/com.cooper.FGO/image/StageFull.png");
-    stageFullImage2 = openImage(path+"/scripts/com.cooper.FGO/image/StageFull2.png");
+    stageFullImage = openImage(imagePath+"StageFull.png");
+    stageFullImage2 = openImage(imagePath+"StageFull2.png");
 
-    for(var i=0;i<10;i++){
-        finishStageImage[i] = openImage(path+"/scripts/com.cooper.FGO/image/FinishStage"+i+".png");
+    for(var i=0;i<11;i++){
+        finishStageImage[i] = openImage(imagePath+"FinishStage"+i+".png");
     }
 
     for(var i=0;i<3;i++){
-        currentStageImage[i] = openImage(path+"/scripts/com.cooper.FGO/image/CurrentStage"+i+".png");
+        currentStageImage[i] = openImage(imagePath+"CurrentStage"+i+".png");
     }
 
-    cardListImage[0] = openImage(path+"/scripts/com.cooper.FGO/image/CardListB.png");
-    cardListImage[1] = openImage(path+"/scripts/com.cooper.FGO/image/CardListN.png");
-    cardListImage[2] = openImage(path+"/scripts/com.cooper.FGO/image/CardListQ.png");
+    cardListImage[0] = openImage(imagePath+"CardListB.png");
+    cardListImage[1] = openImage(imagePath+"CardListN.png");
+    cardListImage[2] = openImage(imagePath+"CardListQ.png");
 
-    cardDisableImage[0] =  openImage(path+"/scripts/com.cooper.FGO/image/CardDisable1.png");
-    cardDisableImage[1] =  openImage(path+"/scripts/com.cooper.FGO/image/CardDisable2.png");
+    cardDisableImage[0] =  openImage(imagePath+"CardDisable1.png");
+    cardDisableImage[1] =  openImage(imagePath+"CardDisable2.png");
 
-    cardWeakImage[0] =  openImage(path+"/scripts/com.cooper.FGO/image/CardWeak.png");
-    cardWeakImage[1] =  openImage(path+"/scripts/com.cooper.FGO/image/CardResist.png");
+    cardWeakImage[0] =  openImage(imagePath+"CardWeak.png");
+    cardWeakImage[1] =  openImage(imagePath+"CardResist.png");
 
-    skillCheckImage = openImage(path+"/scripts/com.cooper.FGO/image/SkillCheck.png");
-    skillUsedImage = openImage(path+"/scripts/com.cooper.FGO/image/SkillUsed.png");
-    skillNullImage = openImage(path+"/scripts/com.cooper.FGO/image/SkillNull.png");
+    skillCheckImage = openImage(imagePath+"SkillCheck.png");
+    skillUsedImage = openImage(imagePath+"SkillUsed.png");
+    skillNullImage = openImage(imagePath+"SkillNull.png");
+    skillFailedImage = openImage(imagePath+"SkillFailed.png");
 
-    selectFriendImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectFriend1.png");
-    selectFriendImage2 = openImage(path+"/scripts/com.cooper.FGO/image/SelectFriend2.png");
-    selectTeamImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectTeam.png");
+    selectFriendImage = openImage(imagePath+"SelectFriend1.png");
+    selectFriendImage2 = openImage(imagePath+"SelectFriend2.png");
+    selectTeamImage = openImage(imagePath+"SelectTeam.png");
 
-    friendPointCheckImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointCheck.png");
-    friendPointTenImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointTen.png");
-    friendPointFreeImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFree.png");
-    friendPointReloadImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointReload.png");
-    friendPointFullImage = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFull.png");
-    friendPointFullImage2 = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointFull2.png");
-    friendPointNew = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointNew.png");
-    friendPointBack = openImage(path+"/scripts/com.cooper.FGO/image/FriendPointBack.png");
+    friendPointCheckImage = openImage(imagePath+"FriendPointCheck.png");
+    friendPointTenImage = openImage(imagePath+"FriendPointTen.png");
+    friendPointFreeImage = openImage(imagePath+"FriendPointFree.png");
+    friendPointReloadImage = openImage(imagePath+"FriendPointReload.png");
+    friendPointFullImage = openImage(imagePath+"FriendPointFull.png");
+    friendPointFullImage2 = openImage(imagePath+"FriendPointFull2.png");
+    friendPointNew = openImage(imagePath+"FriendPointNew.png");
+    friendPointBack = openImage(imagePath+"FriendPointBack.png");
 
-    selectStartImage[0] = openImage(path+"/scripts/com.cooper.FGO/image/SelectStart.png");
-    selectStartImage[1] = openImage(path+"/scripts/com.cooper.FGO/image/SelectStart2.png");
-    selectStartImage[2] = openImage(path+"/scripts/com.cooper.FGO/image/SelectStart3.png");
-    selectBackImage = openImage(path+"/scripts/com.cooper.FGO/image/SelectBack.png");
+    selectStartImage[0] = openImage(imagePath+"SelectStart.png");
+    selectStartImage[1] = openImage(imagePath+"SelectStart2.png");
+    selectStartImage[2] = openImage(imagePath+"SelectStart3.png");
+    selectBackImage = openImage(imagePath+"SelectBack.png");
     
-    starImage = openImage(path+"/scripts/com.cooper.FGO/image/Star.png");
-    useItemImage = openImage(path+"/scripts/com.cooper.FGO/image/UseItem.png");
+    starImage = openImage(imagePath+"Star.png");
+    useItemImage = openImage(imagePath+"UseItem.png");
     isImageInit = true;
 }
 
@@ -165,7 +133,7 @@ function releaseAllImage(){
     releaseImage(stageFullImage);
     releaseImage(stageFullImage2);
 
-    for(var i=0;i<10;i++){
+    for(var i=0;i<11;i++){
         releaseImage(finishStageImage[i]);
     }
 
@@ -191,6 +159,7 @@ function releaseAllImage(){
     releaseImage(skillCheckImage);
     releaseImage(skillUsedImage);
     releaseImage(skillNullImage);
+    releaseImage(skillFailedImage);
 
     releaseImage(selectBackImage);
 
@@ -223,20 +192,20 @@ function initScreenSize(){
 
 function saveScript(scriptName,scriptContent){
     var path = getStoragePath();
-    writeFile(path+"/FGO/script/"+scriptName+".js",scriptContent);
+    writeFile(itemPath+"script/"+scriptName+".js",scriptContent);
     console.log("save file "+scriptName+" finish");
     return scriptName;
 }
 
 function deleteScript(scriptName){
     var path = getStoragePath();
-    execute('rm '+path+"/FGO/script/"+scriptName+".js");
+    execute('rm '+itemPath+"script/"+scriptName+".js");
     return scriptName;
 }
 
 function readScript(scriptName){
     var path = getStoragePath();
-    return readFile(path+"/FGO/script/"+scriptName+".js");
+    return readFile(itemPath+"script/"+scriptName+".js");
 }
 //-----------------------------------------------------generial
 
@@ -261,6 +230,7 @@ function checkPixel(x,y,r,g,b){
 function checkImage(imageBig,imageSmall,x,y,width,height,threshold){
     var size = getScreenSize();
     if(size.width < size.height){
+        console.log("screen size error");
         return false;
     }
     if(threshold == undefined){
@@ -291,6 +261,7 @@ function getImageLightness(img,sparse){
     }
     var size = getImageSize(img);
     var tmp = clone(img);
+    convertColor(tmp,52);
     var l = 0;
     var cnt = 0;
     for(var i=0;i<size.width;i+=sparse){
@@ -432,7 +403,7 @@ function saveFriendServantImage(cnt){
     resizeImage(crop,260,195);
     var currentdate = new Date();
     var time = currentdate.getTime();
-    var filePath = getStoragePath()+"/tmp_servant_"+time+".png";
+    var filePath = itemPath+"tmp_servant_"+time+".png";
     console.log(filePath);
     saveImage(crop,filePath);
     releaseImage(crop);
@@ -451,7 +422,7 @@ function saveFriendItemImage(cnt){
     resizeImage(crop,260,65);
     var currentdate = new Date();
     var time = currentdate.getTime();
-    var filePath = getStoragePath()+"/tmp_item_"+time+".png";
+    var filePath = itemPath+"tmp_item_"+time+".png";
     saveImage(crop,filePath);
     releaseImage(crop);
     releaseImage(screenShot);
@@ -459,20 +430,18 @@ function saveFriendItemImage(cnt){
 }
 
 function confirmSaveFriendServantImage(imageName,time){
-    var path = getStoragePath();
     if(imageName == undefined){
-        execute('rm '+path+"/tmp_servant_"+time+".png ");
+        execute('rm '+itemPath+"tmp_servant_"+time+".png ");
     }else{
-        execute('mv '+path+"/tmp_servant_"+time+".png " +path+'/FGO/friend_servant/'+imageName+'.png');
+        execute('mv '+itemPath+"tmp_servant_"+time+".png " +itemPath+"friend_servant/"+imageName+".png");
     }
 }
 
 function confirmSaveFriendItemImage(imageName,time){
-    var path = getStoragePath();
     if(imageName == undefined){
-        execute('rm '+path+"/tmp_item_"+time+".png ");
+        execute('rm '+itemPath+"tmp_item_"+time+".png ");
     }else{
-        execute('mv '+path+"/tmp_item_"+time+".png " +path+'/FGO/friend_item/'+imageName+'.png');
+        execute('mv '+itemPath+"tmp_item_"+time+".png " +itemPath+"friend_item/"+imageName+".png");
     }
 }
 

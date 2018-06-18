@@ -55,6 +55,10 @@ function selectStage(useApple){
         releaseImage(screenShot2);
         tapScale(1700,1135,100);
         sleep(2000);
+        if(server == "TW"){
+            tapScale(1600,475,100);
+            sleep(1000);
+        }
     }
     releaseImage(screenShot);
 }
@@ -66,14 +70,13 @@ function selectFriend(filter,servant,item,star){
     if(!isScriptRunning){
         return;
     }
-    var path = getStoragePath();
     var servantImage;
     if(servant.length > 0){
-        servantImage = openImage(path+"/FGO/friend_servant/"+servant+".png");
+        servantImage = openImage(itemPath+"friend_servant/"+servant+".png");
     }
     var itemImage;
     if(item.length > 0){
-        itemImage = openImage(path+"/FGO/friend_item/"+item+".png");
+        itemImage = openImage(itemPath+"friend_item/"+item+".png");
     }
     while(true){
         var screenShot2 = getScreenshot();
@@ -124,15 +127,31 @@ function selectFriend(filter,servant,item,star){
                         }
                     }
                     if(itemImage != undefined){
-                        if(!checkImage(screenShot,itemImage,100,655,310,90,0.9)){
-                            i1 = false;
-                        }else if(star == 1 && !checkImage(screenShot,starImage,377,713,14,14)){
-                            star1 = false;
-                        }
-                        if(!checkImage(screenShot,itemImage,100,1055,310,90,0.9)){
-                            i2 = false;
-                        }else if(star == 1 && !checkImage(screenShot,starImage,377,1113,14,14)){
-                            star2 = false;
+                        if(server == "JP"){
+                            if(!checkImage(screenShot,itemImage,100,655,310,90,0.9)){
+                                i1 = false;
+                            }else if(star == 1 && !checkImage(screenShot,starImage,377,713,14,14)){
+                                star1 = false;
+                            }
+                            if(!checkImage(screenShot,itemImage,100,1055,310,90,0.9)){
+                                i2 = false;
+                            }else if(star == 1 && !checkImage(screenShot,starImage,377,1113,14,14)){
+                                star2 = false;
+                            }
+                        }else if(server == "TW"){
+                            var itemSize = getImageSize(itemImage);
+                            var shortImage = cropImage(itemImage,0,0,itemSize.width,((itemSize.height * 0.667) | 0));
+                            if(!checkImage(screenShot,shortImage,100,655,310,60,0.9)){
+                                i1 = false;
+                            }else if(star == 1 && !checkImage(screenShot,starImage,377,713,14,14)){
+                                star1 = false;
+                            }
+                            if(!checkImage(screenShot,shortImage,100,1055,310,60,0.9)){
+                                i2 = false;
+                            }else if(star == 1 && !checkImage(screenShot,starImage,377,1113,14,14)){
+                                star2 = false;
+                            }
+                            releaseImage(shortImage);
                         }
                     }
                     friend1 = s1 && i1 && star1;

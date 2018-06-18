@@ -1,10 +1,13 @@
 var initServant = [];
+var initUlt = [];
 var ultList = [];
 var cardList = [];
 var cardStatus = []; // -1:null 0:disable 1:weak 2:resist
 var servantInited;
 var ultCheckX = [682,1146,1620];
 var ultCheckY = 420;
+var allServentDieFlag = false;
+
 //autoAttack(3,0,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1);
 function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1,p0s2,p0t2,p1ult,p1s0,p1t0,p1s1,p1t1,p1s2,p1t2,p2ult,p2s0,p2t0,p2s1,p2t1,p2s2,p2t2){
     if(isDebug){
@@ -85,7 +88,6 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
         if(!isScriptRunning){
             break;
         }
-        console.log("AutoAttack start new turn");
         sleep(500);
         /*
         var screenShot = getScreenshot();
@@ -98,8 +100,10 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
         if(until!=0 && until <= currentStage){
             break;
         }else if(isQuestFinish() >= 0){
+            console.log("Quest Finish");
             break;
         }else{
+            console.log("AutoAttack start new turn");
             attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage);
         }
         if(until == 0){
@@ -115,7 +119,7 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
 
 function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
     var screenShot = getScreenshot();
-    var servantAlive = [];
+    var servantAlive = [true,true,true];
     if(!servantInited){
         servantInited = true;
         initServant = getCurrentServant(screenShot);
@@ -134,11 +138,29 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             releaseImage(currentServant[i]);
         }
         if(!(servantAlive[0] || servantAlive[1] || servantAlive[2])){
+            if(!allServentDieFlag){
+                allServentDieFlag = true;
+                return;
+            }
             console.log("All servant die bug?");
+        /*
             var path = getStoragePath();
             var currentdate = new Date();
-            saveImage(screenShot,path+"/AllDieBug_"+currentdate.getTime()+".png");
+            var time = currentdate.getTime();
+            saveImage(screenShot,path+"/AllDieBug_"+time+".png");
+            for(var j=0;j<3;j++){ 
+                saveImage(currentServant[j],path+"/AllDieBug_current"+j+"_"+time+".png");                
+                saveImage(initServant[j],path+"/AllDieBug_init"+j+"_"+time+".png");
+            }
+        */
         }
+    }
+    allServentDieFlag = false;
+    for(var i=0;i<3;i++){
+        if(initUlt[i] != undefined){
+            releaseImage(initUlt[i]);
+        }
+        initUlt[i] = cropImage(screenShot,ultCheckX[i]* screenScale[0],ultCheckY* screenScale[1],300 * screenScale[0],180* screenScale[1]);
     }
     var skillUsed = [];
     var m = 'skill_used:';
@@ -146,8 +168,8 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
         skillUsed[i] = checkImage(screenShot,skillUsedImage,skillPositionX[i],skillPositionY,skillPositionW,skillPositionH);
         m+=skillUsed[i]+",";
     }
-    console.log(m);
     releaseImage(screenShot);
+    console.log(m);
     for(var i =0;i<3;i++){
         for(var j=2;j>=0;j--){
             if(!isScriptRunning){
@@ -172,9 +194,13 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             }
         }
     }
+    console.log("skill use finish");
     startAttack();
+    console.log("startAttack finish");
     updateCardList();
+    console.log("updateCardList finish");
     updateUltList();
+    console.log("updateUltList finish");
 
     var cardScore = [0,0,0,0,0];
     var sameColorCnt=[0,0,0];
@@ -259,6 +285,7 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             return;
         }
     }
+    sleep(5000);
 }
 
 function updateUltList(){
@@ -267,8 +294,9 @@ function updateUltList(){
     var screenShot = getScreenshot();
     for(var i=0;i<3;i++){
         var card = cropImage(screenShot,ultCheckX[i]* screenScale[0],ultCheckY* screenScale[1],300 * screenScale[0],180* screenScale[1]);
-        var score = getImageLightness(card,5);
-        if(score >= 90){
+        var score1 = getImageLightness(card,5);
+        var score2 = getIdentityScore(card,initUlt[i]);
+        if((score1 >= 120 && score2 < 0.6) ||(score1 >= 100 && score2 < 0.5) || (score1 >= 80 &&score2 < 0.3)){
             var r=0,g=0,b=0;
             for(var ey=edgeY[0];ey<edgeY[1];ey++){
                 var color = getImageColor(screenShot,edgeX[i]* screenScale[0],ey* screenScale[1]);
