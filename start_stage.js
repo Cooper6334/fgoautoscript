@@ -4,6 +4,38 @@ function selectStage(useApple){
     if(!isScriptRunning){
         return;
     }
+    var swimFlag = true;
+    var waitSwimAnimation = false;
+    var markResize = resizeImage(swimMark,90 * screenScale[0],150 * screenScale[1]);
+    while(swimFlag){
+        if(!isScriptRunning){
+            return;
+        }
+        console.log("find swim team icon");
+        var screenShotSwim = getScreenshot();
+        if(checkImage(screenShotSwim,swimLogo,400,30,200,100)){
+            if(checkImage(screenShotSwim,swimMap,120,40,180,80)){
+                if(!waitSwimAnimation){
+                    waitSwimAnimation = true;
+                    sleep(3000);
+                }
+                var find = findImage(screenShotSwim,markResize);
+                if(find.score > 0.85){
+                    var x = find.x + 45 * screenScale[0];
+                    var y = find.y + 75 * screenScale[1];
+                    tap(x,y,100);
+                    sleep(1000);
+                }
+            }else if(checkImage(screenShotSwim,swimStage,120,40,180,80)){
+                    swimFlag = false;
+            }
+        }else{
+          swimFlag = false;
+        }
+        releaseImage(screenShotSwim);
+    }
+    releaseImage(markResize);
+
     tapScale(1600,475,100);
     sleep(1000);
     var screenShot = getScreenshot();
