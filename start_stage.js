@@ -6,7 +6,7 @@ function selectStage(useApple){
     }
     var swimFlag = true;
     var waitSwimAnimation = false;
-    var markResize = resizeImage(swimMark,90 * screenScale[0],150 * screenScale[1]);
+    var markResize = resizeImage(swimMark,83 * screenScale[0],60 * screenScale[1]);
     while(swimFlag){
         if(!isScriptRunning){
             return;
@@ -20,11 +20,13 @@ function selectStage(useApple){
                     sleep(3000);
                 }
                 var find = findImage(screenShotSwim,markResize);
-                if(find.score > 0.85){
-                    var x = find.x + 45 * screenScale[0];
-                    var y = find.y + 75 * screenScale[1];
-                    tap(x,y,100);
-                    sleep(1000);
+                if(find.y < 1200 * screenScale[1] && find.y > 200 * screenScale[1]){
+                    if(find.score > 0.85){
+                        var x = find.x + 45 * screenScale[0];
+                        var y = find.y + 75 * screenScale[1];
+                        tap(x,y,100);
+                        sleep(1000);
+                    }   
                 }
             }else if(checkImage(screenShotSwim,swimStage,120,40,180,80)){
                     swimFlag = false;
