@@ -306,7 +306,7 @@ function isQuestFinish(){
     var positionY = [1340,1191,165,362,142,137,1300,550,317,500,1337];
     var positionW = [190,221,230,373,545,2141,270,510,649,420,376];
     var positionH = [55,60,285,89,77,233,100,40,113,60,77];
-    var checkImage = [-1,-1];
+    var sameImage = [-1,-1];
     for(var j = 0;j<2;j++){
         var screenShot = getScreenshot();    
         for(var i = 0;i<11;i++){
@@ -315,17 +315,17 @@ function isQuestFinish(){
                     releaseImage(screenShot);
                     return -1;
                 }
-                checkImage[j]=i;
+                sameImage[j]=i;
                 break;
             }
         }
         releaseImage(screenShot);
     }
-    if(checkImage[0] == checkImage[1]){
-        if(checkImage[0] == -1){
+    if(sameImage[0] == sameImage[1]){
+        if(sameImage[0] == -1){
             return -1;
-        }else if(checkImage[0]<2){
-            return checkImage[0];
+        }else if(sameImage[0]<2){
+            return sameImage[0];
         }else{
             return 2;
         }
