@@ -1,22 +1,32 @@
-function getBox(newBox){
-    if(newBox == 1 && checkIsBoxFinish()){
-        resetBox();
+function getBox(newBox,fast){
+    var waitTime = 100;
+    var checkTime = 50;
+    if(fast != 1){
+        waitTime = 1000;
+        checkTime = 5;
     }
-    var clickCnt = 0;
-    while(true){
+    if(checkIsBoxFinish()){
         if(!isScriptRunning){
             return;
         }
-        if(clickCnt % 10 == 0 && checkIsBoxFinish()){
+        if(newBox){
+            resetBox();
+        }else{
+            console.log("box already empty, please reset");
             return;
         }
-        clickCnt++;
-        if(clickCnt > 200){
-            return;
+    }  
+    console.log("start getbox");
+    while(isScriptRunning){
+        for(var t = 0;t<checkTime;t++){
+            tapScale(800,955,100);
+            sleep(waitTime);
         }
-        tapScale(800,955,1000);
-        sleep(1000);
+        if(checkIsBoxFinish()){
+            break;
+        }
     }
+    console.log("finish getbox");
 }
 
 function getFriendPoint(){
@@ -83,12 +93,30 @@ function getFriendPoint(){
 }
 
 function checkIsBoxFinish(){
-    return checkPixel(2100,500,74,125,172);
+    var screenShot = getScreenshot();
+    var r = false;
+    if(checkImage(screenShot,presentBoxFullImgae,950,800,650,400)){
+        console.log("Present box full");
+        sendUrgentMessage(runningScriptName,"Present box full");
+        releaseImage(screenShot);
+        isScriptRunning = false;
+        return true;
+    }
+    if(checkImage(screenShot,checkBoxImage,2210,360,190,40)){
+        sleep(1000);
+        var screenShot2 = getScreenshot();
+        if(checkImage(screenShot2,checkBoxPointImage,500,800,250,200)){
+            r = true;
+        }
+        releaseImage(screenShot2);
+    }
+    releaseImage(screenShot);
+    return r;
 }
 
 function resetBox(){
     console.log("reset box");
-    tapScale(2100,510,100);
+    tapScale(2300,400,100);
     sleep(1000);
     tapScale(1700,1135,100);
     waitLoading();

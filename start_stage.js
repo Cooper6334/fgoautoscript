@@ -54,7 +54,7 @@ function selectStage(useApple){
         return;
     }
     if(checkImage(screenShot,noApImage,900,70,750,110)){
-        console.log("ap not enough");
+        sleep(1000);
         switch(useApple){
             case -1:
             isScriptRunning = false;
@@ -62,18 +62,53 @@ function selectStage(useApple){
             return;
             case 2://gold
             tapScale(750,600,100);
+            console.log("Ap not enough, use gold apple");
+            sendNormalMessage(runningScriptName,"Ap not enough, use gold apple");
             break;
             case 1://silver
             tapScale(750,900,100);
+            console.log("Ap not enough, use silver apple");
+            sendNormalMessage(runningScriptName,"Ap not enough, use silver apple");
             break;
             case 0://bronze
             tapScale(750,1120,100);
+            console.log("Ap not enough, use bronze apple");
+            sendNormalMessage(runningScriptName,"Ap not enough, use bronze apple");
             break;
             case 3:
             tapScale(750,350,100);
+            console.log("Ap not enough, use stone apple");
+            sendNormalMessage(runningScriptName,"Ap not enough, use stone apple");
             break;
             case 4:
-                //wait for auto recover
+            tapScale(1290,1240,100);
+            var counter = 0;
+            while(isScriptRunning){
+                console.log("Wait 1 min for ap restore");
+                if(counter == 0){
+                    sendNormalMessage(runningScriptName,"Ap not enough, wait for ap restore");
+                }
+                counter = (counter + 1) % 5;
+                for(var i = 0;i<55;i++){
+                    if(!isScriptRunning){
+                        break;
+                    }
+                    sleep(1000);
+                }
+                if(!isScriptRunning){
+                    break;
+                }
+                tapScale(1600,475,100);
+                sleep(1000);
+                var autoWaitScreenShot = getScreenshot();
+                if(!checkImage(autoWaitScreenShot,noApImage,900,70,750,110)){
+                    releaseImage(autoWaitScreenShot);
+                    break;
+                }
+                tapScale(1290,1240,100);
+                releaseImage(autoWaitScreenShot);
+            }
+            sendNormalMessage(runningScriptName,"Ap restore, continue");
             break;
         }
         sleep(1000);
@@ -87,11 +122,13 @@ function selectStage(useApple){
             return;
         }
         releaseImage(screenShot2);
-        tapScale(1700,1135,100);
-        sleep(2000);
-        if(server == "TW"){
-            tapScale(1600,475,100);
-            sleep(1000);
+        if(useApple != 4){
+            tapScale(1700,1135,100);
+            sleep(2000);
+            if(server == "TW"){
+                tapScale(1600,475,100);
+                sleep(1000);
+            }
         }
     }
     releaseImage(screenShot);
@@ -113,6 +150,9 @@ function selectFriend(filter,servant,item,star){
         itemImage = openImage(itemPath+"friend_item/"+item+".png");
     }
     while(true){
+        if(!isScriptRunning){
+            return;
+        }
         var screenShot2 = getScreenshot();
         if(!checkImage(screenShot2,selectFriendImage,1340,200,420,100)){
             releaseImage(screenShot2);
@@ -261,7 +301,7 @@ function selectTeam(team){
     var x = 1050 + 50*team;
     var x2 = 1050 + 50*((team+1)%10);
     tapScale(x2,100,100);
-    sleep(100);
+    sleep(1000);
     tapScale(x,100,100);
     sleep(2000);
 }
@@ -309,6 +349,7 @@ function startQuest(useItem){
         var screenShot3 = getScreenshot();
         if(checkImage(screenShot3,useItemImage,800,160,950,60)){
             isScriptRunning = false;
+            sendUrgentMessage(runningScriptName,"No enough item");
             console.log("Use item failed");
         }
         releaseImage(screenShot3);
@@ -319,13 +360,22 @@ function startQuest(useItem){
 
 function finishQuest(){
     console.log("Wait for quest finish");
-    sleep(500);
-    for(var i=0;i<30;i++){
+    for(var i=0;i<50;i++){
         if(!isScriptRunning){
             return;
         }
         var r = isQuestFinish();
         switch(r){
+            case -1:
+                var screenShot3 = getScreenshot();
+                if(checkImage(screenShot3,friendPointNew,2030,1300,300,100)){
+                    tapScale(2180,1350,100);
+                }else if(checkImage(screenShot3,friendPointBack,60,25,60,115)){
+                    sendUrgentMessage(runningScriptName,"Get new craft");
+                    tapScale(90,80,100);
+                }
+                releaseImage(screenShot3);
+                break;
             case 0:
                 console.log("Back to main screen");
                 return;
@@ -336,9 +386,7 @@ function finishQuest(){
                 tapScale(2300,1335,100);
                 break;
         }
-        sleep(1500);
     }
-    isScriptRunning = false;
     console.log("Wait for quest finish timeout");
 }
 

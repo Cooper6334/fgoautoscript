@@ -11,10 +11,10 @@ var ultWidth = 280;
 var ultHeight = 300;
 var ultLightnessOffset = 140;
 var allServentDieFlag = false;
+var servantAliveMessage;
+var checkUlt;
 
-//autoAttack(3,0,1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1);
-function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1,p0s2,p0t2,p1ult,p1s0,p1t0,p1s1,p1t1,p1s2,p1t2,p2ult,p2s0,p2t0,p2s1,p2t1,p2s2,p2t2){
-    servantInited = false;
+function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1,p0s2,p0t2,p1ult,p1s0,p1t0,p1s1,p1t1,p1s2,p1t2,p2ult,p2s0,p2t0,p2s1,p2t1,p2s2,p2t2,ultColor){
     var ult = [];
     ult[0] = p0ult;
     ult[1] = p1ult;
@@ -59,50 +59,54 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
     skill[0] = p0;
     skill[1] = p1;
     skill[2] = p2;
-    waitUntilPlayerCanMove();
+
+    if(ultColor == 0){
+        checkUlt = true;
+    }else{
+        checkUlt = false;
+    }
+    servantInited = false;
+    servantAliveMessage = [true,true,true];
+    var lastStage = -1;
     while(true){
         if(!isScriptRunning){
             break;
         }
-        sleep(500);
-        /*
-        var screenShot = getScreenshot();
-        if(checkImage(screenShot,selectBackImage,2300,1340,180,50)){
-            tapScale(2390,1350,100);
+        if(!waitUntilPlayerCanMoveOrFinish()){
+            console.log("Quest Finish break AutoAttack");
+            break;
         }
-        releaseImage(screenShot);
-        */
         var currentStage = getCurrentStage();
         if(until!=0 && until <= currentStage){
+            console.log("Wave Finish break AutoAttack");
             break;
-        }else if(isQuestFinish() >= 0){
-            sleep(1000);
-            if(isQuestFinish() >= 0){
-                //double check
-                console.log("Quest Finish");
-                break;
-            }
-        }else{
-            console.log("AutoAttack start new turn");
-            attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage);
         }
+        if(lastStage < currentStage){
+            lastStage = currentStage;
+            console.log("Wave "+(lastStage+1));
+            if(getUserPlan() == 2){
+                sendNormalMessage(runningScriptName,"Wave "+(lastStage + 1));
+            }
+        }
+        attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage);
         if(until == 0){
+            console.log("One turn break AutoAttack");
             break;
         }
         sleep(5000);
-        waitUntilPlayerCanMoveOrFinish();
     }
-    for(var i=0;i<3;i++){
-        releaseImage(initServant[i]);
+    if(servantInited){
+        for(var i=0;i<3;i++){
+            releaseImage(initServant[i]);
+        }
     }
 }
 
 function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
+    console.log("AutoAttack start new turn");
     var screenShot = getScreenshot();
     var servantAlive = [true,true,true];
     if(!servantInited){
-        sleep(3000);
-        console.log("Init servant image");
         servantInited = true;
         initServant = getCurrentServant(screenShot);
         for(var i=0;i<3;i++){
@@ -114,8 +118,12 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             if(getIdentityScore(initServant[i],currentServant[i])>0.85){
                 servantAlive[i] = true;
             }else{
-                console.log("servant "+i+" died");
+                console.log("servant "+(i+1)+" die");
                 servantAlive[i] = false;
+                if(servantAliveMessage[i]){
+                    servantAliveMessage[i] = false;
+                    sendNormalMessage(runningScriptName,"servant "+(i+1)+" die");
+                }
             }
         }
         if(!(servantAlive[0] || servantAlive[1] || servantAlive[2])){
@@ -150,11 +158,11 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
     var m = 'skill_used:';
     for(var i=0;i<9;i++){
         skillUsed[i] = checkImage(screenShot,skillUsedImage,skillPositionX[i],skillPositionY,skillPositionW,skillPositionH);
-        m+=skillUsed[i]+",";
+        m+=(skillUsed[i]+1)+",";
     }
     updateServantExist(screenShot);
     releaseImage(screenShot);
-    console.log(m);
+    //console.log(m);
     for(var i =0;i<3;i++){
         for(var j=2;j>=0;j--){
             if(!isScriptRunning){
@@ -164,6 +172,7 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
                 switch(die){
                     case 0:
                         isScriptRunning = false;
+                        console.log("Servant die break AutoAttack");
                     return;
                     case 1:
                         if(!skillUsed[i*3+j] && servantExist[i]){
@@ -247,7 +256,7 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
     console.log("Card:"+cardList);
     console.log("Status:"+cardStatus);
     for(var i =0;i<3;i++){
-        if(ult[i] >= 0 && currentStage >= ult[i] && ultList[i] >= 0){
+        if(ult[i] >= 0 && currentStage >= ult[i] && (ultList[i] >= 0 || !checkUlt)){
             useUlt(i);
         }
     }
@@ -265,7 +274,7 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
             }
         }
         if(id >= 0){
-            m=m+id+" ";
+            m=m+(id+1)+" ";
             selectCard(id);
             cardScore[id] = -15000;
         }else{
@@ -277,6 +286,10 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
 }
 
 function updateUltList(){
+    if(!checkUlt){
+        ultList= [-1,-1,-1];
+        return;
+    }
     var edgeX = [696,1159,1622];
     var edgeY = [270,570];
     var ultUpdateFailed = true;
