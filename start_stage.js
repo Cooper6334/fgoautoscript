@@ -127,8 +127,19 @@ function selectStage(useApple){
             tapScale(1700,1135,100);
             sleep(2000);
             if(server == "TW"){
-                tapScale(1600,475,100);
-                sleep(1000);
+                while(true){
+                    tapScale(1600,475,100);
+                    sleep(1000);
+                    if(!isScriptRunning){
+                        return;
+                    }
+                    var screenShot3 = getScreenshot();
+                    if(checkImage(screenShot3,selectFriendImage,1340,200,420,100)){
+                        releaseImage(screenShot3);
+                        break;
+                    }
+                    releaseImage(screenShot3);
+                }
             }
         }
     }
@@ -280,7 +291,7 @@ function reloadFriend(){
 }
 
 function scrollFriendList(){
-    swipeScale(800,1000,800,202,50);
+    swipeScale(800,1000,800,200,300);
 }
 
 //-----------------------------------------------------team menu
@@ -374,7 +385,7 @@ function finishQuest(){
                     var screenShot4 = getScreenshot();
                     if(!checkImage(screenShot4,finishStageImage[0],2280,1340,190,55)){
                         tapScale(2180,1350,100);
-                        console.log("Get new craft");
+                        //console.log("Get new craft");
                     }
                     releaseImage(screenShot4);
                 }else if(checkImage(screenShot3,friendPointBack,60,25,60,115)){
@@ -382,7 +393,7 @@ function finishQuest(){
                     var screenShot4 = getScreenshot();
                     if(!checkImage(screenShot4,finishStageImage[0],2280,1340,190,55)){
                         sendUrgentMessage(runningScriptName,"Get new craft");
-                        console.log("Get new craft finish");
+                        console.log("Get new craft");
                         tapScale(90,80,100);
                     }
                     releaseImage(screenShot4);
