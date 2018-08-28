@@ -166,7 +166,7 @@ function useSkill(player,skill,target,checkUsed){
             tapScale(1800,1135,100);
         }
     }
-    sleep(1000);    
+    sleep(1000);
     if(!isScriptRunning){
         return;
     }
@@ -358,10 +358,10 @@ function getCurrentStage(){
     return result;
 }
 function isQuestFinish(){
-    var positionX = [2280,640,990,1294,222, 215,1390,141,1480,1083];
-    var positionY = [1340,100,165, 362,142, 137, 550,317, 500,1337];
+    var positionX = [2280,120,990,1294,222, 215,1390,141,1480,1083];
+    var positionY = [1340,140,165, 362,142, 137, 550,317, 500,1337];
     var positionW = [190 ,200,230, 373,545,2141, 510,649, 420,376];
-    var positionH = [55  ,200,285,  89, 77, 233,  40,113,  60,77];
+    var positionH = [55  ,110,285,  89, 77, 233,  40,113,  60,77];
     var sameImage = [-1,-1];
     for(var j = 0;j<2;j++){
         var screenShot = getScreenshot();
