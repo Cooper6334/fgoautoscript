@@ -289,6 +289,8 @@ function selectEnemy(enemy){
     if(!isScriptRunning){
         return;
     }
+    waitUntilPlayerCanMoveOrFinish();
+    console.log("Select enemy "+(enemy+1));
     switch(enemy){
         case 0:
         tapScale(1160,85,100);
@@ -336,8 +338,8 @@ function changePlayer(target1,target2){
 }
 
 function getCurrentStage(){
-    var width = 50* screenScale[0];
-    var height = 50* screenScale[1];
+    var width = currentStageW* screenScale[0];
+    var height = currentStageH* screenScale[1];
     var screenShot = getScreenshot();
     var crop = cropImage(screenShot,currentStageX * screenScale[0] + screenOffset[0],currentStageY * screenScale[1] + screenOffset[1],width,height);
     var score = [];
