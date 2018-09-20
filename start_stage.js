@@ -275,7 +275,7 @@ function checkStar(screenShot,position){
     var w = 10 * screenScale[0];
     var h = 10 * screenScale[1];
     var startX = screenOffset[0] + 379 * screenScale[0];
-    var startY =  screenOffset[1] + (713 + position * 400)* screenScale[1];
+    var startY =  screenOffset[1] + (720 + position * 400)* screenScale[1];
     var isG = 0;
     var notG = 0;
     for(var i=0;i<w;i++){
@@ -288,7 +288,7 @@ function checkStar(screenShot,position){
             }
         }
     }
-    if(isG > notG * 2){
+    if(isG > notG * 3){
         return true;
     }
     return false;
