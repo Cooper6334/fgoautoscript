@@ -41,7 +41,7 @@ function selectStage(useApple){
     releaseImage(markResize);
     */
     tapScale(1600,475,100);
-    sleep(2000);
+    sleep(3000);
     var screenShot = getScreenshot();
     if(checkImage(screenShot,stageFullImage,650,300,1200,250)){
         console.log("item box full");
@@ -56,7 +56,7 @@ function selectStage(useApple){
         return;
     }
     else if(checkImage(screenShot,noApImage,900,70,750,110)){
-        sleep(2000);
+        sleep(1000);
         switch(useApple){
             case -1:
             console.log("Ap not enough, stop script");
@@ -102,7 +102,7 @@ function selectStage(useApple){
                     break;
                 }
                 tapScale(1600,475,100);
-                sleep(1000);
+                sleep(5000);
                 var autoWaitScreenShot = getScreenshot();
                 if(!checkImage(autoWaitScreenShot,noApImage,900,70,750,110)){
                     releaseImage(autoWaitScreenShot);
