@@ -306,9 +306,9 @@ function initPosition(){
         updateCardListOffsetWeakX = 224;
         updateCardListOffsetWeakY = [-310,-340];
 
-        currentStageX = 1747;
+        currentStageX = 1720;
         currentStageY = 25;
-        currentStageW = 30;
+        currentStageW = 50;
         currentStageH = 50;
 
         selectFriendPosition = [315,450,585,725,860,995,1130,1265];
