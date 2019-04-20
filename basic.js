@@ -1,77 +1,17 @@
-var version = "V1.44";
-var isDebug = false;
-//image
-var noApImage;
-var stageFullImage;
-var stageFullImage2;
-var selectFriendImage;
-var selectFriendImage2;
-var selectTeamImage;
-var finishStageImage = [];
-var stageNotFinishImage;
-var stageFailedImage;
-var whiteImage;
-var currentStageImage = [];
-var cardListImage = [];
-var cardDisableImage = [];
-var cardWeakImage = [];
-var skillCheckImage;
-var skillUsedImage;
-var skillNullImage;
-var skillFailedImage;
-var friendPointCheckImage;
-var friendPointFreeImage;
-var friendPointTenImage;
-var friendPointReloadImage;
-var friendPointFullImage;
-var friendPointFullImage2;
-var friendPointNew;
-var friendPointBack;
-var starImage;
-var useItemImage;
-var servantExistImage;
-var checkBoxImage;
-var checkBoxPointImage;
-var presentBoxFullImgae;
-var ultFailedImage;
+var loadApiCnt = 0;
+var version = "V2.00";
+var isDebug = true;
 
-var selectStartImage = [];
-var selectBackImage;
-/*
-var swimMark;
-var swimStage;
-var swimMap;
-var swimLogo;
-*/
-//position
-var skillPositionX;
-var skillPositionY;
-var skillPositionW;
-var skillPositionH;
-var updateCardListX;
-var updateCardListY;
-var updateCardListOffsetWeakX;
-var updateCardListOffsetWeakY;
-var currentStageX;
-var currentStageY;
-var currentStageW;
-var currentStageH;
-var checkFriendPosition;
-var selectFriendPosition;
-
-var skillColor = [];
-var resetFriendCnt;
-var isImageInit = false;
-var isScriptRunning = false;
-
-var defaultScreenSize = [2560,1440];
+var defaultScreenSize = [1280,720];
 var screenScale = [];
 var screenOffset = [];
 var realScreenSize = [];
 var runningScriptName = "";
 
-var checkBoxPosition = [];
-var checkBoxPointPosition = [];
+
+var path = getStoragePath();
+var packagePath = path+"/scripts/com.cooper.FGO/";
+var imagePath = path;
 
 function startScript(loopTime,script,scriptName){
     loadImage();
@@ -110,142 +50,9 @@ function initIDE(serverString){
     server = serverString;
     isImageInit = false;
     isDebug = true;
-    initServer();
-    loadApi();
-    loadImage();
+    // initServer();
     initScreenSize();
-    initPosition();
     isScriptRunning = true;
-}
-
-function loadImage(){
-    if(isImageInit){
-        releaseAllImage();
-    }
-
-    noApImage = openImage(imagePath+"NoAP.png");
-
-    stageFullImage = openImage(imagePath+"StageFull.png");
-    stageFullImage2 = openImage(imagePath+"StageFull2.png");
-
-    for(var i=0;i<11;i++){
-        finishStageImage[i] = openImage(imagePath+"FinishStage"+i+".png");
-    }
-    stageNotFinishImage = openImage(imagePath+"StageNotFinish.png");    
-    whiteImage = openImage(imagePath+"White.png");
-    stageFailedImage = openImage(imagePath+"StageFailed.png");
-
-    for(var i=0;i<3;i++){
-        currentStageImage[i] = openImage(imagePath+"CurrentStage"+i+".png");
-    }
-
-    cardListImage[0] = openImage(imagePath+"CardListB.png");
-    cardListImage[1] = openImage(imagePath+"CardListN.png");
-    cardListImage[2] = openImage(imagePath+"CardListQ.png");
-
-    cardDisableImage[0] =  openImage(imagePath+"CardDisable1.png");
-    cardDisableImage[1] =  openImage(imagePath+"CardDisable2.png");
-
-    cardWeakImage[0] =  openImage(imagePath+"CardWeak.png");
-    cardWeakImage[1] =  openImage(imagePath+"CardResist.png");
-
-    skillCheckImage = openImage(imagePath+"SkillCheck.png");
-    skillUsedImage = openImage(imagePath+"SkillUsed.png");
-    skillNullImage = openImage(imagePath+"SkillNull.png");
-    skillFailedImage = openImage(imagePath+"SkillFailed.png");
-
-    selectFriendImage = openImage(imagePath+"SelectFriend1.png");
-    selectFriendImage2 = openImage(imagePath+"SelectFriend2.png");
-    selectTeamImage = openImage(imagePath+"SelectTeam.png");
-
-    friendPointCheckImage = openImage(imagePath+"FriendPointCheck.png");
-    friendPointTenImage = openImage(imagePath+"FriendPointTen.png");
-    friendPointFreeImage = openImage(imagePath+"FriendPointFree.png");
-    friendPointReloadImage = openImage(imagePath+"FriendPointReload.png");
-    friendPointFullImage = openImage(imagePath+"FriendPointFull.png");
-    friendPointFullImage2 = openImage(imagePath+"FriendPointFull2.png");
-    friendPointNew = openImage(imagePath+"FriendPointNew.png");
-    friendPointBack = openImage(imagePath+"FriendPointBack.png");
-
-    selectStartImage[0] = openImage(imagePath+"SelectStart.png");
-    selectStartImage[1] = openImage(imagePath+"SelectStart2.png");
-    selectStartImage[2] = openImage(imagePath+"SelectStart3.png");
-    selectBackImage = openImage(imagePath+"SelectBack.png");
-    
-    starImage = openImage(imagePath+"Star.png");
-    useItemImage = openImage(imagePath+"UseItem.png");
-
-    ultFailedImage = openImage(imagePath+"UltFailed.png");
-
-/*
-    swimMark = openImage(imagePath+"SwimMark.png");
-    swimStage = openImage(imagePath+"SwimStage.png");
-    swimMap = openImage(imagePath+"SwimMap.png");
-    swimLogo = openImage(imagePath+"SwimLogo.png");
-*/
-
-    servantExistImage = openImage(imagePath+"ServantExist.png");
-    checkBoxImage = openImage(imagePath+"CheckBox.png");
-    checkBoxPointImage = openImage(imagePath+"CheckBoxPoint.png");
-    presentBoxFullImgae = openImage(imagePath+"PresentBoxFull.png");    
-    isImageInit = true;
-}
-
-function releaseAllImage(){
-    isImageInit = false;
-
-    releaseImage(noApImage);
-
-    releaseImage(stageFullImage);
-    releaseImage(stageFullImage2);
-
-    for(var i=0;i<11;i++){
-        releaseImage(finishStageImage[i]);
-    }
-    releaseImage(stageNotFinishImage);
-    releaseImage(whiteImage);
-    releaseImage(stageFailedImage);
-
-    for(var i=0;i<3;i++){
-        releaseImage(currentStageImage[i]);        
-        releaseImage(cardListImage[i]);
-        releaseImage(selectStartImage[i]);
-    }
-
-    releaseImage(selectFriendImage);
-    releaseImage(selectFriendImage2);
-    releaseImage(selectTeamImage);
-    
-    releaseImage(friendPointCheckImage);
-    releaseImage(friendPointTenImage);
-    releaseImage(friendPointFreeImage);
-    releaseImage(friendPointReloadImage);
-    releaseImage(friendPointFullImage);
-    releaseImage(friendPointFullImage2);
-    releaseImage(friendPointNew);
-    releaseImage(friendPointBack);
-
-    releaseImage(skillCheckImage);
-    releaseImage(skillUsedImage);
-    releaseImage(skillNullImage);
-    releaseImage(skillFailedImage);
-
-    releaseImage(selectBackImage);
-
-    releaseImage(starImage);
-    releaseImage(useItemImage);
-
-    releaseImage(ultFailedImage);
-/*
-    releaseImage(swimMark);
-    releaseImage(swimStage);
-    releaseImage(swimMap);
-    releaseImage(swimLogo);
-*/
-    releaseImage(servantExistImage);
-    releaseImage(checkBoxImage);
-    releaseImage(checkBoxPointImage);
-    releaseImage(presentBoxFullImgae);
 }
 
 function initScreenSize(){
@@ -277,46 +84,8 @@ function initScreenSize(){
 
 function initPosition(){
     if(server == "JP"){
-        skillPositionX =[62,249,436,696,884,1071,1335,1523,1710];
-        skillPositionY = 1200;
-        skillPositionW = 37;
-        skillPositionH = 33;
-
-        updateCardListX = [126,638,1148,1664,2184];
-        updateCardListY = 1070;
-        updateCardListOffsetWeakX = 230;
-        updateCardListOffsetWeakY = [-310,-340];
-
-        currentStageX = 1720;
-        currentStageY = 25;
-        currentStageW = 50;
-        currentStageH = 50;
-
-        checkFriendPosition = [1480,200,300,100];
-        selectFriendPosition = [180,315,450,585,725,860,995,1130,1265];
-        checkBoxPosition = [2130,450,300,50];
-        checkBoxPointPosition = [450,850,350,150];
     }
     else if(server == "TW"){
-        skillPositionX =[62,249,436,696,884,1071,1335,1523,1710];
-        skillPositionY = 1200;
-        skillPositionW = 32;
-        skillPositionH = 32;
-        
-        updateCardListX = [129,641,1152,1664,2186];
-        updateCardListY = 1070;
-        updateCardListOffsetWeakX = 224;
-        updateCardListOffsetWeakY = [-310,-340];
-
-        currentStageX = 1720;
-        currentStageY = 25;
-        currentStageW = 50;
-        currentStageH = 50;
-
-        checkFriendPosition = [1340,200,420,100];
-        selectFriendPosition = [180,315,450,585,725,860,995,1130,1265];
-        checkBoxPosition = [2210,360,190,40];
-        checkBoxPointPosition = [500,800,250,200];
     }
 
 }
@@ -340,6 +109,97 @@ function readScript(scriptName){
 }
 
 //-----------------------------------------------------generial
+function checkIconListInScreen(iconList,allPass){
+    var screenshot = getScreenshotResize();
+    if(screenshot == null){
+        return false;
+    }
+    for(var i = 0;i<iconList.length;i++){
+        var iconId = iconList[i];
+        if(iconName[iconId] == ""){
+            console.log("checkIconInScreen no icon");
+            continue;
+        }
+        var iconPath = imagePath+"/"+iconName[iconId]+".png";
+        if(isDebug){
+            console.log("checkIconInScreen open icon "+iconPath);
+        }
+        var iconImage = openImage(iconPath);
+        var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3]);
+        releaseImage(iconImage);
+        if(isDebug){
+            console.log("checkIconInScreen result "+result);
+        }
+        if(result && !allPass){
+            releaseImage(screenshot);
+            return true;
+        }
+        if(!result && allPass){
+            releaseImage(screenshot);
+            return false;
+        }
+    }
+    releaseImage(screenshot);
+    return allPass;
+}
+
+function checkIconInScreen(iconId){
+    if(iconName[iconId] == ""){
+       console.log("checkIconInScreen no icon");
+        return false;
+    }
+    var screenshot = getScreenshotResize();
+    if(screenshot == null){
+        return false;
+    }
+    var iconPath = imagePath+"/"+iconName[iconId]+".png";
+    if(isDebug){
+       console.log("checkIconInScreen open icon "+iconPath);
+    }
+    var iconImage = openImage(iconPath);
+    var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3]);
+    releaseImage(screenshot);
+    releaseImage(iconImage);
+    if(isDebug){
+       console.log("checkIconInScreen result "+result);
+    }
+    return result;
+}
+
+function getScreenshotResize(){
+    var size = getScreenSize();
+    if(size.width < size.height){
+        console.log("screen orientation wrong");
+        return null;
+    }
+    var screenshot = getScreenshot();
+    var cutScreenshot = cropImage(screenshot,screenOffset[0],screenOffset[1],realScreenSize[0],realScreenSize[1]);
+    var resizeScreenshot = resizeImage(cutScreenshot,defaultScreenSize[0],defaultScreenSize[1]);
+    releaseImage(screenshot);
+    releaseImage(cutScreenshot);
+    return resizeScreenshot;
+}
+
+
+function checkImage(screenshot,icon,x,y,width,height,threshold){
+    if(isDebug){
+       console.log("checkImage");
+    }
+    if(threshold == undefined){
+        threshold = 0.85;
+    }
+    var crop = cropImage(screenshot,x,y,width,height);    
+    var find = findImage(crop,icon);
+    releaseImage(crop);
+    if(isDebug){
+        //console.log("checkImage reslut "+find.score +" threshold "+threshold);
+    }
+    if(find.score > threshold){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 function checkPixel(x,y,r,g,b){
     var size = getScreenSize();
@@ -357,97 +217,6 @@ function checkPixel(x,y,r,g,b){
         return true;
     }
     return false;
-}
-
-function checkImage(screenShot,imageSmall,x,y,width,height,threshold){
-    var size = getImageSize(screenShot);
-    if(size.width < size.height){
-        console.log("screen orientation wrong");
-        return false;
-    }
-    if(threshold == undefined){
-        threshold = 0.85;
-    }
-    
-    var realScreen = screenShot;
-    if(size.width > realScreenSize[0] || size.width > realScreenSize[1]){
-        realScreen = cropImage(screenShot,screenOffset[0],screenOffset[1],realScreenSize[0],realScreenSize[1]);
-    }
-    width = width * screenScale[0];
-    height = height * screenScale[1];
-    var resizeSmall = resizeImage(imageSmall,width,height);
-
-
-    x = x * screenScale[0] - 1;
-    y = y * screenScale[1] - 1;
-    if(x < 0){
-        x = 0;
-    }
-    if(y < 0){
-        y = 0;
-    }
-    var cropWidth = width + 2;
-    var cropHeight = height + 2;
-    if(x + cropWidth > realScreenSize[0]){
-        cropWidth = realScreenSize[0] - x;
-    }
-    if(y + cropHeight > realScreenSize[1]){
-        cropHeight = realScreenSize[1] - y;
-    }
-    var crop = cropImage(realScreen,x,y,cropWidth,cropHeight);
-    var find = findImage(crop,resizeSmall);
-    releaseImage(crop);
-    releaseImage(resizeSmall);
-    releaseImage(realScreen);
-    if(find.score > threshold){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function checkImageAndColor(screenShot,imageSmall,x,y,width,height){
-    var size = getImageSize(screenShot);
-    if(size.width < size.height){
-        console.log("screen orientation wrong");
-        return false;
-    }
-    var threshold = 0.9;
-    
-    var realScreen = screenShot;
-    if(size.width > realScreenSize[0] || size.width > realScreenSize[1]){
-        realScreen = cropImage(screenShot,screenOffset[0],screenOffset[1],realScreenSize[0],realScreenSize[1]);
-    }
-    width = width * screenScale[0];
-    height = height * screenScale[1];
-    var resizeSmall = resizeImage(imageSmall,width,height);
-
-    x = x * screenScale[0] - 1;
-    y = y * screenScale[1] - 1;
-    if(x < 0){
-        x = 0;
-    }
-    if(y < 0){
-        y = 0;
-    }
-    var cropWidth = width + 2;
-    var cropHeight = height + 2;
-    if(x + cropWidth > realScreenSize[0]){
-        cropWidth = realScreenSize[0] - x;
-    }
-    if(y + cropHeight > realScreenSize[1]){
-        cropHeight = realScreenSize[1] - y;
-    }
-    var crop = cropImage(realScreen,x,y,cropWidth,cropHeight);
-    var find = findImage(crop,resizeSmall);
-    var r = false;
-    if(find.score > threshold){
-        r = compareImageColor(crop,find.x,find.y,resizeSmall,width,height,10);
-    }
-    releaseImage(crop);
-    releaseImage(resizeSmall);
-    releaseImage(realScreen);    
-    return r;
 }
 
 function findImageResize(imageBig,imageSmall,threshold){
@@ -492,7 +261,7 @@ function getImageLightness(img,sparse){
     return l;
 }
 
-function tapScale(x,y,wait){
+function tapScale(x,y){
     if(!isScriptRunning){
         return;
     }
@@ -502,7 +271,7 @@ function tapScale(x,y,wait){
     }
     x = x * screenScale[0] + screenOffset[0];
     y = y * screenScale[1] + screenOffset[1];
-    tap(x,y,wait);
+    tap(x,y,100);
 }
 
 function swipeScale(x,y,endX,endY,step){
@@ -604,7 +373,7 @@ function saveCropImage(l,t,r,b){
     var x = l;
     var y = t;
     var currentdate = new Date();
-    var filepath = path+"/crop"+currentdate.getTime()+"_"+x+"_"+y+"_"+width+"_"+height+".png";
+    var filepath = path+"/crop"+"_"+x+"_"+y+"_"+width+"_"+height+".png";
     var screenShot = getScreenshot();
     var crop = cropImage(screenShot,x,y,width,height);
     saveImage(crop,filepath);
@@ -683,6 +452,7 @@ function confirmSaveFriendItemImage(imageName,time){
     }
     return imageName;
 }
+
 
 loadApiCnt++;
 console.log("Load basic api finish");
