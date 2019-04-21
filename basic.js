@@ -12,6 +12,7 @@ var runningScriptName = "";
 var path = getStoragePath();
 var packagePath = path+"/scripts/com.cooper.FGO/";
 var imagePath = path;
+var itemPath = path;
 
 function startScript(loopTime,script,scriptName){
     loadImage();
@@ -261,9 +262,12 @@ function getImageLightness(img,sparse){
     return l;
 }
 
-function tapScale(x,y){
+function tapScale(x,y,wait){
     if(!isScriptRunning){
         return;
+    }
+    if(wait==undefined){
+        wait = 100;
     }
     var size = getScreenSize();
     if(size.width < size.height){
@@ -271,7 +275,7 @@ function tapScale(x,y){
     }
     x = x * screenScale[0] + screenOffset[0];
     y = y * screenScale[1] + screenOffset[1];
-    tap(x,y,100);
+    tap(x,y,wait);
 }
 
 function swipeScale(x,y,endX,endY,step){
@@ -399,14 +403,13 @@ function saveCropImage2(name,l,t,w,h){
 
 function saveFriendServantImage(cnt){
     sleep(1000);
-    var screenShot = getScreenshot();
+    var screenShot = getScreenshotResize();
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,100 * screenScale[0] + screenOffset[0],460* screenScale[1] + screenOffset[1],310* screenScale[0],195* screenScale[1]);
+        crop = cropImage(screenShot,51,230,155,96);
     }else{
-        crop = cropImage(screenShot,100 * screenScale[0] + screenOffset[0],860* screenScale[1] + screenOffset[1],310* screenScale[0],195* screenScale[1]);
+        crop = cropImage(screenShot,51,430,155,96);
     }
-    resizeImage(crop,260,195);
     var currentdate = new Date();
     var time = currentdate.getTime();
     var filePath = itemPath+"tmp_servant_"+time+".png";
@@ -416,19 +419,20 @@ function saveFriendServantImage(cnt){
     releaseImage(screenShot);
     return time;
 }
+
 function saveFriendItemImage(cnt){
     sleep(1000);
-    var screenShot = getScreenshot();
+    var screenShot = getScreenshotResize();
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,100 * screenScale[0] + screenOffset[0],655* screenScale[1] + screenOffset[1],310* screenScale[0],90* screenScale[1]);
+        crop = cropImage(screenShot,51,328,155,30);
     }else{
-        crop = cropImage(screenShot,100 * screenScale[0] + screenOffset[0],1055* screenScale[1] + screenOffset[1],310* screenScale[0],90* screenScale[1]);
+        crop = cropImage(screenShot,51,528,155,30);
     }
-    resizeImage(crop,260,65);
     var currentdate = new Date();
     var time = currentdate.getTime();
     var filePath = itemPath+"tmp_item_"+time+".png";
+    console.log(filePath);
     saveImage(crop,filePath);
     releaseImage(crop);
     releaseImage(screenShot);
