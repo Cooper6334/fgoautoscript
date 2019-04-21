@@ -31,12 +31,12 @@ function isSelectTeamPage(){
 	return checkIconInScreen(4);
 }
 
-function isUseItemPage(){
+function isUseItemDialog(){
 	return checkIconInScreen(5);
 }
 
 //battle
-function isInBattleMainPage(){
+function isBattleMainPage(){
 	var r =  checkIconListInScreen([6,7,8,9],true);
 	if(!r){
 		return false;
@@ -45,30 +45,46 @@ function isInBattleMainPage(){
 	return checkIconListInScreen([6,7,8,9],true);
 }
 
-function isInBattleCardPage(){
-
+function isBattleCardPage(){
+	return false;
 }
 
-function isInBattleServantDialog(){
-
+function isBattleServantDialog(){
+	return false;
 }
 
-function isInBattleSkillDetailDialog(){
-
+function isBattleSkillFailedDialog(){
+	return false;
 }
 
-function isInBattleSkillTargetDialog(){
+function isBattleSkillDetailDialog(){
+	return false;
+}
 
+function isBattleSkillTargetDialog(){
+	return false;
+}
+
+function isBattleUltFailedDialog(){
+	return false;
+}
+
+function isBattleStageFailedDialog(){
+	return false;
 }
 
 //finish
-function isInFinishBondPage(){
+function isFinishBondPage(){
 	var r = checkIconListInScreen([10],false);
 	if(!r){
 		return false;
 	}
 	sleep(500);
 	return checkIconListInScreen([10],false);
+}
+
+function isAddFriendPage(){
+	
 }
 
 function checkAllPage(){
@@ -79,9 +95,9 @@ function checkAllPage(){
 	result[2] = isSelectFriendPage();
 	result[3] = isSelectFriendRefreshDialog();
 	result[4] = isSelectTeamPage();
-	result[5] = isUseItemPage();
-	result[6] = isInBattleMainPage();
-	result[7] = isInFinishBondPage();
+	result[5] = isUseItemDialog();
+	result[6] = isBattleMainPage();
+	result[7] = isFinishBondPage();
 	result[8] = isItemOrServantFullDialog();
 	var inPage = false;
     for(var i = 0;i<result.length;i++){

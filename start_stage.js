@@ -267,6 +267,8 @@ function scrollFriendList(){
 }
 
 //-----------------------------------------------------team menu
+var itemPositionY = [200,350,500];
+
 function selectTeam(team){
     if(!isScriptRunning){
         return;
@@ -274,19 +276,16 @@ function selectTeam(team){
     if(team < 0 || team >= 10){
         return;
     }
-    while(true){
-        var screenShot = getScreenshot();
-        if(checkImage(screenShot,selectTeamImage,2270,1300,230,100)){
-            releaseImage(screenShot);
-            break;
-        }
-        releaseImage(screenShot);
+    console.log("-選擇隊伍-");
+    if(!isSelectTeamPage()){
+        console.log("不在選擇隊伍畫面");
+        return;
     }
-    var x = 1050 + 50*team;
-    var x2 = 1050 + 50*((team+1)%10);
-    tapScale(x2,100,100);
+    var x = 525 + 25*team;
+    var x2 = 525 + 25*((team+1)%10);
+    tapScale(x2,50);
     sleep(1000);
-    tapScale(x,100,100);
+    tapScale(x,50);
     sleep(2000);
 }
 
@@ -294,55 +293,38 @@ function startQuest(useItem){
     if(!isScriptRunning){
         return;
     }
-    while(true){
-        var screenShot = getScreenshot();
-        if(checkImage(screenShot,selectTeamImage,2270,1300,230,100)){
-            releaseImage(screenShot);
-            break;
-        }
-        releaseImage(screenShot);
+    console.log("-進入關卡-");
+    if(!isSelectTeamPage()){
+        console.log("不在選擇隊伍畫面");
+        return;
     }
-    tapScale(2300,1335,100);
+    tapScale(1150,667);
     sleep(1500);
-
-    //check use item
-    var screenShot2 = getScreenshot();
-    if(checkImage(screenShot2,useItemImage,800,160,950,60)){
+    if(isUseItemDialog()){
         if(useItem == undefined || useItem == -1){
-            tapScale(1640,1300,100);
-            releaseImage(screenShot2);
+            console.log("不使用道具");
+            tapScale(820,650);
             return;
-        }else{
-            var itemPositionY = [400,700,1000];
-            var y;
-            if(useItem > 2){
-                y = 1000;
-                for(var i = 0; i < useItem - 2; i++){
-                    swipeScale(800,1000,800,600,20);
-                    sleep(1000);
-                }
-            }else{
-                y = itemPositionY[useItem];
+        }
+        var y = itemPositionY[useItem];
+        if(useItem > 2){
+            y = 500;
+            for(var i = 0; i < useItem - 2; i++){
+                swipeScale(400,500,400,300,20);
+                sleep(1000);
             }
-            tapScale(1300,y,100);
-            sleep(1000);
-            tapScale(1655,1110,100);
         }
-        releaseImage(screenShot2);
-        sleep(5000);        
-        var screenShot3 = getScreenshot();
-        if(checkImage(screenShot3,useItemImage,800,160,950,60)){
+        console.log("使用道具");
+        tapScale(650,y);
+        sleep(1000);
+        tapScale(827,555);
+        sleep(5000);
+        if(isUseItemDialog()){
             isScriptRunning = false;
-            sendUrgentMessage(runningScriptName,"No enough item");
-            console.log("Use item failed");
+            console.log("道具不足");
+            sendUrgentMessage(runningScriptName,"道具不足");
         }
-        releaseImage(screenShot3);
-    }else{
-        releaseImage(screenShot2);
     }
-}
-
-function finishQuest(){
 }
 
 loadApiCnt++;
