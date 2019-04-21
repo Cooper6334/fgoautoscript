@@ -8,11 +8,10 @@ var screenOffset = [];
 var realScreenSize = [];
 var runningScriptName = "";
 
-
 var path = getStoragePath();
 var packagePath = path+"/scripts/com.cooper.FGO/";
 var imagePath = path;
-var itemPath = path;
+var itemPath = path+"/FGOv2/";
 
 function startScript(loopTime,script,scriptName){
     loadImage();
@@ -202,6 +201,24 @@ function checkImage(screenshot,icon,x,y,width,height,threshold){
     }
 }
 
+function checkImageAndColor(screenshot,icon,x,y,width,height){
+    var threshold = 0.9;
+    var crop = cropImage(screenshot,x,y,width,height);
+    var find = findImage(crop,icon);
+    var r = false;
+    if(isDebug){
+        console.log("checkImageAndColor find score"+find.score);
+    }
+    if(find.score > threshold){
+        r = compareImageColor(crop,find.x,find.y,icon,width,height,10);
+    }
+    if(isDebug){
+        console.log("checkImageAndColor compareImageColor "+r);
+    }
+    releaseImage(crop);
+    return r;
+}
+
 function checkPixel(x,y,r,g,b){
     var size = getScreenSize();
     if(size.width < size.height){
@@ -334,9 +351,9 @@ function isSameColor(r1,g1,b1,r2,g2,b2){
     diff += Math.abs(r1-r2);
     diff += Math.abs(g1-g2);
     diff += Math.abs(b1-b2);
-    if(isDebug){
-        console.log("check pixel diff "+diff);
-    }
+    // if(isDebug){
+    //     console.log("check pixel diff "+diff);
+    // }
     if(diff<20){
         return true;
     }
@@ -406,9 +423,9 @@ function saveFriendServantImage(cnt){
     var screenShot = getScreenshotResize();
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,51,230,155,96);
+        crop = cropImage(screenShot,friendServantPosition[0][0],friendServantPosition[0][1],friendServantPosition[0][2],friendServantPosition[0][3]);
     }else{
-        crop = cropImage(screenShot,51,430,155,96);
+        crop = cropImage(screenShot,friendServantPosition[1][0],friendServantPosition[1][1],friendServantPosition[1][2],friendServantPosition[1][3]);
     }
     var currentdate = new Date();
     var time = currentdate.getTime();
@@ -425,9 +442,9 @@ function saveFriendItemImage(cnt){
     var screenShot = getScreenshotResize();
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,51,328,155,30);
+        crop = cropImage(screenShot,friendItemPosition[0][0],friendItemPosition[0][1],friendItemPosition[0][2],friendItemPosition[0][3]);
     }else{
-        crop = cropImage(screenShot,51,528,155,30);
+        crop = cropImage(screenShot,friendItemPosition[1][0],friendItemPosition[1][1],friendItemPosition[1][2],friendItemPosition[1][3]);
     }
     var currentdate = new Date();
     var time = currentdate.getTime();
