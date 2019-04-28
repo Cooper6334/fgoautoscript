@@ -1,10 +1,11 @@
 
 var iconName = ["crop_1140_650_100_50","crop_530_30_200_60","friendPage","crop_560_100_160_60","teamPage","crop_400_50_400_50",
 "crop_1168_175_60_60","crop_1168_282_60_60","crop_1220_0_60_60","crop_1100_630_70_50","crop_60_150_240_50",
-"crop_560_70_150_40","crop_570_170_140_30","crop_1080_130_40_40","addFriend"];
+"crop_560_70_150_40","crop_570_170_140_30","crop_1080_130_40_40","addFriend","ultFailed","stageFailed"];
 var iconPosition = [[1140,650,100,50],[530,30,200,60],[740,100,150,50],[560,100,160,60],[1135,650,115,50],[400,50,400,50],
 [1168,175,60,60],[1168,282,60,60],[1220,0,60,60],[1100,630,70,50],[60,150,240,50],
-[560,70,150,40],[570,170,140,30],[1080,130,40,40],[60,70,100,55]];
+[560,70,150,40],[570,170,140,30],[1080,130,40,40],[60,70,100,55],[600,425,82,40],
+[500,100,275,50]];
 //select stage
 function isMainPage(){
 	return checkIconInScreen(0);
@@ -68,11 +69,11 @@ function isBattleSkillTargetDialog(){
 }
 
 function isBattleUltFailedDialog(){
-	return false;
+	return checkIconInScreen(15);
 }
 
 function isBattleStageFailedDialog(){
-	return false;
+	return checkIconInScreen(16);
 }
 
 //finish
