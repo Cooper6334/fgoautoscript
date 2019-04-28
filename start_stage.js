@@ -73,6 +73,8 @@ function selectStage(useApple){
             }
             break;
         }
+        while(!isSelectFriendPage()){
+        }
     }
 }
 
@@ -185,6 +187,8 @@ function selectFriend(filter,servant,item,star,isFriend){
                     }
                     if(itemImage!=undefined){
                         releaseImage(itemImage);
+                    }
+                    while(!isSelectTeamPage()){
                     }
                     return;
                 }
@@ -318,11 +322,12 @@ function startQuest(useItem){
         tapScale(650,y);
         sleep(1000);
         tapScale(827,555);
-        sleep(5000);
+        sleep(3000);
         if(isUseItemDialog()){
             isScriptRunning = false;
             console.log("道具不足");
             sendUrgentMessage(runningScriptName,"道具不足");
+            return;
         }
     }
 }

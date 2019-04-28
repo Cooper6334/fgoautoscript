@@ -144,6 +144,9 @@ function checkIconListInScreen(iconList,allPass){
 }
 
 function checkIconInScreen(iconId){
+    if(!isScriptRunning){
+        return false;
+    }
     if(iconName[iconId] == ""){
        console.log("checkIconInScreen no icon");
         return false;

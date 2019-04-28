@@ -13,27 +13,17 @@ var enemyPositionX = [580,340,115];
 var enemyPositionY = 42;
 var currentStagePosition = [860,12,25,25];
 //----------------------------------------------Battle main page
-function startAttack(){ 
+
+function useSkill(player,skill,target){
     if(!isScriptRunning){
         return;
     }
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    tapScale(1125,558);
-    sleep(5000);
-}
-
-function useSkill(player,skill,target){
-    if(!waitUntilPlayerCanMove()){
-        return;
-    }
     console.log("useSkill servent "+(player+1)+", skill "+(skill+1)+", target "+(target+1));
     if(target == undefined || target < 0){
         target = 0;
-    }
-    if(!waitUntilPlayerCanMove()){
-        return;
     }
     tapScale(skillPositionX[player*3+skill],skillPositionY);
     sleep(1000);
@@ -77,11 +67,11 @@ function selectSkillTarget(player){
         }
         switch(checkTarget){
             case 0:
-                console.log("Select skill target "+(player+1));
+                console.log("選擇技能目標 "+(player+1));
                 tapScale(skillTargetX[player],skillTargetY);
                 break;
             case 1:
-                console.log("Two servant left, select again");
+                console.log("從者不足三人，再次選擇");
                 var offset = 150;
                 if(player == 2){
                     offset = -150;
@@ -89,7 +79,7 @@ function selectSkillTarget(player){
                 tapScale(skillTargetX[player]+offset,skillTargetY);
                 break;
             case 2:
-                console.log("Only one servant left");
+                console.log("從者僅剩一人，再次選擇");
                 tapScale(skillTargetX[1],skillTargetY);
                 break;
         }
@@ -97,10 +87,13 @@ function selectSkillTarget(player){
 }
 
 function useClothesSkill(skill,target1,target2){
+    if(!isScriptRunning){
+        return;
+    }
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    console.log("useClothesSkill "+(skill+1));
+    console.log("使用禮裝技能 "+(skill+1));
     tapScale(1200,317);
     sleep(1000);
     tapScale(clothSkillX[skill],clothSkillY);
@@ -129,10 +122,13 @@ function useClothesSkill(skill,target1,target2){
 }
 
 function selectEnemy(enemy){
+    if(!isScriptRunning){
+        return;
+    }
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    waitUntilPlayerCanMove();
+    console.log("選擇敵人 "+(enemy+1));
     tapScale(enemyPositionX[enemy],enemyPositionY);
 }
 
@@ -140,58 +136,26 @@ function changePlayer(target1,target2){
     if(!isScriptRunning){
         return;
     }
-    console.log("useClothesSkill "+(target1+1) +","+(target2+1));
-    if(target1 == 0 || target2 == 0){
-        tapScale(275,735,100);
-        sleep(300);
-    }
-    if(target1 == 1 || target2 == 1){
-        tapScale(675,735,100);
-        sleep(300);
-    }
-    if(target1 == 2 || target2 == 2){
-        tapScale(1075,735,100);
-        sleep(300);
-    }
-    if(target1 == 3 || target2 == 3){
-        tapScale(1475,735,100);
-        sleep(300);
-    }
-    if(target1 == 4 || target2 == 4){
-        tapScale(1875,735,100);
-        sleep(300);
-    }
-    if(target1 == 5 || target2 == 5){
-        tapScale(2275,735,100);
-        sleep(300);
-    }
-    tapScale(1300,1260,100);
-}
-
-function getCurrentStage(){
-    var screenshot = getScreenshotResize();
-    var crop = cropImage(screenshot,currentStagePosition[0],currentStagePosition[1],currentStagePosition[2],currentStagePosition[3]);
-    var score = [];
-    for(var i=0;i<3;i++){
-        var imagePath = imagePath+"/stage"+i+".png";
-        var stageImage = openImage(imagePath);
-        score[i] = getIdentityScore(crop,stageImage);
-        releaseImage(stageImage);
-    }
-    releaseImage(crop);
-    releaseImage(screenshot);
-    var result;
-    if(score[0]>=score[1] && score[0]>=score[2]){
-        result = 0;
-    }else if(score[1]>=score[0] && score[1]>score[2]){
-        result = 1;
-    }else{
-        result = 2;
-    }
-    return result;
+    console.log("交換從者 "+(target1+1) +","+(target2+1));
+    tapScale(138 +(200*target1),368);
+    sleep(300);
+    tapScale(138 +(200*target2),368);
+    sleep(300);
+    tapScale(650,630);
 }
 
 //-------------------------------------------------------Battle card apge
+function startAttack(){ 
+    if(!isScriptRunning){
+        return;
+    }
+    if(!waitUntilPlayerCanMove()){
+        return;
+    }
+    tapScale(1125,558);
+    sleep(5000);
+}
+
 function selectCard(card){
     if(!isScriptRunning){
         return;
@@ -221,12 +185,12 @@ function waitUntilPlayerCanMove(){
             return false;
         }
         if(isBattleMainPage()){
-            sleep(1000);
+            sleep(500);
             if(isBattleMainPage()){
                 return true;
             }
         }
-        sleep(1000);
+        sleep(500);
     }
 }
 
@@ -258,20 +222,40 @@ function waitUntilPlayerCanMoveOrFinish(){
     }
 }
 
+function getCurrentStage(){
+    var screenshot = getScreenshotResize();
+    var crop = cropImage(screenshot,currentStagePosition[0],currentStagePosition[1],currentStagePosition[2],currentStagePosition[3]);
+    var score = [];
+    for(var i=0;i<3;i++){
+        var stageImage = openImage(imagePath+"/stage"+i+".png");
+        score[i] = getIdentityScore(crop,stageImage);
+        releaseImage(stageImage);
+    }
+    releaseImage(crop);
+    releaseImage(screenshot);
+    var result;
+    if(score[0]>=score[1] && score[0]>=score[2]){
+        result = 0;
+    }else if(score[1]>=score[0] && score[1]>score[2]){
+        result = 1;
+    }else{
+        result = 2;
+    }
+    return result;
+}
+
 function finishQuest(){
-    while(true){
-        if(!isScriptRunning){
-            return;
-        }
+    while(isScriptRunning){
         if(isMainPage()){
             return;
         }
         if(isAddFriendPage()){
-
+            tapScale(325,600);
         }else{
-            tapScale();
+            tapScale(45,40);
             sleep(500);
-            tapScale();
+            tapScale(1050,668);
+            sleep(1500);
         }
     }
 }
