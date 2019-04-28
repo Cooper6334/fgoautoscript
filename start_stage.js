@@ -10,6 +10,7 @@ function selectStage(useApple){
         return;
     }
     tapScale(800,160);
+    sleep(500);
     var status = -1;
     while(true){
         if(isItemOrServantFullDialog()){
@@ -72,8 +73,15 @@ function selectStage(useApple){
                 }
             }
             break;
+        }        
+        if(useApple >= 0 && useApple < 4){
+            sleep(500);
+            tapScale(850,567);
         }
-        while(!isSelectFriendPage()){
+    }
+    while(isScriptRunning){
+        if(isSelectFriendPage()){
+            break;
         }
     }
 }
@@ -194,7 +202,7 @@ function selectFriend(filter,servant,item,star,isFriend){
                 }
                 if(j < 2){
                     scrollFriendList();
-                    sleep(2000);
+                    sleep(500);
                 }
             }
         }

@@ -158,7 +158,7 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
     <script>
-    var server = "JP"
+    var server = "TW"
     var version = "";
     var commandId = 0;
     var scriptCnt = 0;
@@ -457,10 +457,10 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
                 minimumResultsForSearch: -1,
                 dropdownAutoWidth: true
             });
-            $("#ultColor"+commandId).select2({
-                minimumResultsForSearch: -1,
-                dropdownAutoWidth: true
-            });
+            // $("#ultColor"+commandId).select2({
+            //     minimumResultsForSearch: -1,
+            //     dropdownAutoWidth: true
+            // });
             for(var i =0;i<3;i++){
                 $("#servant"+i+"ult"+commandId).select2({
                     minimumResultsForSearch: -1,
@@ -675,7 +675,8 @@ function getCurrentScript(){
                             }
                         }
 
-                        newScript+=","+$("#ultColor"+itemId).val();
+                        // newScript+=","+$("#ultColor"+itemId).val();
+                        newScript+=",false";
                         newScript+=");";
                     break;
                     default:
@@ -787,10 +788,10 @@ function getAutoItem(id){
         '<option value = "1" selected>基本權重</option>'+
         '<option value = "2">同色優先</option></select><br>'+
 
-        '<label>辨識寶具顏色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>'+
-        '<select id = "ultColor'+id+'">'+
-        '<option value = "0">啟用</option>'+
-        '<option value = "1" selected>關閉</option></select><br>'+
+        // '<label>辨識寶具顏色&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>'+
+        // '<select id = "ultColor'+id+'">'+
+        // '<option value = "0">啟用</option>'+
+        // '<option value = "1" selected>關閉</option></select><br>'+
 
         '<label>弱點&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>'+
         '<select id = "autoFightWeak'+id+'">'+
@@ -1448,15 +1449,15 @@ function resetScript(result){
                     $("#servant"+i+"skill"+j+"target"+commandId).val(scriptValue[5+7*i+1+j*2+1]).trigger('change');
                 }
             }
-            if(scriptValue.length >= 27){
-                $("#ultColor"+commandId).val(scriptValue[26]).trigger('change');
-            }else{
-                $("#ultColor"+commandId).val("1").trigger('change');
-            }
-            $("#ultColor"+commandId).select2({
-                minimumResultsForSearch: -1,
-                dropdownAutoWidth: true
-            });
+            // if(scriptValue.length >= 27){
+            //     $("#ultColor"+commandId).val(scriptValue[26]).trigger('change');
+            // }else{
+            //     $("#ultColor"+commandId).val("1").trigger('change');
+            // }
+            // $("#ultColor"+commandId).select2({
+            //     minimumResultsForSearch: -1,
+            //     dropdownAutoWidth: true
+            // });
         }
     });
     bootbox.alert("讀取成功");

@@ -1,9 +1,6 @@
 //-----------------------------------------------------in quest
-var cardPositionX = [125,400,625,900,1175];
-var cardPositionY = 517;
-var ultPositionX = [400,625,900];
-var ultPositionY = 125;
-var skillPositionX = [50,150,250,375,475,475,700,800,900];
+
+var skillPositionX = [50,150,250,375,475,535,700,800,900];
 var skillPositionY = 567;
 var skillTargetX = [325,625,925];
 var skillTargetY = 425;
@@ -12,8 +9,12 @@ var clothSkillY = 317;
 var enemyPositionX = [580,340,115];
 var enemyPositionY = 42;
 var currentStagePosition = [860,12,25,25];
-//----------------------------------------------Battle main page
 
+var cardPositionX = [125,400,625,900,1175];
+var cardPositionY = 517;
+var ultPositionX = [400,625,900];
+var ultPositionY = 125;
+//----------------------------------------------Battle main page
 function useSkill(player,skill,target){
     if(!isScriptRunning){
         return;
@@ -207,7 +208,7 @@ function waitUntilPlayerCanMoveOrFinish(){
             }
         }
         if(isFinishBondPage()){
-            sleep(1000);
+            sleep(1500);
             if(isFinishBondPage()){
                 return false;
             }
@@ -227,7 +228,7 @@ function getCurrentStage(){
     var crop = cropImage(screenshot,currentStagePosition[0],currentStagePosition[1],currentStagePosition[2],currentStagePosition[3]);
     var score = [];
     for(var i=0;i<3;i++){
-        var stageImage = openImage(imagePath+"/stage"+i+".png");
+        var stageImage = openImage(imagePath+"stage"+i+".png");
         score[i] = getIdentityScore(crop,stageImage);
         releaseImage(stageImage);
     }
@@ -249,14 +250,17 @@ function finishQuest(){
         if(isMainPage()){
             return;
         }
+        tapScale(1050,668);
+        sleep(500);
+        if(isMainPage()){
+            return;
+        }
         if(isAddFriendPage()){
             tapScale(325,600);
-        }else{
+        }else if(isItemPage()){
             tapScale(45,40);
-            sleep(500);
-            tapScale(1050,668);
-            sleep(1500);
         }
+        sleep(1000);
     }
 }
 

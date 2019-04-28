@@ -1,11 +1,12 @@
 
-var iconName = ["crop_1140_650_100_50","crop_530_30_200_60","friendPage","crop_560_100_160_60","teamPage","crop_400_50_400_50",
-"crop_1168_175_60_60","crop_1168_282_60_60","crop_1220_0_60_60","crop_1100_630_70_50","crop_60_150_240_50",
-"crop_560_70_150_40","crop_570_170_140_30","crop_1080_130_40_40","addFriend","ultFailed","stageFailed"];
+var iconName = ["main","apple","friendPage","friendRefresh","teamPage","teamItem",
+"battleMain1","battleMain2","battleMain3","finish1","finish2",
+"battleServant","battleSkill","battleTarget","addFriend","ultFailed",
+"stageFailed","skillFailed","itemDetail"];
 var iconPosition = [[1140,650,100,50],[530,30,200,60],[740,100,150,50],[560,100,160,60],[1135,650,115,50],[400,50,400,50],
-[1168,175,60,60],[1168,282,60,60],[1220,0,60,60],[1100,630,70,50],[60,150,240,50],
+[1168,175,60,60],[1168,282,60,60],[1100,630,70,50],[60,150,240,50],[700,320,280,40],
 [560,70,150,40],[570,170,140,30],[1080,130,40,40],[60,70,100,55],[600,425,82,40],
-[500,100,275,50]];
+[500,100,275,50],[580,535,120,40],[550,110,70,50]];
 //select stage
 function isMainPage(){
 	return checkIconInScreen(0);
@@ -14,7 +15,6 @@ function isMainPage(){
 function isItemOrServantFullDialog(){
 	return false;
 }
-
 
 function isUseAppleDialog(){
 	return checkIconInScreen(1);
@@ -40,15 +40,11 @@ function isUseItemDialog(){
 
 //battle
 function isBattleMainPage(){
-	var r =  checkIconListInScreen([6,7,8,9],true);
-	if(!r){
-		return false;
-	}
-	sleep(500);
-	return checkIconListInScreen([6,7,8,9],true);
+	return checkIconListInScreen([6,7,8],true);
 }
 
 function isBattleCardPage(){
+	// no idea to check
 	return false;
 }
 
@@ -57,7 +53,7 @@ function isBattleServantDialog(){
 }
 
 function isBattleSkillFailedDialog(){
-	return false;
+	return checkIconInScreen(17);
 }
 
 function isBattleSkillDetailDialog(){
@@ -78,20 +74,19 @@ function isBattleStageFailedDialog(){
 
 //finish
 function isFinishBondPage(){
-	var r = checkIconListInScreen([10],false);
-	if(!r){
-		return false;
-	}
-	sleep(500);
-	return checkIconListInScreen([10],false);
+	return checkIconListInScreen([9,10],false);
 }
 
 function isAddFriendPage(){
-	return checkIconListInScreen([14],false);	
+	return checkIconInScreen(14);
+}
+
+function isItemPage(){
+	return checkIconInScreen(18);	
 }
 
 function checkAllPage(){
-	var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond"];
+	var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond","addFriend","item"];
 	var result = [];
 	result[0] = isMainPage();
 	result[1] = isItemOrServantFullDialog();
@@ -109,6 +104,8 @@ function checkAllPage(){
 	result[13] = isBattleUltFailedDialog();
 	result[14] = isBattleStageFailedDialog();
 	result[15] = isFinishBondPage();
+	result[16] = isAddFriendPage();
+	result[17] = isItemPage();
 	var inPage = false;
     for(var i = 0;i<result.length;i++){
     	if(result[i]){
@@ -120,8 +117,6 @@ function checkAllPage(){
     	console.log("not in any page");
     }
 }
-
-
 
 loadApiCnt++;
 console.log("Load check stage api finish");

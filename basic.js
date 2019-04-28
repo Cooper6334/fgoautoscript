@@ -1,6 +1,6 @@
 var loadApiCnt = 0;
-var version = "V2.00";
-var isDebug = true;
+var version = "V2.0Beta";
+var isDebug = false;
 
 var defaultScreenSize = [1280,720];
 var screenScale = [];
@@ -8,13 +8,7 @@ var screenOffset = [];
 var realScreenSize = [];
 var runningScriptName = "";
 
-var path = getStoragePath();
-var packagePath = path+"/scripts/com.cooper.FGO/";
-var imagePath = path;
-var itemPath = path+"/FGOv2/";
-
 function startScript(loopTime,script,scriptName){
-    loadImage();
     initScreenSize();
     isScriptRunning = true;
     runningScriptName = scriptName;
@@ -36,7 +30,6 @@ function startScript(loopTime,script,scriptName){
         }
         runScript(script);
     }
-    releaseAllImage();
     isScriptRunning = false;
     console.log("script finish");
 }
@@ -82,29 +75,18 @@ function initScreenSize(){
     realScreenSize[1] = h;
 }
 
-function initPosition(){
-    if(server == "JP"){
-    }
-    else if(server == "TW"){
-    }
-
-}
-
 function saveScript(scriptName,scriptContent){
-    var path = getStoragePath();
     writeFile(itemPath+"script/"+scriptName+".js",scriptContent);
     console.log("save file "+scriptName+" finish");
     return scriptName;
 }
 
 function deleteScript(scriptName){
-    var path = getStoragePath();
     execute('rm '+itemPath+"script/"+scriptName+".js");
     return scriptName;
 }
 
 function readScript(scriptName){
-    var path = getStoragePath();
     return readFile(itemPath+"script/"+scriptName+".js");
 }
 
@@ -120,7 +102,7 @@ function checkIconListInScreen(iconList,allPass){
             console.log("checkIconInScreen no icon");
             continue;
         }
-        var iconPath = imagePath+"/"+iconName[iconId]+".png";
+        var iconPath = imagePath+iconName[iconId]+".png";
         if(isDebug){
             console.log("checkIconInScreen open icon "+iconPath);
         }
@@ -155,7 +137,7 @@ function checkIconInScreen(iconId){
     if(screenshot == null){
         return false;
     }
-    var iconPath = imagePath+"/"+iconName[iconId]+".png";
+    var iconPath = imagePath+iconName[iconId]+".png";
     if(isDebug){
        console.log("checkIconInScreen open icon "+iconPath);
     }
