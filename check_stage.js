@@ -113,6 +113,10 @@ function isFriendPointFull(){
 	return checkIconListInScreen([24,25],false);
 }
 
+function isPresentBoxFull(){
+	return checkIconInScreen(26);
+}
+
 function checkAllPage(){
 	var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond","addFriend","item"];
 	var result = [];

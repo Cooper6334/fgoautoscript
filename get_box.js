@@ -1,4 +1,13 @@
+var boxResetPosition = [1105,180,95,20];
+var boxFullImage;
+var boxFullPosition = [475,400,325,200];
+var boxNoPointImage;
+var boxNoPointPosition = [250,400,125,100];
+
 function getBox(newBox,fast){
+    boxFullImage = openImage(imagePath+"boxFull.png");
+    boxNoPointImage = openImage(imagePath+"boxNoPoint.png");
+
     var waitTime = 100;
     var checkTime = 50;
     if(fast != 1){
@@ -12,48 +21,50 @@ function getBox(newBox,fast){
         if(newBox){
             resetBox();
         }else{
-            console.log("box already empty, please reset");
+            console.log("此箱已抽完");
             return;
         }
     }  
-    console.log("start getbox");
+    console.log("開始抽箱");
     while(isScriptRunning){
         if(checkIsBoxFinish()){
             break;
         }
         for(var t = 0;t<checkTime;t++){
-            tapScale(800,955,100);
+            tapScale(400,477);
             sleep(waitTime);
         }
     }
-    console.log("finish getbox");
+    releaseImage(boxFullImage);
+    releaseImage(boxNoPointImage);
+    console.log("結束抽箱");
 }
 
 function checkIsBoxFinish(){
-    var screenShot = getScreenshot();
+    var screenshot = getScreenshotResize();
     var r = false;
-    if(checkImage(screenShot,presentBoxFullImgae,950,800,650,400)){
-        console.log("Present box full");
-        sendUrgentMessage(runningScriptName,"Present box full");
-        releaseImage(screenShot);
+    if(checkImage(screenshot,boxFullImage,boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){
+        console.log("禮物箱已滿");
+        sendUrgentMessage(runningScriptName,"禮物箱已滿");
+        releaseImage(screenshot);
         isScriptRunning = false;
         return true;
     }
-    if(checkImage(screenShot,checkBoxPointImage,checkBoxPointPosition[0],checkBoxPointPosition[1],checkBoxPointPosition[2],checkBoxPointPosition[3])){
+    if(checkImage(screenshot,boxNoPointPosition,boxNoPointPosition[0],boxNoPointPosition[1],boxNoPointPosition[2],boxNoPointPosition[3])){
         r = true;
     }
-    releaseImage(screenShot);
+    releaseImage(screenshot);
     return r;
 }
 
 function resetBox(){
-    console.log("reset box");
-    tapScale(checkBoxPosition[0] + checkBoxPosition[2]/2,checkBoxPosition[1] + checkBoxPosition[3]/2,100);
+    console.log("重置箱子");
+    tapScale(boxResetPosition[0] + boxResetPosition[2]/2,boxResetPosition[1] + boxResetPosition[3]/2);
     sleep(1000);
-    tapScale(1700,1135,100);
+    tapScale(850,567);
     waitLoading();
     sleep(1000);
-    tapScale(1250,1135,100);
+    tapScale(625,567);
     sleep(1000);
 }
 

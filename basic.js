@@ -211,17 +211,12 @@ function checkImageAndColor(screenshot,icon,x,y,width,height){
 }
 
 function checkPixel(x,y,r,g,b){
-    var size = getScreenSize();
-    if(size.width < size.height){
+    var screenshot = getScreenshotResize();
+    if(screenshot==null){
         return false;
     }
-    var w = size.width;
-    var h = size.height;
-    x = x * screenScale[0] + screenOffset[0];
-    y = y * screenScale[1] + screenOffset[1];
-    var screenShot = getScreenshot();
-    var color = getImageColor(screenShot,x,y);
-    releaseImage(screenShot);
+    var color = getImageColor(screenshot,x,y);
+    releaseImage(screenshot);
     if(isSameColor(color.r,color.g,color.b,r,g,b)){
         return true;
     }
@@ -314,12 +309,9 @@ function swipeScale(x,y,endX,endY,step){
 }
 
 function waitLoading(){
-    while(true){
-        if(!isScriptRunning){
-            return;
-        }
-        sleep(3000);
-        if(!checkPixel(2400,1342,255,255,255)){
+    while(isScriptRunning){
+        sleep(1500);
+        if(!checkPixel(1200,671,255,255,255)){
             return;
         }
     }
@@ -412,6 +404,9 @@ function saveCropImage2(name,l,t,w,h){
 function saveFriendServantImage(cnt){
     sleep(1000);
     var screenShot = getScreenshotResize();
+    if(screenShot==null){
+        return null;
+    }
     var crop;
     if(cnt==1){
         crop = cropImage(screenShot,friendServantPosition[0][0],friendServantPosition[0][1],friendServantPosition[0][2],friendServantPosition[0][3]);
@@ -431,6 +426,9 @@ function saveFriendServantImage(cnt){
 function saveFriendItemImage(cnt){
     sleep(1000);
     var screenShot = getScreenshotResize();
+    if(screenShot==null){
+        return null;
+    }
     var crop;
     if(cnt==1){
         crop = cropImage(screenShot,friendItemPosition[0][0],friendItemPosition[0][1],friendItemPosition[0][2],friendItemPosition[0][3]);
