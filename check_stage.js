@@ -2,11 +2,13 @@
 var iconName = ["main","apple","friendPage","friendRefresh","teamPage","teamItem",
 "battleMain1","battleMain2","battleMain3","finish1","finish2",
 "battleServant","battleSkill","battleTarget","addFriend","ultFailed",
-"stageFailed","skillFailed","itemDetail"];
+"stageFailed","skillFailed","itemDetail","friendPointMain","friendPointFree",
+"friendPointTen","friendPointNew","friendPointReload"];
 var iconPosition = [[1140,650,100,50],[530,30,200,60],[740,100,150,50],[560,100,160,60],[1135,650,115,50],[400,50,400,50],
 [1168,175,60,60],[1168,282,60,60],[1100,630,70,50],[60,150,240,50],[700,320,280,40],
 [560,70,150,40],[570,170,140,30],[1080,130,40,40],[60,70,100,55],[600,425,82,40],
-[500,100,275,50],[580,535,120,40],[550,110,70,50]];
+[500,100,275,50],[580,535,120,40],[0,0,70,80],[450,375,450,72],[525,525,225,50],
+[750,525,160,50],[1015,650,150,50],[700,650,125,42]];
 //select stage
 function isMainPage(){
 	return checkIconInScreen(0);
@@ -82,7 +84,27 @@ function isAddFriendPage(){
 }
 
 function isItemPage(){
-	return checkIconInScreen(18);	
+	return checkIconInScreen(18);
+}
+
+function isFriendPointMainPage(){
+	return checkIconInScreen(19);
+}
+
+function isFriendPointFree(){
+	return checkIconInScreen(20);
+}
+
+function isFriendPointTen(){
+	return checkIconInScreen(21);
+}
+
+function isFriendPointNew(){
+	return checkIconInScreen(22);
+}
+
+function isFriendPointReload(){
+	return checkIconInScreen(23);
 }
 
 function checkAllPage(){
