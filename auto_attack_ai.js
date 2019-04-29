@@ -4,8 +4,8 @@ var initServant = [];
 var servantInited;
 var servantAliveX = [100,415,735];
 var servantAliveY = 400;
-var servantAliveW = 25;
-var servantAliveH = 12;
+var servantAliveW = 150;
+var servantAliveH = 100;
 
 var servantExistX =[111,428,748];
 var servantExistY = 671;
@@ -211,7 +211,7 @@ function updateServantAlive(screenshot){
     }else{
         var currentServant = getCurrentServant(screenshot);
         for(var i=0;i<3;i++){
-            if(getIdentityScore(initServant[i],currentServant[i])>0.85){
+            if(getIdentityScore(initServant[i],currentServant[i])>0.8){
                 result[i] = true;
             }else{
                 console.log("從者 "+(i+1)+" 退場");
