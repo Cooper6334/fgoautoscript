@@ -135,7 +135,7 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
 }
 
 function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
-    console.log("AutoAttack start new turn");
+    console.log("自動戰鬥 新回合開始");
     var screenshot = getScreenshotResize();
     var servantAlive = updateServantAlive(screenshot);
     var skillUsed = updateSkillUsed(screenshot);

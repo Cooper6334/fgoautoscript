@@ -22,7 +22,7 @@ function useSkill(player,skill,target){
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    console.log("useSkill servent "+(player+1)+", skill "+(skill+1)+", target "+(target+1));
+    console.log("使用技能 從者 "+(player+1)+", 技能 "+(skill+1)+", 目標 "+(target+1));
     if(target == undefined || target < 0){
         target = 0;
     }
@@ -169,7 +169,7 @@ function useUlt(player){
     if(!isScriptRunning){
         return;
     }
-    console.log("use servent "+(player+1)+" ult");
+    console.log("選擇寶具 從者"+(player+1));
     tapScale(ultPositionX[player],ultPositionY);
     sleep(1000);
     if(isBattleUltFailedDialog()){
