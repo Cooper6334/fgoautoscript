@@ -29,45 +29,6 @@ function getBox(newBox,fast){
     console.log("finish getbox");
 }
 
-function getFriendPoint(){
-    while(isScriptRunning){
-        if(!isFriendPointMainPage()){
-            console.log("請移到友抽畫面再執行");
-            isScriptRunning = false;
-            return;
-        }
-        if(isFriendPointTen()){
-            tapScale(800,550);
-        }else if(isFriendPointFree()){
-            tapScale(625,550);
-        }else{
-            console.log("結束友抽");
-            isScriptRunning = false;
-            return;
-        }
-        sleep(1000);
-        if(isItemOrServantFullDialog()){
-            console.log("結束友抽-倉庫已滿");
-            isScriptRunning = false;
-            return;
-        }
-        tapScale(850,567);
-        sleep(1000);
-        while(isScriptRunning){
-            if(isFriendPointReload()){
-                tapScale(750,650);
-            }else if(isFriendPointNew()){
-                tapScale(1090,675);
-            }else if(isItemPage()){
-                tapScale(45,40);
-            }else {
-                tapScale(850,567);
-            }
-            sleep(2000);
-        }
-    }
-}
-
 function checkIsBoxFinish(){
     var screenShot = getScreenshot();
     var r = false;
@@ -94,6 +55,47 @@ function resetBox(){
     sleep(1000);
     tapScale(1250,1135,100);
     sleep(1000);
+}
+
+function getFriendPoint(){
+    while(isScriptRunning){
+        if(!isFriendPointMainPage()){
+            console.log("請移到友抽畫面再執行");
+            isScriptRunning = false;
+            return;
+        }
+        if(isFriendPointTen()){
+            tapScale(800,550);
+        }else if(isFriendPointFree()){
+            tapScale(625,550);
+        }else{
+            console.log("結束友抽");
+            isScriptRunning = false;
+            return;
+        }
+        sleep(1000);
+        if(isFriendPointFull()){
+            console.log("結束友抽-倉庫已滿");
+            isScriptRunning = false;
+            return;
+        }
+        tapScale(850,567);
+        sleep(1000);
+        while(isScriptRunning){
+            sleep(2000);
+            if(isFriendPointReload()){
+                tapScale(750,650);
+                break;
+            }else if(isFriendPointNew()){
+                tapScale(1090,675);
+            }else if(isItemPage()){
+                tapScale(45,40);
+            }else {
+                tapScale(750,650);
+            }
+        }
+        sleep(2000);
+    }
 }
 
 loadApiCnt++;
