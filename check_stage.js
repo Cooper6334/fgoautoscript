@@ -40,7 +40,7 @@ function isUseItemDialog(){
 
 //battle
 function isBattleMainPage(){
-	return checkIconListInScreen([6,7,8],true);
+	return checkIconListInScreen([6,7,8],true,0.8);
 }
 
 function isBattleCardPage(){

@@ -105,7 +105,11 @@ function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1
             break;
         }
         if(!waitUntilPlayerCanMoveOrFinish()){
-            console.log("關卡完成，自動戰鬥結束");
+            if(isScriptRunning){
+                console.log("關卡完成，自動戰鬥結束");
+            }else{
+                console.log("手動停止腳本");
+            }
             break;
         }
         var currentStage = getCurrentStage();

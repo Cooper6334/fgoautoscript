@@ -8,6 +8,9 @@ var screenOffset = [];
 var realScreenSize = [];
 var runningScriptName = "";
 
+var friendServantPosition = [[51,230,155,96],[51,430,155,96]];
+var friendItemPosition =  [[51,328,155,30],[51,528,155,30]];
+
 function startScript(loopTime,script,scriptName){
     initScreenSize();
     isScriptRunning = true;
@@ -91,7 +94,10 @@ function readScript(scriptName){
 }
 
 //-----------------------------------------------------generial
-function checkIconListInScreen(iconList,allPass){
+function checkIconListInScreen(iconList,allPass,threshold){
+    if(threshold == undefined){
+        threshold = 0.85;
+    }
     var screenshot = getScreenshotResize();
     if(screenshot == null){
         return false;
@@ -107,7 +113,7 @@ function checkIconListInScreen(iconList,allPass){
             console.log("checkIconInScreen open icon "+iconPath);
         }
         var iconImage = openImage(iconPath);
-        var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3]);
+        var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3],threshold);
         releaseImage(iconImage);
         if(isDebug){
             console.log("checkIconInScreen result "+result);
@@ -304,7 +310,7 @@ function swipeScale(x,y,endX,endY,step){
     }
     moveTo(endX,endY,4);
     sleep(1500);
-    tapUp(endX, endY)
+    tapUp(endX, endY,40);
 }
 
 function waitLoading(){

@@ -58,7 +58,6 @@ function initHTML(serverString){
         return;
     }
     initScreenSize();
-    initPosition();
 
     var firstTime = execute("ls "+itemPath);
     if(firstTime.length == 0 || firstTime.lastIndexOf("exit", 0) === 0){
