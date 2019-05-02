@@ -250,7 +250,7 @@ function finishQuest(){
         if(isMainPage()){
             return;
         }
-        tapScale(550,30);
+        tapScale(230,30);
         sleep(1500);
         if(isFinishDropDialoge()){
             tapScale(1100,660);
