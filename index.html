@@ -158,7 +158,7 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
     <script>
-    var server = "JP"
+    var server = "TW"
     var version = "";
     var commandId = 0;
     var scriptCnt = 0;
@@ -1479,6 +1479,7 @@ function onEvent(eventType) {
         var currentScript = getCurrentScript();
         var l = server +"_"+version;
         var scriptName = $("#scriptMode").select2('data')[0].text;
+
         JavaScriptInterface.runScriptCallback('start('+loopTime+',\''+currentScript+'\',\''+scriptName+'\');',"scriptFinish");
         JavaScriptInterface.hideMenu();
         JavaScriptInterface.setXY(3000,0);

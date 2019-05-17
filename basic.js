@@ -1,5 +1,5 @@
 var loadApiCnt = 0;
-var version = "V2.02Beta";
+var version = "V2.05";
 var isDebug = false;
 
 var defaultScreenSize = [1280,720];
@@ -317,8 +317,9 @@ function waitLoading(){
     }
 }
 
-function isSameColor(r1,g1,b1,r2,g2,b2){
-    if(b1==undefined){
+function isSameColor(r1,g1,b1,r2,g2,b2,threshold){
+    if(r2==undefined){
+        threshold = b1;
         var c1 = r1;
         var c2 = g1;
         r1=c1.r;
@@ -327,6 +328,9 @@ function isSameColor(r1,g1,b1,r2,g2,b2){
         r2=c2.r;
         g2=c2.g;
         b2=c2.b;
+    }
+    if(threshold==undefined){
+        threshold = 20;
     }
     //console.log(r1+","+g1+","+b1);
     //console.log(r2+","+g2+","+b2);
@@ -337,7 +341,7 @@ function isSameColor(r1,g1,b1,r2,g2,b2){
     // if(isDebug){
     //     console.log("check pixel diff "+diff);
     // }
-    if(diff<20){
+    if(diff<threshold){
         return true;
     }
     return false;
