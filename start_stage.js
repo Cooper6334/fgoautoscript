@@ -119,7 +119,7 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
     if(scrollTimes == undefined){
         scrollTimes = 3;
     }else if(scrollTimes < 0){
-        scrollTimes = 20;
+        scrollTimes = 15;
     }
     console.log("-選擇好友-");
     if(!isSelectFriendPage()){
@@ -205,6 +205,9 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
                             return;
                         }
                     }
+                }
+                if(isSelectFriendEnd()){
+                    break;
                 }
                 if(scrollCnt == scrollTimes){
                     break;
