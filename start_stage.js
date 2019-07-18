@@ -108,7 +108,7 @@ function selectStageAutoRestore(){
 }
 
 //-----------------------------------------------------friend list
-var selectFriendPosition = [90,158,225,292,362,430,497,565,632];
+var selectFriendPosition = [90,158,225,292,362,430,497,565,632,699];
 function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
     if(!isScriptRunning){
         return;
@@ -118,6 +118,8 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
     }
     if(scrollTimes == undefined){
         scrollTimes = 3;
+    }else if(scrollTimes < 0){
+        scrollTimes = 20;
     }
     console.log("-選擇好友-");
     if(!isSelectFriendPage()){
