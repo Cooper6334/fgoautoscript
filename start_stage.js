@@ -330,7 +330,11 @@ function checkFriendIsFriend(screenShot,lineY){
     if(isDebug){
         console.log("checkFriendIsFriend " +lineY);
     }
-    return checkPixel(1148,lineY+122,223,254,174);
+    if(server == "TW"){
+        return checkPixel(1148,lineY+122,223,254,174);
+    }else{
+        return checkPixel(1148,lineY+132,227,255,177);        
+    }
 }
 
 function reloadFriend(){

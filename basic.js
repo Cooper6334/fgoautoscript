@@ -217,6 +217,9 @@ function checkPixel(x,y,r,g,b){
     }
     var color = getImageColor(screenshot,x,y);
     releaseImage(screenshot);
+    if(isDebug){
+        console.log("get color "+x+","+y+":"+color.r+","+color.g+","+color.b);
+    }
     if(isSameColor(color.r,color.g,color.b,r,g,b)){
         return true;
     }
