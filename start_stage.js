@@ -159,7 +159,9 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
                 tapScale(selectFriendPosition[i],125);
                 sleep(1000);
             }
-
+            if(isSelectFriendEmpty()){
+                continue;
+            }
             var scrollCnt = 0;
             while(isScriptRunning){
                 var found = false;
@@ -273,7 +275,7 @@ function checkFriendServant(screenshot,servantImage,lineY){
     if(isDebug){
         console.log("checkFriendServant " +lineY);
     }
-    return checkImage(screenshot,servantImage,friendX,lineY+friendServantYOffset,friendServantSize[0],friendServantSize[1]);
+    return checkImage(screenshot,servantImage,friendX,lineY+friendServantYOffset,friendServantSize[0],friendServantSize[1],0.9);
 }
 
 var friendItemYOffset = 131;
@@ -326,14 +328,7 @@ function checkFriendIsFriend(screenShot,lineY){
     if(isDebug){
         console.log("checkFriendIsFriend " +lineY);
     }
-    return true;
-    /*
-    var iconPath = imagePath+"friendIsFriend.png";
-    var iconImage = openImage(iconPath);
-    var result = checkImage(screenshot,iconImage,friendIsFriendX,lineY+friendIsFriendYOffset,friendIsFriendSize,friendIsFriendSize);
-    releaseImage(iconImage);
-    return result;
-    */
+    return checkPixel(1148,lineY+122,223,254,174);
 }
 
 function reloadFriend(){

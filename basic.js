@@ -183,7 +183,7 @@ function checkImage(screenshot,icon,x,y,width,height,threshold){
     var find = findImage(crop,icon);
     releaseImage(crop);
     if(isDebug){
-        //console.log("checkImage reslut "+find.score +" threshold "+threshold);
+        console.log("checkImage reslut "+find.score +" threshold "+threshold);
     }
     if(find.score > threshold){
         return true;
