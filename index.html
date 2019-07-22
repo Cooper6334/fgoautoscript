@@ -529,7 +529,7 @@ function initFriendButton(scriptValue){
             var path = itemImgPath+$(this).select2('data')[0].text+".png";
             $("#selectFriendItemImg"+currentId).attr("src",path);
         }else{
-            $("#selectFriendItemImg"+currentId).removeAttr('src').replaceWith($("#selectFriendServantImg"+currentId).clone());;
+            $("#selectFriendItemImg"+currentId).removeAttr('src').replaceWith($("#selectFriendItemImg"+currentId).clone());;
         }
     });
     $("#selectFriendItem"+currentId).select2({
