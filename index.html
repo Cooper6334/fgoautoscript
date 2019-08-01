@@ -158,8 +158,8 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
     <script>
-    var server = "JP"
-    // var server = "TW"
+    // var server = "JP"
+    var server = "TW"
     var version = "";
     var commandId = 0;
     var scriptCnt = 0;
@@ -244,6 +244,7 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
                         if(scriptNameOK){
                             JavaScriptInterface.runScriptCallback('saveScript("'+newScriptName+'",\''+currentScript+'\');',"createScriptConfirm");
                         }else{
+                            console.log("Save script file name failed "+newScriptName);
                             bootbox.alert("檔名不合法");
                         }
                     }
@@ -284,6 +285,7 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
                     if(scriptNameOK){
                         JavaScriptInterface.runScriptCallback('saveScript("'+newScriptName+'",\''+'\');',"createScriptConfirm");
                     }else{
+                        console.log("Create script file name failed "+newScriptName);
                         bootbox.alert("檔名不合法");
                     }
                 }
@@ -299,9 +301,25 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
                 title: "腳本名稱",
                 value: oldScriptName+'_copy',
                 callback: function(newScriptName) {
-                    if(newScriptName!=null &&newScriptName.length >0){
+                    var scriptNameOK = true;
+                    if(newScriptName == null ){
+                        return;
+                    }else if(newScriptName.length <= 0 
+                            || newScriptName.indexOf(",")>=0|| newScriptName.indexOf(".")>=0 || newScriptName.indexOf(";")>=0 || newScriptName.indexOf(" ")>=0){
+                        scriptNameOK = false;
+                    }else {
+                        $('#scriptMode option').each(function() {
+                            if($(this).text() == newScriptName){
+                                scriptNameOK = false;
+                            }
+                        });
+                    }
+                    if(scriptNameOK){
                         var currentScript = getCurrentScript();
                         JavaScriptInterface.runScriptCallback('saveScript("'+newScriptName+'",\''+currentScript+'\');','copyScriptConfirm');
+                    }else{
+                        console.log("Copy script file name failed "+newScriptName);
+                        bootbox.alert("檔名不合法");
                     }
                 }
             });
