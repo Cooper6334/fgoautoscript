@@ -269,8 +269,8 @@ function getFriendLine(screenshot){
         var x = i % positionX.length;
         var screenshotColor1 = getImageColor(screenshot,positionX[x],y);
         var screenshotColor2 = getImageColor(screenshot,positionX[x+1],y);
-        var c1 = isSameColor(screenshotColor1.r,screenshotColor1.g,screenshotColor1.b,pixelColor[i][0],pixelColor[i][1],pixelColor[i][2]);
-        var c2 = isSameColor(screenshotColor2.r,screenshotColor2.g,screenshotColor2.b,pixelColor[i+1][0],pixelColor[i+1][1],pixelColor[i+1][2],25);
+        var c1 = isSameColor(screenshotColor1.r,screenshotColor1.g,screenshotColor1.b,pixelColor[i][0],pixelColor[i][1],pixelColor[i][2],30);
+        var c2 = isSameColor(screenshotColor2.r,screenshotColor2.g,screenshotColor2.b,pixelColor[i+1][0],pixelColor[i+1][1],pixelColor[i+1][2],30);
         if(c1||c2){
           // console.log(c1+","+c2+":"+y);
         }
