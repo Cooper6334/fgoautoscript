@@ -34,15 +34,11 @@ function selectStage(useApple){
             break;
         }
     }
-    if(status == 2){
-        return;
-    }
     if(status == 0){
         console.log("倉庫已滿-選擇關卡失敗");
         isScriptRunning = false;
         return;
-    }
-    if(status == 1){
+    }else if(status == 1){
         switch(useApple){
             case -1:
             console.log("AP不足-選擇關卡失敗");
@@ -92,7 +88,8 @@ function selectStage(useApple){
     while(isScriptRunning){
         waitLoading();
         if(isSelectFriendPage()){
-            sleep(500);
+            waitLoading();
+            sleep(2000);
             break;
         }
     }
@@ -261,7 +258,7 @@ function getFriendLine(screenshot){
     // console.log("getFriendLine");
     var lineY = [];
     var lineCnt = 0;
-    for(var y = 0;y<530;y++){
+    for(var y = 170;y<530;y++){
       //console.log("check "+y);
       var isLine = false;
       for(var i=0;i<pixelColor.length;i+=2){
