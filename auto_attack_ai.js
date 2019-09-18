@@ -211,18 +211,23 @@ function updateServantAlive(screenshot){
         for(var i=0;i<3;i++){
             result[i] = true;
         }
-
-        var path = getStoragePath();
-        saveImage(screenshot, path+"/debug_init_screen.png");
-        for(var i=0;i<3;i++){
-            saveImage(initServant[i],path+"/debug_init"+i+".png");
+        if(isDebug){
+            var path = getStoragePath();
+            saveImage(screenshot, path+"/debug_init_screen.png");
+            for(var i=0;i<3;i++){
+                saveImage(initServant[i],path+"/debug_init"+i+".png");
+            }
         }
     }else{
         var currentServant = getCurrentServant(screenshot);
-        saveImage(screenshot, path+"/debug_current_screen.png");
+        if(isDebug){
+            saveImage(screenshot, path+"/debug_current_screen.png");
+        }
         var path = getStoragePath();
         for(var i=0;i<3;i++){
-            saveImage(currentServant[i], path+"/debug_current"+i+".png");
+            if(isDebug){
+                saveImage(currentServant[i], path+"/debug_current"+i+".png");
+            }
             if(getIdentityScore(initServant[i],currentServant[i])>0.8){
                 result[i] = true;
             }else{
