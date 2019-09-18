@@ -31,6 +31,9 @@ function getBox(newBox,fast){
             break;
         }
         for(var t = 0;t<checkTime;t++){
+            if(!isScriptRunning){
+                break;
+            }
             tapScale(400,477);
             sleep(waitTime);
         }
@@ -41,6 +44,7 @@ function getBox(newBox,fast){
 }
 
 function checkIsBoxFinish(){
+    sleep(500);
     var screenshot = getScreenshotResize();
     var r = false;
     if(checkImage(screenshot,boxFullImage,boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){
