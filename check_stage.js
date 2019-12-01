@@ -160,7 +160,7 @@ function isAddFriendPage(){
 	if(server == "TW"){
 		return checkIconInScreen(14);
 	}else{
-		return checkIconListInScreen([14,30],false);
+		return checkIconListInScreen([14,30],false,0.8);
 	}
 }
 
