@@ -51,7 +51,7 @@ function isItemOrServantFullDialog(){
 }
 
 function isUseAppleDialog(){
-	return checkIconInScreen(1);
+	return checkIconInScreen(1,0.75);
 }
 
 //select friend
