@@ -1,0 +1,1 @@
+adb push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
