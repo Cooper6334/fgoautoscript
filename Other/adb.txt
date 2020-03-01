@@ -1,0 +1,2 @@
+adb push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
+adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
