@@ -86,8 +86,9 @@ function initScreenSize(){
         w = ho * 21 / 9;
         blueEdge[0] = (wo - w) / 2;
     }
-    screenScale[0] = w / defaultScreenSize[0];
+    //screenScale[0] = w / defaultScreenSize[0];
     screenScale[1] = h / defaultScreenSize[1];
+    screenScale[0] = screenScale[1];
     realScreenSize[0] = w;
     realScreenSize[1] = h;
 }

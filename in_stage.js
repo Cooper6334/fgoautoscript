@@ -10,7 +10,6 @@ var enemyPositionX = [580,340,115];
 var enemyPositionY = 42;
 var currentStagePosition = [878,12,25,25];
 
-var clothSkillMenuX = 1200;
 var cardPositionX = [125,400,625,900,1175];
 var cardPositionY = 517;
 var ultPositionX = [400,625,900];
@@ -130,7 +129,7 @@ function useClothesSkill(skill,target1,target2){
         return;
     }
     console.log("使用衣服技能 "+(skill+1));
-    tapScale(clothSkillMenuX,317);
+    clickIcon(7);
     sleep(1000);
     tapScale(clothSkillX[skill],clothSkillY);
     sleep(1000);

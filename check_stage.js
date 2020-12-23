@@ -33,16 +33,16 @@ function setMargin(){
 		return;
 	}
 	if(resolution > 2160 / 1080){
-		iconPosition[0][0] = realScreenSize[0] - 224;
-		iconPosition[4][0] = realScreenSize[0] - 203;
-		iconPosition[4][1] = realScreenSize[1] - 100;
-		iconPosition[6][0] = realScreenSize[0] - 177;
-		iconPosition[7][0] = realScreenSize[0] - 177;
-		iconPosition[8][0] = realScreenSize[0] - 250;
-		iconPosition[32][0] = realScreenSize[0] - 130;
-		iconPosition[33][0] = realScreenSize[0] - 130;
-		iconPosition[34][0] = realScreenSize[0] - 130;
-		iconPosition[35][0] = realScreenSize[0] - 130;
+		iconPosition[0][0] = realScreenSize[0]/ screenScale[0] - 224;
+		iconPosition[4][0] = realScreenSize[0]/ screenScale[0] - 203;
+		iconPosition[4][1] = realScreenSize[1]/ screenScale[0] - 100;
+		iconPosition[6][0] = realScreenSize[0]/ screenScale[0] - 177;
+		iconPosition[7][0] = realScreenSize[0]/ screenScale[0] - 177;
+		iconPosition[8][0] = realScreenSize[0]/ screenScale[0] - 250;
+		iconPosition[32][0] = realScreenSize[0]/ screenScale[0] - 130;
+		iconPosition[33][0] = realScreenSize[0]/ screenScale[0] - 130;
+		iconPosition[34][0] = realScreenSize[0]/ screenScale[0] - 130;
+		iconPosition[35][0] = realScreenSize[0]/ screenScale[0] - 130;
 		currentStagePosition[0] = width-437;
 		for(var i = 0; i < 9; i++){
 			skillPositionX[i] += 37;
