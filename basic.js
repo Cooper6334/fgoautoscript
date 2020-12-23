@@ -1,12 +1,13 @@
 var loadApiCnt = 0;
-var version = "V2.35";
+var version = "V2.36";
 var isDebug = false;
 
 var defaultScreenSize = [1280,720];
 var blackEdge = [0,0,0,0];//l 52,t 0,r 2176,b 1035
 var screenScale = [];
-var screenOffset = [];
+var blueEdge = [];
 var realScreenSize = [];
+var resolution = 16/9;
 var runningScriptName = "";
 
 var friendServantPosition = [[51,230,155,96],[51,430,155,96]];
@@ -62,12 +63,14 @@ function initIDE(serverString){
 function initScreenSize(){
     getBlackEdge();
     var size = getScreenSize();
-    screenOffset[0] = 0;
-    screenOffset[1] = 0;
+    blueEdge[0] = 0;
+    blueEdge[1] = 0;
     //var w = size.width;
     //var h = size.height;
     var w = blackEdge[2] - blackEdge[0] + 1;
     var h = blackEdge[3] - blackEdge[1] + 1;
+    resolution = w/h;
+    setMargin();
     if(w < h){
         //swap
         var tmp = h;
@@ -76,12 +79,12 @@ function initScreenSize(){
     }
     var wo = w;
     var ho = h;
-    if(w * 9 < h * 16){
+    if(resolution < 16/9){
         h = wo * 9 / 16;
-        screenOffset[1] = (ho - h) / 2;
-    }else if(w * 9 > h * 16){
-        w = ho * 16 / 9;
-        screenOffset[0] = (wo - w) / 2;
+        blueEdge[1] = (ho - h) / 2;
+    }else if(resolution > 21/9){
+        w = ho * 21 / 9;
+        blueEdge[0] = (wo - w) / 2;
     }
     screenScale[0] = w / defaultScreenSize[0];
     screenScale[1] = h / defaultScreenSize[1];
@@ -174,8 +177,8 @@ function checkIconListInScreen(iconList,allPass,threshold){
             releaseImage(screenshot);
             return false;
         }
-    }
-    releaseImage(screenshot);
+   }
+   releaseImage(screenshot);
     return allPass;
 }
 
@@ -223,7 +226,7 @@ function getScreenshotResize(){
         orientationLog = false;
     }
     var screenshot = getScreenshot();
-    var cutScreenshot = cropImage(screenshot,blackEdge[0] + screenOffset[0],blackEdge[1] + screenOffset[1],realScreenSize[0],realScreenSize[1]);
+    var cutScreenshot = cropImage(screenshot,blackEdge[0] + blueEdge[0],blackEdge[1] + blueEdge[1],realScreenSize[0],realScreenSize[1]);
     var resizeScreenshot = resizeImage(cutScreenshot,defaultScreenSize[0],defaultScreenSize[1]);
     releaseImage(screenshot);
     releaseImage(cutScreenshot);
@@ -307,7 +310,7 @@ function findImageResize(imageBig,imageSmall,threshold){
     var find = findImage(imageBig,resizeSmall);
     releaseImage(resizeSmall);
     if(find.score > threshold){
-        return true;
+        return true; 
     }else{
         return false;
     }
@@ -344,9 +347,13 @@ function tapScale(x,y,wait){
     if(size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + screenOffset[0] + blackEdge[0];
-    y = y * screenScale[1] + screenOffset[1] + blackEdge[1];
+    x = x * screenScale[0] + blueEdge[0] + blackEdge[0];
+    y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
     tap(x,y,wait);
+}
+
+function clickIcon(icon){
+    tapScale(iconPosition[icon][0] + iconPosition[icon][2] / 2,iconPosition[icon][1] + iconPosition[icon][3] / 2,100);
 }
 
 function swipeScale(x,y,endX,endY,step){
@@ -354,10 +361,10 @@ function swipeScale(x,y,endX,endY,step){
     if(!isScriptRunning || size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + screenOffset[0];
-    y = y * screenScale[1] + screenOffset[1];
-    endX = endX * screenScale[0] + screenOffset[0];
-    endY = endY * screenScale[1] + screenOffset[1];
+    x = x * screenScale[0] + blueEdge[0];
+    y = y * screenScale[1] + blueEdge[1];
+    endX = endX * screenScale[0] + blueEdge[0];
+    endY = endY * screenScale[1] + blueEdge[1];
 
 
     xStep = (endX - x) / step;
@@ -553,6 +560,70 @@ function confirmSaveFriendItemImage(imageName,time){
     return imageName;
 }
 
+/*
+function getScreenshotResizeFull(){
+    var size = getScreenSize();
+    if(size.width < size.height){
+        if(!orientationLog){
+            orientationLog = true;
+            console.log("螢幕方向錯誤");
+        }
+        return null;
+    }
+    if(orientationLog){        
+        console.log("螢幕方向回復");
+        orientationLog = false;
+    }
+    var screenshot = getScreenshot();
+    var cutScreenshot = cropImage(screenshot,blackEdge[0],blackEdge[1], blackEdge[2] - blackEdge[0] + 1, blackEdge[3] - blackEdge[1] + 1);
+    var resizeScreenshot = resizeImage(cutScreenshot,size.width / screenScale[1],defaultScreenSize[1]);
+    releaseImage(cutScreenshot);
+    releaseImage(screenshot);
+    return resizeScreenshot;
+}
+//function test
+function checkIconInScreenMargin(iconId,threshold,marginVertical,marginHorizontal){
+    if(!isScriptRunning){
+        return false;
+    }
+    if(iconName[iconId] == ""){
+       console.log("checkIconInScreenMargin no icon");
+        return false;
+    }
+    var screenshot = getScreenshotResizeFull();
+    if(screenshot == null){
+        return false;
+    }
+    if(threshold == undefined){
+        threshold = 0.85;
+    }
+
+    var iconPath = imagePath+iconName[iconId]+".png";
+    if(isDebug){
+       console.log("checkIconInScreenMargin open icon "+iconPath);
+    }
+    var iconImage = openImage(iconPath);
+
+    var w = blackEdge[2] - blackEdge[0] + 1;
+    var h = blackEdge[3] - blackEdge[1] + 1;
+    var x = iconPosition[iconId][0];
+    if(marginVertical != 0){
+        x = marginVertical > 0 ? marginVertical : w/screenScale[1] + marginVertical;
+    }
+    var y = iconPosition[iconId][1];
+    if(marginHorizontal != 0){
+        y = marginHorizontal > 0 ? marginHorizontal : h/screenScale[1] + marginHorizontal;
+    }
+    
+    var result = checkImage(screenshot,iconImage,x,y,iconPosition[iconId][2],iconPosition[iconId][3],threshold);
+    releaseImage(screenshot);
+    releaseImage(iconImage);
+    if(isDebug){
+       console.log("checkIconInScreenMargin result "+result);
+    }
+    return result;
+}
+*/
 
 loadApiCnt++;
 console.log("Load basic api finish");
