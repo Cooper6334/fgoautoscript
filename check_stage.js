@@ -1,24 +1,6 @@
+var icon = [];
 
-var iconName = ["main","apple","friendPage","friendRefresh","teamPage","teamItem",
-"battleMain1","battleMain2","battleMain3","finish1","finish2",
-"battleServant","battleSkill","battleTarget","addFriend","ultFailed",
-"stageFailed","skillFailed","itemDetail","friendPointMain","friendPointFree",
-"friendPointTen","friendPointNew","friendPointReload","friendPointItemFull","friendPointServantFull",
-"selectStageItemFull","selectStageServantFull","finishDrop","finish3","addFriend2",
-"friendRefresh2","friendEnd","friendEnd2","friendEnd3","friendEnd4",
-"friendEmpty","finishNext","friendPointContinue","stageRestart","spaceColor",
-"swim1","emiyaColor","battleServant2","stageRestartEvent"];
-//TODO: update image for friend end
-var	iconPosition = [[1140,650,100,50],[530,45,200,50],[740,100,150,50],[560,100,160,60],[1135,650,115,50],[400,50,400,50],
-		[1168,175,60,60],[1168,282,60,60],[1115,640,70,50],[60,150,240,50],[1000,90,230,120],
-		[560,70,150,40],[570,170,140,30],[1080,130,40,40],[60,70,100,55],[600,425,82,40],
-		[500,100,275,50],[580,535,120,40],[0,0,70,80],[450,375,450,72],[525,525,225,50],
-		[750,525,160,50],[1015,650,150,50],[700,650,125,42],[325,150,600,125],[325,150,600,125],
-		[325,150,600,125],[325,150,600,125],[150,70,170,40],[700,350,280,40],[60,70,100,55],
-		[560,100,160,60],[1220,685,40,30],[1220,685,40,30],[100,600,400,100],[100,600,400,100],
-		[450,420,350,40],[1050,660,120,40],[700,650,125,42],[760,540,160,50],[460,160,360,60],
-		[203,30,100,12],[460,160,360,60],[500,40,140,30],[560,540,160,50]];
-
+/*
 var	margin = [];
 
 if(server == "JP"){
@@ -62,81 +44,157 @@ function setMargin(){
 	}
 }
 
-function saveCropIcon(id){
-    var path = getStoragePath();
-    var x = iconPosition[id][0];
-    var y = iconPosition[id][1];
-    var width = iconPosition[id][2];
-    var height = iconPosition[id][3];
-    var filepath = path+"/cropImage/"+iconName[id]+".png";
+*/
+
+function checkIconListInScreen(iconList,allPass,threshold){
+    if(threshold == undefined){
+        threshold = 0.85;
+    }
     var screenshot = getScreenshotResize();
-    var crop = cropImage(screenshot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenshot);
-    releaseImage(crop);
-    console.log("save crop at "+filepath);
+    if(screenshot == null){
+        return false;
+    }
+    for(var i = 0;i<iconList.length;i++){
+        var iconId = iconList[i];
+        if(iconName[iconId] == undefined){
+            console.log("checkIconInScreen no icon");
+            return false;
+        }
+        var iconPath = imagePath+iconName[iconId]+".png";
+        if(isDebug){
+            console.log("checkIconInScreen open icon "+iconPath);
+        }
+        var iconImage = openImage(iconPath);
+        var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3],threshold);
+        releaseImage(iconImage);
+        if(isDebug){
+            console.log("checkIconInScreen result "+result);
+        }
+        if(result && !allPass){
+            releaseImage(screenshot);
+            return true;
+        }
+        if(!result && allPass){
+            releaseImage(screenshot);
+            return false;
+        }
+   }
+   releaseImage(screenshot);
+   return allPass;
 }
 
-//select stage
+function checkIconInScreen(iconId,threshold){
+    if(!isScriptRunning){
+        return false;
+    }
+    if(iconName[iconId] == undefined){
+       console.log("checkIconInScreen no icon");
+        return false;
+    }
+    var screenshot = getScreenshotResize();
+    if(screenshot == null){
+        return false;
+    }
+    if(threshold == undefined){
+        threshold = 0.85;
+    }
+    var iconPath = imagePath+iconName[iconId]+".png";
+    if(isDebug){
+       console.log("checkIconInScreen open icon "+iconPath);
+    }
+    var iconImage = openImage(iconPath);
+    var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3],threshold);
+    releaseImage(screenshot);
+    releaseImage(iconImage);
+    if(isDebug){
+       console.log("checkIconInScreen result "+result);
+    }
+    return result;
+}
+
+
+//select stage-----------------------------------------------
+icon["main"] =  [1710,924,150,75];
+icon["apple"] =  [795,67,300,75];
+
 function isMainPage(){
-	return checkIconInScreen(0);
+	return checkIconInScreen("main");
 }
 
 function isStageRestart(){
 	//TODO:TW
-	return checkIconInScreen(39);
+	return checkIconInScreen("stageRestart");
 }
-
+/*
 function isStageRestartEvent(){
 	//TODO: need check
 	return checkIconInScreen(44);
 }
+*/
 
 function isItemOrServantFullDialog(){
 	//TODO: need check
 	//TODO:TW
-	return checkIconListInScreen([26,27],false);
+	//return checkIconListInScreen([26,27],false);
+	return false;
 }
 
 function isUseAppleDialog(){
-	return checkIconInScreen(1,0.75);
+	return checkIconInScreen("apple",0.75);
 }
 
-//select friend
+//select friend-----------------------------------------------
+
+icon["friendPage"] =  [1110,150,225,75];
+icon["friendRefresh"] =  [840,150,240,90];
+icon["friendEnd"] = [1852,1027,60,45];
+icon["friendEnd3"] = [150,900,600,150];
+icon["friendEmpty"] = [675,630,525,60];
+
 function isSelectFriendPage(){
 	//Align left
-	return checkIconInScreen(2);
+	return checkIconInScreen("friendPage");
 }
 
-function isSelectFriendRefreshDialog(){
-	return checkIconListInScreen([3,31],false);
+function isSelectFriendRefreshDialog()
+{	//TODO
+	return checkIconListInScreen(["friendRefresh"],false);
 }
 
 function isSelectFriendEnd(){
 	//TODO: need check
-	return checkIconListInScreen([32,33,34,35],false);
+	return checkIconListInScreen(["friendEnd","friendEnd3"],false);
 }
 
 function isSelectFriendEmpty(){
-	//TODO:TW
-	//TODO: need check
-	return checkIconInScreen(36);
+	return checkIconInScreen("friendEmpty");
 }
 
-//select team
+//select team-----------------------------------------------
+icon["teamPage"] =  [1702,975,172,75];
+
 function isSelectTeamPage(){
 	//TODO: need check
-	return checkIconInScreen(4);
+	return checkIconInScreen("teamPage");
 }
 
 function isUseItemDialog(){
 	//TODO: need check
-	return checkIconInScreen(5,0.75);
+	//return checkIconInScreen(5,0.75);
+	return false;
 }
 
-//battle
+//battle-----------------------------------------------
+icon["battleMain1"] =  [1752,262,90,90];
+icon["battleMain2"] =  [1752,423,90,90];
+icon["battleMain3"] =  [1672,960,105,75];
+icon["battleServant1"] =  [375,90,210,45];
+icon["battleServant2"] =  [375,90,210,45];
+icon["battleSkill"] =  [855,255,210,45];
+icon["battleTarget"] =  [1620,195,60,60];
+
 function isBattleMainPage(){
-	if(checkIconListInScreen([6,7,8],true,0.8)){
+	if(checkIconListInScreen(["battleMain1","battleMain2","battleMain3"],true,0.8)){
 		//if(server == "TW"){
 			return true;
 		//}
@@ -163,51 +221,61 @@ function isBattleCardPage(){
 function isBattleServantDialog(){
 	//TODO: need check
 	if(server == "JP"){
-		return checkIconListInScreen([11,43],true);
+		return checkIconListInScreen(["battleServant1","battleServant2"],false);
 	}else{
-		return checkIconInScreen(11);
+		return checkIconInScreen("battleServant1");
 	}
 }
 
 function isBattleSkillFailedDialog(){
 	//TODO: need check
-	return checkIconInScreen(17);
+	//return checkIconInScreen(17);
+	return false;
 }
 
 function isBattleSkillDetailDialog(){
-	return checkIconInScreen(12);
+	return checkIconInScreen("battleSkill");
 }
 
 function isBattleSkillTargetDialog(){
-	return checkIconInScreen(13);
+	return checkIconInScreen("battleTarget");
 }
 
 function isBattleSkillSpaceDialog(){
 	if(server == "TW"){
 		return false;
 	}
-	return checkIconInScreen(40,0.75);
+	//return checkIconInScreen(40,0.75);
+	return false;
 }
 
 function isBattleSkillEmiyaDialog(){
 	if(server == "TW"){
 		return false;
 	}
-	return checkIconInScreen(42,0.75);
+	//return checkIconInScreen(42,0.75);
+	return false;
 }
 
 function isBattleUltFailedDialog(){
 	//TODO: need check
 	//TODO:TW
-	return checkIconInScreen(15);
+	//return checkIconInScreen(15);
+	return false;
 }
+
+
+//finish-----------------------------------------------
+icon["finishNext"] =  [1575,933,180,60];
+icon["stageRestart"] =  [1140,810,240,75];
+icon["stageFailed"] = [750,150,412,75];
+icon["addFriend"] = [1710,135,120,37];
 
 function isBattleStageFailedDialog(){
 	//TODO: need check
-	return checkIconInScreen(16);
+	return checkIconInScreen("stageFailed");
 }
 
-//finish
 function isFinishBondPage(){
 	if(isFinishNext()){
 		sleep(3000);
@@ -215,50 +283,60 @@ function isFinishBondPage(){
 			return true;			
 		}
 	}
-	tapScale(230,5);
+	tapScale(460,10);
 	return false;
+}
+
+function isFinishNext(){
+	return checkIconInScreen("finishNext");
 }
 
 function isFinishDropDialoge(){
 	//TODO: need check
 	//TODO:TW
-	return checkIconInScreen(28);
+	//return checkIconInScreen(28);
+	return false;
 }
 
-function isFinishNext(){
-	return checkIconInScreen(37);
-}
 
 function isAddFriendPage(){
-	return checkIconListInScreen([14,30],false,0.8);
+	return checkIconInScreen("addFriend");
 }
 
 function isItemPage(){
 	//TODO: need check
 	//TODO:TW
-	return checkIconInScreen(18);
+	//return checkIconInScreen(18);
+	return false;
 }
 
+//friendPoint-----------------------------------------------
+icon["friendPointMain"] = [675,562,675,108];
+icon["friendPointFree"] = [787,787,337,75];
+icon["friendPointContinue"] = [1050,975,187,63];
+icon["friendPointTen"] = [1125,787,240,75];
 function isFriendPointMainPage(){
-	return checkIconInScreen(19);
+	return checkIconInScreen("friendPointMain");
 }
 
 function isFriendPointFree(){
-	return checkIconInScreen(20);
+	return checkIconInScreen("friendPointFree");
 }
 
 function isFriendPointTen(){
-	return checkIconInScreen(21);
+	return checkIconInScreen("friendPointTen");
 }
 
+/*
 function isFriendPointReload(){
 	//TODO: need check
-	return checkIconInScreen(23);
+	return checkIconInScreen("friendPointReload");
 }
-
+*/
 function isFriendPointNew(){
 	//TODO: need check
-	return checkIconInScreen(22);
+	//return checkIconInScreen(22);
+	return false;
 }
 
 function isFriendPointFull(){
@@ -267,11 +345,7 @@ function isFriendPointFull(){
 }
 
 function isFriendPointContinue(){
-	//TODO: need check	
-	if(server == "TW"){
-		return false;
-	}
-	return checkIconInScreen(38);	
+	return checkIconInScreen("friendPointContinue");	
 }
 
 function isPresentBoxFull(){
@@ -279,43 +353,8 @@ function isPresentBoxFull(){
 	return checkIconInScreen(26);
 }
 
-function isSwimEvent(){
-	return false;
-	//return checkIconInScreen(41);
-}
-
-function checkAllPage(){
-	var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond","addFriend","item"];
-	var result = [];
-	result[0] = isMainPage();
-	result[1] = isItemOrServantFullDialog();
-	result[2] = isUseAppleDialog();
-	result[3] = isSelectFriendPage();
-	result[4] = isSelectFriendRefreshDialog();
-	result[5] = isSelectTeamPage();
-	result[6] = isUseItemDialog();
-	result[7] = isBattleMainPage();
-	result[8] = isBattleCardPage();
-	result[9] = isBattleServantDialog();
-	result[10] = isBattleSkillFailedDialog();
-	result[11] = isBattleSkillDetailDialog();
-	result[12] = isBattleSkillTargetDialog();
-	result[13] = isBattleUltFailedDialog();
-	result[14] = isBattleStageFailedDialog();
-	result[15] = isFinishBondPage();
-	result[16] = isAddFriendPage();
-	result[17] = isItemPage();
-	var inPage = false;
-    for(var i = 0;i<result.length;i++){
-    	if(result[i]){
-    		inPage = true;
-    		console.log("is in page "+name[i]);
-    	}
-    }
-    if(!inPage){
-    	console.log("not in any page");
-    }
-}
+//getbox-----------------------------------------------
+icon["boxNoPoint"] =  [360,630,195,82];
 
 loadApiCnt++;
 console.log("Load check stage api finish");

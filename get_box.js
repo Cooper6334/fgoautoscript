@@ -8,7 +8,7 @@ function getBox(newBox,fast){
     boxFullImage = openImage(imagePath+"boxFull.png");
     boxNoPointImage = openImage(imagePath+"boxNoPoint.png");
 
-    var waitTime = 100;
+    var waitTime = 200;
     var checkTime = 50;
     if(fast != 1){
         waitTime = 1000;
@@ -27,6 +27,7 @@ function getBox(newBox,fast){
     }  
     console.log("開始抽箱");
     while(isScriptRunning){
+        sleep(1500);
         if(checkIsBoxFinish()){
             break;
         }
@@ -44,7 +45,6 @@ function getBox(newBox,fast){
 }
 
 function checkIsBoxFinish(){
-    sleep(500);
     var screenshot = getScreenshotResize();
     var r = false;
     if(checkImage(screenshot,boxFullImage,boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){

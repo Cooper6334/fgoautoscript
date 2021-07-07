@@ -289,7 +289,7 @@ function finishQuest(){
             sleep(3000);
             clickSwimLoop();
             return;
-        }else if(isStageRestart() || isStageRestartEvent()){
+        }else if(isStageRestart()){
             sleep(1000);
             return;
         }

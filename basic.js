@@ -1,13 +1,6 @@
 var loadApiCnt = 0;
-var version = "V2.36";
-var isDebug = false;
+var version = "V3.0.1";
 
-var defaultScreenSize = [1280,720];
-var blackEdge = [0,0,0,0];//l 52,t 0,r 2176,b 1035
-var screenScale = [];
-var blueEdge = [];
-var realScreenSize = [];
-var resolution = 16/9;
 var runningScriptName = "";
 
 var friendServantPosition = [[51,230,155,96],[51,430,155,96]];
@@ -60,75 +53,6 @@ function initIDE(serverString){
     isScriptRunning = true;
 }
 
-function initScreenSize(){
-    getBlackEdge();
-    var size = getScreenSize();
-    blueEdge[0] = 0;
-    blueEdge[1] = 0;
-    //var w = size.width;
-    //var h = size.height;
-    var w = blackEdge[2] - blackEdge[0] + 1;
-    var h = blackEdge[3] - blackEdge[1] + 1;
-    resolution = w/h;
-    setMargin();
-    if(w < h){
-        //swap
-        var tmp = h;
-        h = w;
-        w = tmp;
-    }
-    var wo = w;
-    var ho = h;
-    if(resolution < 16/9){
-        h = wo * 9 / 16;
-        blueEdge[1] = (ho - h) / 2;
-    }else if(resolution > 21/9){
-        w = ho * 21 / 9;
-        blueEdge[0] = (wo - w) / 2;
-    }
-    //screenScale[0] = w / defaultScreenSize[0];
-    screenScale[1] = h / defaultScreenSize[1];
-    screenScale[0] = screenScale[1];
-    realScreenSize[0] = w;
-    realScreenSize[1] = h;
-}
-
-function getBlackEdge(){
-    var screenshot = getScreenshot();
-    var imageSize = getImageSize(screenshot);
-    var w = imageSize.width;
-    var h = imageSize.height;
-    for(var i = 0;i<w;i++){
-        var color = getImageColor(screenshot,i,h/4);
-        if(color.r != 0 || color.g != 0 || color.b != 0){
-            blackEdge[0] = i;
-            break;
-        }
-    }
-    for(var i = 0;i<h;i++){
-        var color = getImageColor(screenshot,w/4,i);
-        if(color.r != 0 || color.g != 0 || color.b != 0){
-            blackEdge[1] = i;
-            break;
-        }
-    }
-    for(var i =w-1;i>=0;i--){
-        var color = getImageColor(screenshot,i,h/4);
-        if(color.r != 0 || color.g != 0 || color.b != 0){
-            blackEdge[2] = i;
-            break;
-        }
-    }
-    for(var i = h-1;i>=0;i--){
-        var color = getImageColor(screenshot,w/4,i);
-        if(color.r != 0 || color.g != 0 || color.b != 0){
-            blackEdge[3] = i;
-            break;
-        }
-    }
-    console.log("取得黑邊 "+blackEdge);
-    releaseImage(screenshot);
-}
 
 function saveScript(scriptName,scriptContent){
     writeFile(itemPath+"script/"+scriptName+".js",scriptContent);
@@ -146,71 +70,6 @@ function readScript(scriptName){
 }
 
 //-----------------------------------------------------generial
-function checkIconListInScreen(iconList,allPass,threshold){
-    if(threshold == undefined){
-        threshold = 0.85;
-    }
-    var screenshot = getScreenshotResize();
-    if(screenshot == null){
-        return false;
-    }
-    for(var i = 0;i<iconList.length;i++){
-        var iconId = iconList[i];
-        if(iconName[iconId] == ""){
-            console.log("checkIconInScreen no icon");
-            continue;
-        }
-        var iconPath = imagePath+iconName[iconId]+".png";
-        if(isDebug){
-            console.log("checkIconInScreen open icon "+iconPath);
-        }
-        var iconImage = openImage(iconPath);
-        var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3],threshold);
-        releaseImage(iconImage);
-        if(isDebug){
-            console.log("checkIconInScreen result "+result);
-        }
-        if(result && !allPass){
-            releaseImage(screenshot);
-            return true;
-        }
-        if(!result && allPass){
-            releaseImage(screenshot);
-            return false;
-        }
-   }
-   releaseImage(screenshot);
-    return allPass;
-}
-
-function checkIconInScreen(iconId,threshold){
-    if(!isScriptRunning){
-        return false;
-    }
-    if(iconName[iconId] == ""){
-       console.log("checkIconInScreen no icon");
-        return false;
-    }
-    var screenshot = getScreenshotResize();
-    if(screenshot == null){
-        return false;
-    }
-    if(threshold == undefined){
-        threshold = 0.85;
-    }
-    var iconPath = imagePath+iconName[iconId]+".png";
-    if(isDebug){
-       console.log("checkIconInScreen open icon "+iconPath);
-    }
-    var iconImage = openImage(iconPath);
-    var result = checkImage(screenshot,iconImage,iconPosition[iconId][0],iconPosition[iconId][1],iconPosition[iconId][2],iconPosition[iconId][3],threshold);
-    releaseImage(screenshot);
-    releaseImage(iconImage);
-    if(isDebug){
-       console.log("checkIconInScreen result "+result);
-    }
-    return result;
-}
 
 var orientationLog = false;
 function getScreenshotResize(){
@@ -441,62 +300,6 @@ function compareImageColor(image1,offsetx,offsety,image2,w,h,scale){
     return e * 2  < c;
 }
 
-function saveScreenShotImage(){
-    var path = getStoragePath();
-    var currentdate = new Date();
-    var filepath = path+"/screenshot"+currentdate.getTime()+".png";
-    var screenShot = getScreenshot();
-    saveImage(screenShot,filepath);
-    releaseImage(screenShot);
-    console.log("save screenshot at "+filepath);
-}
-
-function saveCropImage(l,t,r,b){
-    var path = getStoragePath();
-    var width = r-l;
-    var height = b-t;
-    var x = l;
-    var y = t;
-    var currentdate = new Date();
-    var filepath = path+"/crop"+"_"+x+"_"+y+"_"+width+"_"+height+".png";
-    var screenShot = getScreenshot();
-    var crop = cropImage(screenShot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenShot);
-    releaseImage(crop);
-    console.log("save crop at "+filepath);
-}
-
-function saveCropImage2(name,l,t,w,h){
-    var path = getStoragePath();
-    var width = w;
-    var height = h;
-    var x = l;
-    var y = t;
-    var filepath = path+"/"+name+".png";
-    var screenShot = getScreenshot();
-    var crop = cropImage(screenShot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenShot);
-    releaseImage(crop);
-    console.log("save crop at "+filepath);
-}
-
-function saveCropImage2Resize(name,l,t,w,h){
-    var path = getStoragePath();
-    var width = w;
-    var height = h;
-    var x = l;
-    var y = t;
-    var filepath = path+"/"+name+".png";
-    var screenShot = getScreenshotResize();
-    var crop = cropImage(screenShot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenShot);
-    releaseImage(crop);
-    console.log("save crop at "+filepath);
-}
-
 function saveFriendServantImage(cnt){
     sleep(1000);
     initScreenSize();
@@ -561,70 +364,6 @@ function confirmSaveFriendItemImage(imageName,time){
     return imageName;
 }
 
-/*
-function getScreenshotResizeFull(){
-    var size = getScreenSize();
-    if(size.width < size.height){
-        if(!orientationLog){
-            orientationLog = true;
-            console.log("螢幕方向錯誤");
-        }
-        return null;
-    }
-    if(orientationLog){        
-        console.log("螢幕方向回復");
-        orientationLog = false;
-    }
-    var screenshot = getScreenshot();
-    var cutScreenshot = cropImage(screenshot,blackEdge[0],blackEdge[1], blackEdge[2] - blackEdge[0] + 1, blackEdge[3] - blackEdge[1] + 1);
-    var resizeScreenshot = resizeImage(cutScreenshot,size.width / screenScale[1],defaultScreenSize[1]);
-    releaseImage(cutScreenshot);
-    releaseImage(screenshot);
-    return resizeScreenshot;
-}
-//function test
-function checkIconInScreenMargin(iconId,threshold,marginVertical,marginHorizontal){
-    if(!isScriptRunning){
-        return false;
-    }
-    if(iconName[iconId] == ""){
-       console.log("checkIconInScreenMargin no icon");
-        return false;
-    }
-    var screenshot = getScreenshotResizeFull();
-    if(screenshot == null){
-        return false;
-    }
-    if(threshold == undefined){
-        threshold = 0.85;
-    }
-
-    var iconPath = imagePath+iconName[iconId]+".png";
-    if(isDebug){
-       console.log("checkIconInScreenMargin open icon "+iconPath);
-    }
-    var iconImage = openImage(iconPath);
-
-    var w = blackEdge[2] - blackEdge[0] + 1;
-    var h = blackEdge[3] - blackEdge[1] + 1;
-    var x = iconPosition[iconId][0];
-    if(marginVertical != 0){
-        x = marginVertical > 0 ? marginVertical : w/screenScale[1] + marginVertical;
-    }
-    var y = iconPosition[iconId][1];
-    if(marginHorizontal != 0){
-        y = marginHorizontal > 0 ? marginHorizontal : h/screenScale[1] + marginHorizontal;
-    }
-    
-    var result = checkImage(screenshot,iconImage,x,y,iconPosition[iconId][2],iconPosition[iconId][3],threshold);
-    releaseImage(screenshot);
-    releaseImage(iconImage);
-    if(isDebug){
-       console.log("checkIconInScreenMargin result "+result);
-    }
-    return result;
-}
-*/
 
 loadApiCnt++;
 console.log("Load basic api finish");
