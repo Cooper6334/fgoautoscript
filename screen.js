@@ -1,4 +1,5 @@
 var defaultScreenSize = [1920,1080];
+//over 21:9 or less then 16:9 will have blue edge
 var blackEdge = [0,0,0,0];//l 52,t 0,r 2176,b 1035
 var screenScale = [];
 var blueEdge = [];
@@ -14,7 +15,6 @@ function initScreenSize(){
     //var h = size.height;
     var w = blackEdge[2] - blackEdge[0] + 1;
     var h = blackEdge[3] - blackEdge[1] + 1;
-    resolution = w/h;
     //setMargin();
     if(w < h){
         //swap
@@ -22,14 +22,20 @@ function initScreenSize(){
         h = w;
         w = tmp;
     }
+    resolution = w/h;
     var wo = w;
     var ho = h;
+    console.log("r1",w,h,resolution );
+    console.log("r2",(2520/1080));
     if(resolution < 16/9){
         h = wo * 9 / 16;
         blueEdge[1] = (ho - h) / 2;
+        resolution = 16 / 9;
     }else if(resolution > 21/9){
+    console.log("set blue");
         w = ho * 21 / 9;
         blueEdge[0] = (wo - w) / 2;
+        resolution = 21 / 9;
     }
     //screenScale[0] = w / defaultScreenSize[0];
     screenScale[1] = h / defaultScreenSize[1];
