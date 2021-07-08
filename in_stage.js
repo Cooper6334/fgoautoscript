@@ -1,5 +1,6 @@
 //-----------------------------------------------------in quest
-var skillPositionX = [75,225,375,562,712,802,1050,1200,1350];
+//var skillPositionX = [75,225,375,562,712,802,1050,1200,1350];
+var skillPositionX = [75,207,339,552,683,816,1028,1160,1292];
 var skillPositionY = 850;
 var skillTargetX = [487,937,1387];
 var skillTargetY = 637;

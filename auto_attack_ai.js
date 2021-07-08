@@ -14,10 +14,7 @@ var servantExistHeight = 12;
 
 //skill
 var skillUsedImage;
-var skillUsedPositionX = [32,126,220,350,443,537,669,763,856];
-if(server=="JP"){
-    skillUsedPositionX = [37,125,213,355,442,531,672,760,848];
-}
+var skillUsedPositionOffsetX = -38;
 var skillUsedPositionY = 600;
 var skillUsedSize = 16;
 
@@ -42,6 +39,7 @@ var offsetDisableY = -45;
 var disableW = 30;
 var disableH = 30;
 
+/*
 //ult
 var ultList = [];
 var ultCheckX = [682,1146,1612];
@@ -49,8 +47,16 @@ var ultCheckY = 285;
 var ultWidth = 280;
 var ultHeight = 300;
 var ultLightnessOffset = 140;
-var allServentDieFlag = false;
 
+var allServentDieFlag = false;
+*/
+function setAutoAttackMargin(){
+    if(resolution > 18/9){
+        skillUsedPositionY = 600 - 24;
+    }
+    //servantAliveX = ;
+    //servantExistX
+}
 
 function autoAttack(until,mainColor,sameColor,weak,die,p0ult,p0s0,p0t0,p0s1,p0t1,p0s2,p0t2,p1ult,p1s0,p1t0,p1s1,p1t1,p1s2,p1t2,p2ult,p2s0,p2t0,p2s1,p2t1,p2s2,p2t2,ultColor){
     var ult = [];
@@ -278,7 +284,7 @@ function updateSkillUsed(screenshot){
             continue;
         }
         for(var offset = -5; offset<=5;offset++){
-            if(checkImage(screenshot,skillUsedImage,skillUsedPositionX[i] + offset,skillUsedPositionY,skillUsedSize,skillUsedSize,0.65)){
+            if(checkImage(screenshot,skillUsedImage,skillPositionX[i] + skillUsedPositionOffsetX + offset,skillUsedPositionY,skillUsedSize,skillUsedSize,0.65)){
                 result[i] = true;
                 break;
             }
@@ -301,7 +307,7 @@ function updateCardList(){
     var screenshot = getScreenshotResize();
     //get card color
     for(var i=0;i<5;i++){
-        var cropCard = cropImage(screenshot,updateCardListX[i],updateCardListY,cardWidth,cardHeight);
+        var cropCard = cropImage(screenshot,updateCardListX[i] + defaultMarginX,updateCardListY,cardWidth,cardHeight);
         for(var k=0;k<3;k++){
             var find = findImage(cropCard,cardImage[k]);
             if(cardImageScore[i] == undefined || find.score > cardImageScore[i]){
@@ -318,12 +324,12 @@ function updateCardList(){
         var cropWeak = [];
         for(var j=0;j<2;j++){
             cropDisable[j] = cropImage(screenshot,
-                (updateCardListX[i] + offsetDisableX[j])- 1,
+                (updateCardListX[i] + defaultMarginX + offsetDisableX[j])- 1,
                 updateCardListY + offsetDisableY,
                 disableW+2,
                 disableH+15);
             cropWeak[j] = cropImage(screenshot,
-                (updateCardListX[i] + updateCardListOffsetWeakX)- 1,
+                (updateCardListX[i] + defaultMarginX + updateCardListOffsetWeakX)- 1,
                 updateCardListY + updateCardListOffsetWeakY[j],
                 weakW+5,
                 weakH+15);

@@ -47,6 +47,7 @@ function initScreenSize(){
         setMarginIcon();
         setFriendMargin();
         setInStageMargin();
+        setAutoAttackMargin();
     }
 }
 
