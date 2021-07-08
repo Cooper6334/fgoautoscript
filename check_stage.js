@@ -5,6 +5,9 @@ function setMarginIcon(){
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
+	icon["friendPage"][0] = 1237;
+	iconMargin["friendPage"] = true;
+
 	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
 	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
 	iconMargin["teamPage"] = true;
@@ -39,12 +42,16 @@ function checkIconListInScreen(iconList,allPass,threshold){
             console.log("checkIconInScreen no icon");
             return false;
         }
+	    var margin = 0;
+	   	if(iconMargin[iconName] != true){
+	   		margin = defaultMarginX;
+   		}
         var iconPath = imagePath+iconName+".png";
         if(isDebug){
             console.log("checkIconInScreen open icon "+iconPath);
         }
         var iconImage = openImage(iconPath);
-        var result = checkImage(screenshot,iconImage,icon[iconName][0],icon[iconName][1],icon[iconName][2],icon[iconName][3],threshold);
+        var result = checkImage(screenshot,iconImage,icon[iconName][0] + margin,icon[iconName][1],icon[iconName][2],icon[iconName][3],threshold);
         releaseImage(iconImage);
         if(isDebug){
             console.log("checkIconInScreen result "+result);
@@ -123,11 +130,10 @@ function isUseAppleDialog(){
 }
 
 //select friend-----------------------------------------------
-
 icon["friendPage"] =  [1110,150,225,75];
 icon["friendRefresh"] = [840,150,240,90];
 icon["friendEnd"] = [1852,1027,60,45];
-icon["friendEnd3"] = [150,900,600,150];
+icon["friendEnd3"] = [1852,1027,60,45];
 icon["friendEmpty"] = [675,630,525,60];
 
 

@@ -43,9 +43,11 @@ function initScreenSize(){
     realScreenSize[1] = h;
 
 
-    if(resolution > 20/9){
+    //TODO:check = 17
+    if(resolution > 17/9){
         defaultMarginX = (realScreenSize[0] - defaultScreenSize[0]) / 2;
         setMarginIcon();
+        setFriendMargin();
     }
 }
 
@@ -85,70 +87,6 @@ function getBlackEdge(){
     console.log("取得黑邊 "+blackEdge);
     releaseImage(screenshot);
 }
-/*
-function getScreenshotResizeFull(){
-    var size = getScreenSize();
-    if(size.width < size.height){
-        if(!orientationLog){
-            orientationLog = true;
-            console.log("螢幕方向錯誤");
-        }
-        return null;
-    }
-    if(orientationLog){        
-        console.log("螢幕方向回復");
-        orientationLog = false;
-    }
-    var screenshot = getScreenshot();
-    var cutScreenshot = cropImage(screenshot,blackEdge[0],blackEdge[1], blackEdge[2] - blackEdge[0] + 1, blackEdge[3] - blackEdge[1] + 1);
-    var resizeScreenshot = resizeImage(cutScreenshot,size.width / screenScale[1],defaultScreenSize[1]);
-    releaseImage(cutScreenshot);
-    releaseImage(screenshot);
-    return resizeScreenshot;
-}
-//function test
-function checkIconInScreenMargin(iconId,threshold,marginVertical,marginHorizontal){
-    if(!isScriptRunning){
-        return false;
-    }
-    if(iconName[iconId] == ""){
-       console.log("checkIconInScreenMargin no icon");
-        return false;
-    }
-    var screenshot = getScreenshotResizeFull();
-    if(screenshot == null){
-        return false;
-    }
-    if(threshold == undefined){
-        threshold = 0.85;
-    }
-
-    var iconPath = imagePath+iconName[iconId]+".png";
-    if(isDebug){
-       console.log("checkIconInScreenMargin open icon "+iconPath);
-    }
-    var iconImage = openImage(iconPath);
-
-    var w = blackEdge[2] - blackEdge[0] + 1;
-    var h = blackEdge[3] - blackEdge[1] + 1;
-    var x = iconPosition[iconId][0];
-    if(marginVertical != 0){
-        x = marginVertical > 0 ? marginVertical : w/screenScale[1] + marginVertical;
-    }
-    var y = iconPosition[iconId][1];
-    if(marginHorizontal != 0){
-        y = marginHorizontal > 0 ? marginHorizontal : h/screenScale[1] + marginHorizontal;
-    }
-    
-    var result = checkImage(screenshot,iconImage,x,y,iconPosition[iconId][2],iconPosition[iconId][3],threshold);
-    releaseImage(screenshot);
-    releaseImage(iconImage);
-    if(isDebug){
-       console.log("checkIconInScreenMargin result "+result);
-    }
-    return result;
-}
-*/
 
 loadApiCnt++;
 console.log("Load screen api finish");

@@ -24,38 +24,6 @@ function saveCropImage(l,t,r,b){
     console.log("save crop at "+filepath);
 }
 
-
-function saveCropIcon2(id){
-    var path = getStoragePath();
-    var x = Math.floor(iconPosition[id][0] * 3 / 2);
-    var y = Math.floor(iconPosition[id][1] * 3 / 2);
-    var width = Math.floor(iconPosition[id][2] * 3 / 2);
-    var height = Math.floor(iconPosition[id][3] * 3 / 2);
-    var filepath = path+"/cropImage/"+iconName[id]+".png";
-    var screenshot = getScreenshot();
-    var crop = cropImage(screenshot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenshot);
-    releaseImage(crop);
-    console.log("adb -s 127.0.0.1:62025 pull "+filepath);
-    console.log('icon["'+iconName[id]+'"] = ['+x+','+y+','+width+','+height+'];');
-}
-
-function saveCropImage2Resize(name,l,t,w,h){
-    var path = getStoragePath();
-    var width = w;
-    var height = h;
-    var x = l;
-    var y = t;
-    var filepath = path+"/"+name+".png";
-    var screenShot = getScreenshotResize();
-    var crop = cropImage(screenShot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenShot);
-    releaseImage(crop);
-    console.log("save crop at "+filepath);
-}
-
 function saveCropIcon(name){
     var path = getStoragePath();
     var x = icon[name][0];

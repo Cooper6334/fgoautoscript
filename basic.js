@@ -219,9 +219,9 @@ function swipeScale(x,y,endX,endY,step){
     if(!isScriptRunning || size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
+    x = x * screenScale[0] + blueEdge[0] + blackEdge[0] + defaultMarginX;
     y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
-    endX = endX * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
+    endX = endX * screenScale[0] + blueEdge[0] + blackEdge[0] + defaultMarginX;
     endY = endY * screenScale[1] + blueEdge[1] + blackEdge[1];
 
 
@@ -297,71 +297,6 @@ function compareImageColor(image1,offsetx,offsety,image2,w,h,scale){
     }
     return e * 2  < c;
 }
-
-function saveFriendServantImage(cnt){
-    sleep(1000);
-    initScreenSize();
-    var screenShot = getScreenshotResize();
-    if(screenShot==null){
-        return null;
-    }
-    var crop;
-    if(cnt==1){
-        crop = cropImage(screenShot,friendServantPosition[0][0],friendServantPosition[0][1],friendServantPosition[0][2],friendServantPosition[0][3]);
-    }else{
-        crop = cropImage(screenShot,friendServantPosition[1][0],friendServantPosition[1][1],friendServantPosition[1][2],friendServantPosition[1][3]);
-    }
-    var currentdate = new Date();
-    var time = currentdate.getTime();
-    var filePath = itemPath+"tmp_servant_"+time+".png";
-    console.log(filePath);
-    saveImage(crop,filePath);
-    releaseImage(crop);
-    releaseImage(screenShot);
-    return time;
-}
-
-function saveFriendItemImage(cnt){
-    sleep(1000);
-    initScreenSize();
-    var screenShot = getScreenshotResize();
-    if(screenShot==null){
-        return null;
-    }
-    var crop;
-    if(cnt==1){
-        crop = cropImage(screenShot,friendItemPosition[0][0],friendItemPosition[0][1],friendItemPosition[0][2],friendItemPosition[0][3]);
-    }else{
-        crop = cropImage(screenShot,friendItemPosition[1][0],friendItemPosition[1][1],friendItemPosition[1][2],friendItemPosition[1][3]);
-    }
-    var currentdate = new Date();
-    var time = currentdate.getTime();
-    var filePath = itemPath+"tmp_item_"+time+".png";
-    console.log(filePath);
-    saveImage(crop,filePath);
-    releaseImage(crop);
-    releaseImage(screenShot);
-    return time;
-}
-
-function confirmSaveFriendServantImage(imageName,time){
-    if(imageName == undefined){
-        execute('rm '+itemPath+"tmp_servant_"+time+".png ");
-    }else{
-        execute('mv '+itemPath+"tmp_servant_"+time+".png " +itemPath+"friend_servant/"+imageName+".png");
-    }
-    return imageName;
-}
-
-function confirmSaveFriendItemImage(imageName,time){
-    if(imageName == undefined){
-        execute('rm '+itemPath+"tmp_item_"+time+".png ");
-    }else{
-        execute('mv '+itemPath+"tmp_item_"+time+".png " +itemPath+"friend_item/"+imageName+".png");
-    }
-    return imageName;
-}
-
 
 loadApiCnt++;
 console.log("Load basic api finish");
