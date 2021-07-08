@@ -31,7 +31,7 @@ function initServer(){
 function loadApi(){
     console.log("start load api");
     loadApiCnt = 0;
-    var apiList = ["basic","screen","start_stage","in_stage","auto_attack_ai","get_box","check_stage"];
+    var apiList = ["basic","screen","start_stage","in_stage","auto_attack_ai","get_box","check_stage","friend"];
     for(var i = 0;i<apiList.length;i++){
         var s = readFile(packagePath+apiList[i]+".js");
         if(s == undefined || s.length == 0){
