@@ -179,7 +179,7 @@ function startQuest(useItem){
         console.log("不在選擇隊伍畫面");
         return;
     }
-    tapScale(1725,1000);
+    clickIcon("teamPage");
     sleep(1500);
     if(isUseItemDialog()){
         lastTimeUseItem = useItem;

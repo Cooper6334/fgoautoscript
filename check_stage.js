@@ -104,7 +104,11 @@ function checkIconInScreen(iconName,threshold){
 }
 
 function clickIcon(iconName){
-    tapScale(icon[iconName][0] + icon[iconName][2] / 2,icon[iconName][1] + icon[iconName][3] / 2,100);
+    var margin = 0;
+   	if(iconMargin[iconName] != true){
+   		margin = defaultMarginX;
+	}
+    tapScale(icon[iconName][0] + icon[iconName][2] / 2 + margin,icon[iconName][1] + icon[iconName][3] / 2,100,0);
 }
 //select stage-----------------------------------------------
 icon["main"] =  [1710,924,150,75];
@@ -119,6 +123,10 @@ function isMainPage(){
 function isStageRestart(){
 	//TODO:TW
 	return checkIconInScreen("stageRestart");
+}
+
+function isStageRestartEvent(){
+	return false;
 }
 
 function isItemOrServantFullDialog(){
