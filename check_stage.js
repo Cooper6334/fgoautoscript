@@ -2,6 +2,9 @@ var icon = [];
 var iconMargin = [];
 
 function setMarginIcon(){
+	if(resolution <= 17 / 9){
+		return
+	}
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
@@ -263,7 +266,7 @@ function isFinishBondPage(){
 			return true;			
 		}
 	}
-	tapScale(460,10);
+	tapScale(460,5);
 	return false;
 }
 

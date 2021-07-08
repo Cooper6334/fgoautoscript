@@ -42,12 +42,11 @@ function initScreenSize(){
     realScreenSize[0] = w;
     realScreenSize[1] = h;
 
-
-    //TODO:check = 17
-    if(resolution > 17/9){
-        defaultMarginX = (realScreenSize[0] - defaultScreenSize[0]) / 2;
+    if(resolution > 16 / 9){
+        defaultMarginX = (realScreenSize[0] / screenScale[0] - defaultScreenSize[0]) / 2;
         setMarginIcon();
         setFriendMargin();
+        setInStageMargin();
     }
 }
 

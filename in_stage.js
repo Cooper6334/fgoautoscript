@@ -3,7 +3,7 @@ var skillPositionX = [75,225,375,562,712,802,1050,1200,1350];
 var skillPositionY = 850;
 var skillTargetX = [487,937,1387];
 var skillTargetY = 637;
-var clothSkillX = [1350,1480,1612];
+var clothSkillOffsetX = 130;
 var clothSkillY = 475;
 var enemyPositionX = [870,510,172];
 var enemyPositionY = 63;
@@ -19,7 +19,33 @@ var spaceUltPositionX = [1350,900,450];
 var spaceUltPositionY = 675;
 var spaceUltColor = 2;
 var colorName = ["紅","藍","綠"];
+
+var useMargin = undefined;
 //----------------------------------------------Battle main page
+function setInStageMargin(){
+    useMargin = 0;
+    var leftMargin = 0;
+    if(resolution > 18/9){
+        leftMargin = 75;
+        skillPositionY = 850 - 24;
+    }else if(resolution > 16/9){
+        leftMargin = defaultMarginX;
+    }
+    skillPositionX[0] = 75 + leftMargin;
+    skillPositionX[1] = 225 + leftMargin;
+    skillPositionX[2] = 375 + leftMargin;
+    skillPositionX[3] = 562 + leftMargin;
+    skillPositionX[4] = 712 + leftMargin;
+    skillPositionX[5] = 802 + leftMargin;
+    skillPositionX[6] = 1050 + leftMargin;
+    skillPositionX[7] = 1200 + leftMargin;
+    skillPositionX[8] = 1350 + leftMargin;
+
+    enemyPositionX[0] = 870 + leftMargin;
+    enemyPositionX[1] = 510 + leftMargin;
+    enemyPositionX[2] = 172 + leftMargin;
+}
+
 function useSkill(player,skill,target){
     if(!isScriptRunning){
         return;
@@ -29,7 +55,7 @@ function useSkill(player,skill,target){
     }
     console.log("使用技能 從者 "+(player+1)+", 技能 "+(skill+1)+", 目標 "+(target+1));
     skillUsedInLoop[player*3+skill] = true;
-    tapScale(skillPositionX[player*3+skill],skillPositionY);
+    tapScale(skillPositionX[player*3+skill],skillPositionY,undefined,useMargin);
     sleep(1000);
     if(!isScriptRunning){
         return;
@@ -130,7 +156,7 @@ function useClothesSkill(skill,target1,target2){
     console.log("使用衣服技能 "+(skill+1));
     clickIcon("battleMain2");
     sleep(1000);
-    tapScale(clothSkillX[skill],clothSkillY);
+    tapScale(icon["battleMain2"][0] - clothSkillOffsetX * (3 - skill),clothSkillY,undefined,0);
     sleep(1000);
     if(isBattleSkillDetailDialog()){
         console.log("使用衣服技能-確認畫面");
@@ -197,7 +223,7 @@ function startAttack(){
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    tapScale(1687,837);
+    tapIcon("battleMain3");
     sleep(5000);
 }
 
