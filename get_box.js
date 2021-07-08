@@ -80,11 +80,11 @@ function getFriendPoint(){
             return;
         }
         if(isFriendPointTen()){
-            tapScale(800,550);
+            tapScale(1200,825);
         }else if(isFriendPointFree()){
-            tapScale(625,550);
+            tapScale(938,825);
         }else if(isFriendPointContinue()){
-            tapScale(750,650);
+            tapScale(1125,875);
         }else{
             console.log("結束友抽");
             isScriptRunning = false;
@@ -96,30 +96,30 @@ function getFriendPoint(){
             isScriptRunning = false;
             return;
         }
-        tapScale(850,567);
+        tapScale(1275,850);
         sleep(1000);
         while(isScriptRunning){
             sleep(2000);
             if(isFriendPointReload()){
-                tapScale(750,650);
+                tapScale(1125,975);
                 break;
             }else if(isFriendPointNew()){
-                tapScale(1090,675);
+                tapScale(1635,1012);
             }else if(isItemPage()){
-                tapScale(45,40);
+                tapScale(67,60);
             }else if(isFriendPointContinue()){
-                tapScale(750,650);
+                tapScale(1125,975);
                 sleep(1000);        
                 if(isFriendPointFull()){
                     console.log("結束友抽-倉庫已滿");
                     isScriptRunning = false;
                     return;
                 }
-                tapScale(850,567);
+                tapScale(1275,850);
                 sleep(1000);
             }
             else {
-                tapScale(750,650);
+                tapScale(1125,975);
             }
         }
         sleep(2000);

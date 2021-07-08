@@ -1,4 +1,4 @@
-var defaultScreenSize = [1280,720];
+var defaultScreenSize = [1920,1080];
 var blackEdge = [0,0,0,0];//l 52,t 0,r 2176,b 1035
 var screenScale = [];
 var blueEdge = [];
@@ -15,7 +15,7 @@ function initScreenSize(){
     var w = blackEdge[2] - blackEdge[0] + 1;
     var h = blackEdge[3] - blackEdge[1] + 1;
     resolution = w/h;
-    setMargin();
+    //setMargin();
     if(w < h){
         //swap
         var tmp = h;

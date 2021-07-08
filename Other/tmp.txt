@@ -1,40 +1,49 @@
 
-var iconName = ["main",
-"apple",
-"friendPage",
-"friendRefresh",
-"teamPage",
-"teamItem",
-"battleMain1","battleMain2","battleMain3",
+var iconName = [
+O"main",
+O"apple",
+O"friendPage",
+O"friendRefresh",
+O"teamPage",
+O"teamItem",
+O"battleMain1","battleMain2","battleMain3",
 "finish1","finish2",
-"battleServant",
-"battleSkill",
-"battleTarget",
+11O"battleServant",
+O"battleSkill",
+O"battleTarget",
 "addFriend",
 "ultFailed",
-"stageFailed",
+16"stageFailed",
 "skillFailed",
 "itemDetail",
+
 "friendPointMain",
 "friendPointFree",
-"friendPointTen",
+21"friendPointTen",
 "friendPointNew",
 "friendPointReload",
 "friendPointItemFull",
 "friendPointServantFull",
-"selectStageItemFull",
+
+26"selectStageItemFull",
 "selectStageServantFull",
+
 "finishDrop",
 "finish3",
+
 "addFriend2",
-"friendRefresh2",
+
+31"friendRefresh2",
+
 "friendEnd","friendEnd2","friendEnd3","friendEnd4",
-"friendEmpty",
+36"friendEmpty",
 "finishNext",
 "friendPointContinue",
+
 "stageRestart",
+
 "spaceColor",
-"swim1",
+41"swim1",
 "emiyaColor",
 "battleServant2",
 "stageRestartEvent"];
@@ -48,3 +57,11 @@ var	iconPosition = [[1140,650,100,50],[530,45,200,50],[740,100,150,50],[560,100,
 		[560,100,160,60],[1220,685,40,30],[1220,685,40,30],[100,600,400,100],[100,600,400,100],
 		[450,420,350,40],[1050,660,120,40],[700,650,125,42],[760,540,160,50],[460,160,360,60],
 		[203,30,100,12],[460,160,360,60],[500,40,140,30],[560,540,160,50]];
+
+
+new icon
+auto play
+	merge cloth skill
+select friend update
+getbox
+test resolution
