@@ -2,9 +2,8 @@ var loadApiCnt = 0;
 var version = "V3.0.1";
 
 var runningScriptName = "";
+var isDebug = false;
 
-var friendServantPosition = [[76,345,232,144],[76,645,232,144]];
-var friendItemPosition =  [[76,492,232,45],[76,792,232,45]];
 var skillUsedInLoop = undefined;
 
 var lastTimeUseItem = -1;
@@ -87,7 +86,7 @@ function getScreenshotResize(){
     }
     var screenshot = getScreenshot();
     var cutScreenshot = cropImage(screenshot,blackEdge[0] + blueEdge[0],blackEdge[1] + blueEdge[1],realScreenSize[0],realScreenSize[1]);
-    var resizeScreenshot = resizeImage(cutScreenshot,defaultScreenSize[0],defaultScreenSize[1]);
+    var resizeScreenshot = resizeImage(cutScreenshot,realScreenSize[0] * screenScale[0],realScreenSize[1] * screenScale[1]);
     releaseImage(screenshot);
     releaseImage(cutScreenshot);
     return resizeScreenshot;
@@ -196,18 +195,21 @@ function getImageLightness(img,sparse){
     return l;
 }
 
-function tapScale(x,y,wait){
+function tapScale(x,y,wait,margin){
     if(!isScriptRunning){
         return;
     }
     if(wait==undefined){
         wait = 100;
     }
+    if(margin == undefined){
+        margin = defaultMarginX;
+    }
     var size = getScreenSize();
     if(size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + blueEdge[0] + blackEdge[0];
+    x = x * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
     y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
     tap(x,y,wait);
 }
@@ -217,10 +219,10 @@ function swipeScale(x,y,endX,endY,step){
     if(!isScriptRunning || size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + blueEdge[0];
-    y = y * screenScale[1] + blueEdge[1];
-    endX = endX * screenScale[0] + blueEdge[0];
-    endY = endY * screenScale[1] + blueEdge[1];
+    x = x * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
+    y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
+    endX = endX * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
+    endY = endY * screenScale[1] + blueEdge[1] + blackEdge[1];
 
 
     xStep = (endX - x) / step;

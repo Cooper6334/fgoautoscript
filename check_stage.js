@@ -1,50 +1,29 @@
 var icon = [];
+var iconMargin = [];
 
-/*
-var	margin = [];
+function setMarginIcon(){
+	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
+	iconMargin["main"] = true;
 
-if(server == "JP"){
-	icon[0]=[1140,616,100,50];
-	icon[5]=[360,640,180,40];
-	icon[11]=[250,40,140,30];
-	icon[37]=[1050,622,120,40];
+	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
+	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
+	iconMargin["teamPage"] = true;
+
+	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 265;
+	iconMargin["battleMain1"] = true;
+
+	icon["battleMain2"][0] = realScreenSize[0] / screenScale[0] - 265;
+	iconMargin["battleMain2"] = true;
+
+	icon["battleMain3"][0] = realScreenSize[0] / screenScale[0] - 375;
+	iconMargin["battleMain3"] = true;
+
+	icon["friendEnd"][0] = realScreenSize[0] / screenScale[0] - 195;
+	iconMargin["friendEnd"] = true;
+
+	icon["friendEnd3"][0] = realScreenSize[0] / screenScale[0] - 195;
+	iconMargin["friendEnd3"] = true;
 }
-
-function setMargin(){
-	if(server != "JP"){
-		return;
-	}
-	if(resolution > 2160 / 1080){
-		icon[0][0] = realScreenSize[0]/ screenScale[0] - 224;
-		icon[4][0] = realScreenSize[0]/ screenScale[0] - 203;
-		icon[4][1] = realScreenSize[1]/ screenScale[0] - 100;
-		icon[6][0] = realScreenSize[0]/ screenScale[0] - 177;
-		icon[7][0] = realScreenSize[0]/ screenScale[0] - 177;
-		icon[8][0] = realScreenSize[0]/ screenScale[0] - 250;
-		icon[32][0] = realScreenSize[0]/ screenScale[0] - 130;
-		icon[33][0] = realScreenSize[0]/ screenScale[0] - 130;
-		icon[34][0] = realScreenSize[0]/ screenScale[0] - 130;
-		icon[35][0] = realScreenSize[0]/ screenScale[0] - 130;
-		currentStagePosition[0] = width-437;
-		for(var i = 0; i < 9; i++){
-			skillPositionX[i] += 37;
-			skillPositionY = 567;
-		}
-	}else if(resolution > 1920 / 1080){
-		margin[0] = [-224,0];
-		margin[4] = [-225,0];
-		margin[6] = [-177,0];
-		margin[7] = [-177,0];
-		margin[8] = [-250,0];
-		margin[32] = [-130,0];
-		margin[33] = [-130,0];
-		margin[34] = [-130,0];
-		margin[35] = [-130,0];
-		currentStagePosition[0] = width-437;
-	}
-}
-
-*/
 
 function checkIconListInScreen(iconList,allPass,threshold){
     if(threshold == undefined){
@@ -98,12 +77,17 @@ function checkIconInScreen(iconName,threshold){
     if(threshold == undefined){
         threshold = 0.85;
     }
+
+    var margin = 0;
+   	if(iconMargin[iconName] != true){
+   		margin = defaultMarginX;
+   	}
     var iconPath = imagePath+iconName+".png";
     if(isDebug){
        console.log("checkIconInScreen open icon "+iconPath);
     }
     var iconImage = openImage(iconPath);
-    var result = checkImage(screenshot,iconImage,icon[iconName][0],icon[iconName][1],icon[iconName][2],icon[iconName][3],threshold);
+    var result = checkImage(screenshot,iconImage,icon[iconName][0] + margin,icon[iconName][1],icon[iconName][2],icon[iconName][3],threshold);
     releaseImage(screenshot);
     releaseImage(iconImage);
     if(isDebug){

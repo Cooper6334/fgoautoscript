@@ -6,6 +6,8 @@ var blueEdge = [];
 var realScreenSize = [];
 var resolution = 16/9;
 
+var defaultMarginX = 0;
+
 function initScreenSize(){
     getBlackEdge();
     var size = getScreenSize();
@@ -25,14 +27,11 @@ function initScreenSize(){
     resolution = w/h;
     var wo = w;
     var ho = h;
-    console.log("r1",w,h,resolution );
-    console.log("r2",(2520/1080));
     if(resolution < 16/9){
         h = wo * 9 / 16;
         blueEdge[1] = (ho - h) / 2;
         resolution = 16 / 9;
     }else if(resolution > 21/9){
-    console.log("set blue");
         w = ho * 21 / 9;
         blueEdge[0] = (wo - w) / 2;
         resolution = 21 / 9;
@@ -42,6 +41,12 @@ function initScreenSize(){
     screenScale[0] = screenScale[1];
     realScreenSize[0] = w;
     realScreenSize[1] = h;
+
+
+    if(resolution > 20/9){
+        defaultMarginX = (realScreenSize[0] - defaultScreenSize[0]) / 2;
+        setMarginIcon();
+    }
 }
 
 function getBlackEdge(){
