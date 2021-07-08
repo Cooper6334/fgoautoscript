@@ -29,8 +29,10 @@ function setInStageMargin(){
     if(resolution > 18/9){
         leftMargin = 75;
         skillPositionY = 850 - 24;
+        currentStagePosition[0] = realScreenSize[0] / screenScale[0] - 700;
     }else if(resolution > 16/9){
         leftMargin = defaultMarginX;
+        currentStagePosition[0] = 1317 + defaultMarginX;
     }
     skillPositionX[0] = 75 + leftMargin;
     skillPositionX[1] = 225 + leftMargin;
@@ -45,6 +47,7 @@ function setInStageMargin(){
     enemyPositionX[0] = 870 + leftMargin;
     enemyPositionX[1] = 510 + leftMargin;
     enemyPositionX[2] = 172 + leftMargin;
+
 }
 
 function useSkill(player,skill,target){
@@ -224,7 +227,7 @@ function startAttack(){
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    tapIcon("battleMain3");
+    clickIcon("battleMain3");
     sleep(5000);
 }
 
@@ -288,7 +291,7 @@ function waitUntilPlayerCanMoveOrFinish(){
 }
 
 function getCurrentStage(){
-    var screenshot = getScreenshotResizeFull();
+    var screenshot = getScreenshotResize();
     var crop = cropImage(screenshot,currentStagePosition[0],currentStagePosition[1],currentStagePosition[2],currentStagePosition[3]);
     var score = [];
     for(var i=0;i<3;i++){
@@ -313,31 +316,28 @@ function finishQuest(){
     while(isScriptRunning){
         if(isMainPage()){
             sleep(3000);
-            clickSwimLoop();
             return;
         }else if(isStageRestart()){
             sleep(1000);
             return;
         }
-        tapScale(345,45);
+        tapScale(460,5);
         sleep(1500);
         if(isFinishDropDialoge() || isFinishNext()){
             tapScale(1650,990);
             sleep(1500);           
-        } else if(isAddFriendPage()){
+        }else if(isAddFriendPage()){
             tapScale(487,900);
             sleep(1500);
-        } else if(isItemPage()){
+        }else if(isItemPage()){
             sleep(1000);
             if(isMainPage()){
-                clickSwimLoop();
                 return;
             }
             sleep(2000);
             if(isItemPage()){
                 sleep(1000);
                 if(isMainPage()){
-                    clickSwimLoop();
                     sleep(3000);
                     return;
                 }

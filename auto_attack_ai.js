@@ -2,21 +2,21 @@
 var servantExistImage;
 var initServant = [];
 var servantInited;
-var servantAliveX = [100,415,735];
-var servantAliveY = 400;
-var servantAliveW = 150;
-var servantAliveH = 100;
+var servantAliveX = [150,622,1102];
+var servantAliveY = 600;
+var servantAliveW = 300;
+var servantAliveH = 150;
 
-var servantExistX =[111,428,748];
+var servantExistX =[166,642,1122];
 var servantExistY = 671;
-var servantExistWidth = 25;
-var servantExistHeight = 12;
+var servantExistWidth = 37;
+var servantExistHeight = 16;
 
 //skill
 var skillUsedImage;
-var skillUsedPositionOffsetX = -38;
-var skillUsedPositionY = 600;
-var skillUsedSize = 16;
+var skillUsedPositionOffsetX = -19;
+var skillUsedPositionY = 900;
+var skillUsedSize = 24;
 
 //card
 var cardImage = [];
@@ -24,20 +24,20 @@ var cardImage = [];
 var servantAliveMessage;
 var cardList = [];
 var cardStatus = []; // -1:null 0:disable 1:weak 2:resist
-var cardWidth = 150;
-var cardHeight = 65;
+var cardWidth = 225;
+var cardHeight = 97;
 
-var updateCardListX = [63,319,574,832,1092];
-var updateCardListY = 535;
-var updateCardListOffsetWeakX = 115;
-var updateCardListOffsetWeakY = [-155,-170];
-var weakW = 50;
-var weakH = 15;
+var updateCardListX = [94,478,861,1248,1638];
+var updateCardListY = 802;
+var updateCardListOffsetWeakX = 172;
+var updateCardListOffsetWeakY = [-232,-255];
+var weakW = 75;
+var weakH = 22;
 
-var offsetDisableX = [55,130];
-var offsetDisableY = -45;
-var disableW = 30;
-var disableH = 30;
+var offsetDisableX = [82,195];
+var offsetDisableY = -67;
+var disableW = 45;
+var disableH = 45;
 
 /*
 //ult
@@ -54,7 +54,9 @@ function setAutoAttackMargin(){
     if(resolution > 18/9){
         skillUsedPositionY = 600 - 24;
     }
+    //skillUsedPositionOffsetX
     //servantAliveX = ;
+    //servantAliveY
     //servantExistX
 }
 
