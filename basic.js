@@ -3,8 +3,8 @@ var version = "V3.0.1";
 
 var runningScriptName = "";
 
-var friendServantPosition = [[51,230,155,96],[51,430,155,96]];
-var friendItemPosition =  [[51,328,155,30],[51,528,155,30]];
+var friendServantPosition = [[76,345,232,144],[76,645,232,144]];
+var friendItemPosition =  [[76,492,232,45],[76,792,232,45]];
 var skillUsedInLoop = undefined;
 
 var lastTimeUseItem = -1;
@@ -210,10 +210,6 @@ function tapScale(x,y,wait){
     x = x * screenScale[0] + blueEdge[0] + blackEdge[0];
     y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
     tap(x,y,wait);
-}
-
-function clickIcon(icon){
-    tapScale(iconPosition[icon][0] + iconPosition[icon][2] / 2,iconPosition[icon][1] + iconPosition[icon][3] / 2,100);
 }
 
 function swipeScale(x,y,endX,endY,step){

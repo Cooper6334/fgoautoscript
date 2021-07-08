@@ -1,23 +1,22 @@
 //-----------------------------------------------------in quest
+var skillPositionX = [75,225,375,562,712,802,1050,1200,1350];
+var skillPositionY = 850;
+var skillTargetX = [487,937,1387];
+var skillTargetY = 637;
+var clothSkillX = [1350,1480,1612];
+var clothSkillY = 475;
+var enemyPositionX = [870,510,172];
+var enemyPositionY = 63;
+var currentStagePosition = [1317,18,37,37];
 
-var skillPositionX = [50,150,250,375,475,535,700,800,900];
-var skillPositionY = 567;
-var skillTargetX = [325,625,925];
-var skillTargetY = 425;
-var clothSkillX = [900,987,1075];
-var clothSkillY = 317;
-var enemyPositionX = [580,340,115];
-var enemyPositionY = 42;
-var currentStagePosition = [878,12,25,25];
+var cardPositionX = [187,600,937,1350,1762];
+var cardPositionY = 775;
+var ultPositionX = [600,937,1350];
+var ultPositionY = 187;
 
-var cardPositionX = [125,400,625,900,1175];
-var cardPositionY = 517;
-var ultPositionX = [400,625,900];
-var ultPositionY = 125;
-
-var emiyaUltPositionX = [750,450];
-var spaceUltPositionX = [900,600,300];
-var spaceUltPositionY = 450;
+var emiyaUltPositionX = [1125,675];
+var spaceUltPositionX = [1350,900,450];
+var spaceUltPositionY = 675;
 var spaceUltColor = 2;
 var colorName = ["紅","藍","綠"];
 //----------------------------------------------Battle main page
@@ -38,22 +37,22 @@ function useSkill(player,skill,target){
     if(isBattleServantDialog()){        
         console.log("使用技能-無此技能");
         //skill null
-        tapScale(1050,85);
+        tapScale(1575,127);
     }
     else if(isBattleSkillFailedDialog()){
         //skill can not use
         console.log("使用技能-條件未達成，無法使用");
-        tapScale(640,555);
+        tapScale(960,832);
     }
     else if(isBattleSkillDetailDialog()){
         //need confirm or in cd
         console.log("使用技能-確認畫面");
-        tapScale(850,425);
+        tapScale(1275,637);
         sleep(1000);
         if(isBattleSkillDetailDialog()){
             //in cd
             console.log("使用技能-技能無法使用");
-            tapScale(400,425);
+            tapScale(600,637);
             return;
         }
     }
@@ -129,20 +128,20 @@ function useClothesSkill(skill,target1,target2){
         return;
     }
     console.log("使用衣服技能 "+(skill+1));
-    clickIcon(7);
+    clickIcon("battleMain2");
     sleep(1000);
     tapScale(clothSkillX[skill],clothSkillY);
     sleep(1000);
     if(isBattleSkillDetailDialog()){
         console.log("使用衣服技能-確認畫面");
-        tapScale(850,425);
+        tapScale(1275,637);
         sleep(500);
         if(isBattleSkillDetailDialog()){
             //in cd
             console.log("使用衣服技能-技能無法使用");
-            tapScale(400,425);
+            tapScale(600,637);
             sleep(1000);
-            tapScale(1200,317);
+            tapScale(1800,475);
             return;
         }        
     }
@@ -159,7 +158,7 @@ function useClothesSkill(skill,target1,target2){
     sleep(1000);    
     if(isBattleServantDialog()){
         //skill null
-        tapScale(1050,85);
+        tapScale(1575,127);
         return;
     }
 }
@@ -183,11 +182,11 @@ function changePlayer(target1,target2){
     skillUsedInLoop[target1 * 3] = false;
     skillUsedInLoop[target1 * 3 + 1] = false;
     skillUsedInLoop[target1 * 3 + 2] = false;
-    tapScale(138 +(200*target1),368);
+    tapScale(207 +(300*target1),552);
     sleep(300);
-    tapScale(138 +(200*target2),368);
+    tapScale(207 +(300*target2),552);
     sleep(300);
-    tapScale(650,630);
+    tapScale(975,945);
 }
 
 //-------------------------------------------------------Battle card apge
@@ -198,7 +197,7 @@ function startAttack(){
     if(!waitUntilPlayerCanMove()){
         return;
     }
-    tapScale(1125,558);
+    tapScale(1687,837);
     sleep(5000);
 }
 
@@ -218,7 +217,7 @@ function useUlt(player){
     tapScale(ultPositionX[player],ultPositionY);
     sleep(1000);
     if(isBattleUltFailedDialog()){
-        tapScale(640,440);
+        tapScale(960,660);
         sleep(500);
     }
 }
@@ -293,13 +292,13 @@ function finishQuest(){
             sleep(1000);
             return;
         }
-        tapScale(230,30);
+        tapScale(345,45);
         sleep(1500);
         if(isFinishDropDialoge() || isFinishNext()){
-            tapScale(1100,660);
+            tapScale(1650,990);
             sleep(1500);           
         } else if(isAddFriendPage()){
-            tapScale(325,600);
+            tapScale(487,900);
             sleep(1500);
         } else if(isItemPage()){
             sleep(1000);
@@ -315,42 +314,11 @@ function finishQuest(){
                     sleep(3000);
                     return;
                 }
-                tapScale(45,40);
+                tapScale(67,60);
                 sleep(1500);
             }
         }
     }
-}
-
-function clickSwimLoop(){
-    return;
-    if(server == "JP"){
-        return;
-    }
-    if(!isSwimEvent()){
-        return;
-    }
-    sleep(3000);
-    while(!clickSwim()){
-        sleep(100);
-    }
-    sleep(3000);
-}
-
-function clickSwim(){
-    var result = false;
-    var screenShot = getScreenshotResize();
-    var cropScreen = cropImage(screenShot,500,0,640,720);
-    var icon = openImage("/sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw/swim2.png");
-    var find = findImage(cropScreen ,icon);
-    if(find.score > 0.9){
-    tapScale(500+find.x,find.y,500);
-    result = true;
-    }
-    releaseImage(screenShot);
-    releaseImage(icon);
-    releaseImage(cropScreen);
-    return result;
 }
 
 function setSpaceUltColor(color){    

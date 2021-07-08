@@ -15,14 +15,14 @@ function selectStage(useApple){
 
     if(isStageRestart()){
         isReplay = true;
-        tapScale(800,560);
+        tapScale(1200,840);
         sleep(500);
     }else if(isStageRestartEvent()){
         isReplay = true;
         if(lastTimeUseItem < 0){
-            tapScale(900,560);
+            tapScale(1350,840);
         }else{
-            tapScale(600,560);
+            tapScale(900,840);
             sleep(1500);
             selectItem(lastTimeUseItem);
         }
@@ -33,7 +33,7 @@ function selectStage(useApple){
         isScriptRunning = false;
         return;
     }else{
-        tapScale(800,160);
+        tapScale(1200,240);
         sleep(500);
     }
     var status = -1;
@@ -60,22 +60,22 @@ function selectStage(useApple){
             isScriptRunning = false;
             return;
             case 2://gold
-            tapScale(600,300);
+            tapScale(900,450);
             console.log("使用金蘋果");
             sendNormalMessage(runningScriptName,"使用金蘋果");
             break;
             case 1://silver
-            tapScale(600,450);
+            tapScale(900,675);
             console.log("使用銀蘋果");
             sendNormalMessage(runningScriptName,"使用銀蘋果");
             break;
             case 0://bronze
-            tapScale(600,560);
+            tapScale(900,840);
             console.log("使用銅蘋果");
             sendNormalMessage(runningScriptName,"使用銅蘋果");
             break;
             case 3:
-            tapScale(600,150);
+            tapScale(900,225);
             console.log("使用聖晶石");
             sendNormalMessage(runningScriptName,"使用聖晶石");
             break;
@@ -83,7 +83,7 @@ function selectStage(useApple){
             var counter = 0;
             while(isScriptRunning){
                 sleep(1000);
-                tapScale(640,620);
+                tapScale(960,930);
                 console.log("等待一分鐘回復體力");
                 if(counter == 0){
                     sendNormalMessage(runningScriptName,"等待回復體力");
@@ -97,7 +97,7 @@ function selectStage(useApple){
         }        
         if(useApple >= 0 && useApple < 4){
             sleep(1500);
-            tapScale(850,567);
+            tapScale(1275,850);
         }
     }
     while(isScriptRunning){
@@ -118,7 +118,7 @@ function selectStageAutoRestore(){
         }
     }
     //select stage again
-    tapScale(800,160);
+    tapScale(1200,240);
     while(isScriptRunning){
         sleep(3000);
         if(isUseAppleDialog()){
@@ -130,7 +130,7 @@ function selectStageAutoRestore(){
 }
 
 //-----------------------------------------------------friend list
-var selectFriendPosition = [90,158,225,292,362,430,497,565,632,699];
+var selectFriendPosition = [135,237,337,438,543,645,745,847,948,1048];
 function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
     if(!isScriptRunning){
         return;
@@ -183,7 +183,7 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
                 continue;
             }else{
                 t *= 2;
-                tapScale(selectFriendPosition[i],125);
+                tapScale(selectFriendPosition[i],187);
                 sleep(1000);
             }
             if(isSelectFriendEmpty()){
@@ -197,7 +197,7 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
                 var haveNotFriend = false;
                 if(friendLinePosition.length == 0){
                     console.log("辨識好友座標失敗，使用固定座標");
-                    friendLinePosition = [197,397];
+                    friendLinePosition = [295,595];
                 }
                 if(isDebug){
                     console.log("好友座標 "+friendLinePosition);
@@ -222,7 +222,7 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
                     }
                     if(isSameServant && isSameItem && isFriend){
                         console.log("好友"+(j+1)+"符合條件");
-                        tapScale(450,lineY + 70);
+                        tapScale(675,lineY + 105);
                         found = true;
                         break;
                     }else if(isDebug){
@@ -270,7 +270,7 @@ function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
 }
 
 
-var positionX = [400,800];
+var positionX = [600,1200];
 var pixelColor = [[206,192,128],[243,212,164],[189,189,172],[220,220,220]];
 if(server =="TW"){
     pixelColor = [[206,192,128],[243,212,164]];
@@ -279,7 +279,7 @@ function getFriendLine(screenshot){
     // console.log("getFriendLine");
     var lineY = [];
     var lineCnt = 0;
-    for(var y = 170;y<530;y++){
+    for(var y = 255;y<795;y++){
       //console.log("check "+y);
       var isLine = false;
       for(var i=0;i<pixelColor.length;i+=2){
@@ -302,7 +302,8 @@ function getFriendLine(screenshot){
       }
       if(isLine){
         if(lineCnt > 0){
-            if(y - lineY[lineCnt-1] < 150){
+            if(y - lineY[lineCnt-1] < 225){
+                //same line
                 lineCnt--;
             }
         }
@@ -318,9 +319,9 @@ function getFriendLine(screenshot){
     return lineY;
 }
 
-var friendX = 51;
-var friendServantYOffset = 33;
-var friendServantSize = [155,96];
+var friendX = 76;
+var friendServantYOffset = 49;
+var friendServantSize = [232,144];
 function checkFriendServant(screenshot,servantImage,lineY){
     if(isDebug){
         console.log("checkFriendServant " +lineY);
@@ -328,8 +329,8 @@ function checkFriendServant(screenshot,servantImage,lineY){
     return checkImage(screenshot,servantImage,friendX,lineY+friendServantYOffset,friendServantSize[0],friendServantSize[1],0.9);
 }
 
-var friendItemYOffset = 131;
-var friendItemSize = [155,30];
+var friendItemYOffset = 196;
+var friendItemSize = [232,45];
 function checkFriendItem(screenshot,itemImage,lineY,star){
     if(isDebug){
         console.log("checkFriendItem " +lineY);
@@ -345,9 +346,9 @@ function checkFriendItem(screenshot,itemImage,lineY,star){
     return true;
 }
 
-var friendStarX = 190;
-var friendStarYOffset = 163;
-var friendStarSize = 5;
+var friendStarX = 285;
+var friendStarYOffset = 244;
+var friendStarSize = 7;
 function checkStar(screenshot,lineY){
     if(isDebug){
         console.log("checkStar " +lineY);
@@ -378,19 +379,19 @@ function checkFriendIsFriend(screenshot,lineY){
     if(isDebug){
         console.log("checkFriendIsFriend " +lineY);
     }
-    return checkPixel(1148,lineY+132,227,255,177,screenshot);
+    return checkPixel(1722,lineY+198,227,255,177,screenshot);
 }
 
 function reloadFriend(){
     while(isScriptRunning){
-        tapScale(825,117);
+        tapScale(1237,175);
         sleep(1000);
         if(isSelectFriendRefreshDialog()){
-            tapScale(850,567);
+            tapScale(1275,850);
             sleep(1000);
             waitLoading();
             if(isSelectFriendRefreshDialog()){
-                tapScale(625,567);
+                tapScale(937,850);
                 sleep(2000);
             }else{
                 return;
@@ -400,11 +401,11 @@ function reloadFriend(){
 }
 
 function scrollFriendList(){
-    swipeScale(400,500,400,100,300);
+    swipeScale(600,750,600,150,300);
 }
 
 //-----------------------------------------------------team menu
-var itemPositionY = [200,350,500];
+var itemPositionY = [300,525,750];
 
 function selectTeam(team){
     if(!isScriptRunning){
@@ -427,11 +428,11 @@ function selectTeam(team){
         console.log("不在選擇隊伍畫面");
         return;
     }
-    var x = 525 + 25*team;
-    var x2 = 525 + 25*((team+1)%10);
-    tapScale(x2,50);
+    var x = 787 + 37*team;
+    var x2 = 787 + 37*((team+1)%10);
+    tapScale(x2,75);
     sleep(1000);
-    tapScale(x,50);
+    tapScale(x,75);
     sleep(2000);
 }
 
@@ -453,13 +454,13 @@ function startQuest(useItem){
         console.log("不在選擇隊伍畫面");
         return;
     }
-    tapScale(1150,667);
+    tapScale(1725,1000);
     sleep(1500);
     if(isUseItemDialog()){
         lastTimeUseItem = useItem;
         if(useItem == undefined || useItem == -1){
             console.log("不使用道具");
-            tapScale(820,650);
+            tapScale(1230,975);
             return;
         }
         selectItem(useItem);
@@ -469,11 +470,11 @@ function startQuest(useItem){
 function selectItem(item){
     var y = itemPositionY[item % 3];
     if(item > 2){
-        swipeScale(400,600,400,50,500);
+        swipeScale(600,900,600,75,500);
         sleep(1000);
     }
     console.log("使用道具");
-    tapScale(650,y);
+    tapScale(975,y);
     sleep(1000);
     if(isUseItemDialog()){
         isScriptRunning = false;
@@ -481,7 +482,7 @@ function selectItem(item){
         sendUrgentMessage(runningScriptName,"道具不足");
         return;
     }
-    tapScale(827,555);
+    tapScale(1240,832);
     sleep(3000);
 }
 

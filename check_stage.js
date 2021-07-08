@@ -112,7 +112,9 @@ function checkIconInScreen(iconName,threshold){
     return result;
 }
 
-
+function clickIcon(iconName){
+    tapScale(icon[iconName][0] + icon[iconName][2] / 2,icon[iconName][1] + icon[iconName][3] / 2,100);
+}
 //select stage-----------------------------------------------
 icon["main"] =  [1710,924,150,75];
 icon["apple"] =  [795,67,300,75];
