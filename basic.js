@@ -209,7 +209,7 @@ function tapScale(x,y,wait,margin){
     if(size.width < size.height){
         return;
     }
-    x = x * screenScale[0] + blueEdge[0] + blackEdge[0] + margin;
+    x = (x + margin)* screenScale[0] + blueEdge[0] + blackEdge[0];
     y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
     tap(x,y,wait);
 }

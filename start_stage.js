@@ -153,8 +153,8 @@ function selectTeam(team){
         console.log("不在選擇隊伍畫面");
         return;
     }
-    var x = 787 + 37*team;
-    var x2 = 787 + 37*((team+1)%10);
+    var x = 787 + 37 * team;
+    var x2 = 787 + 37 * ((team+1)%10);
     tapScale(x2,75);
     sleep(1000);
     tapScale(x,75);
