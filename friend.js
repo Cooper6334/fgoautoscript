@@ -23,17 +23,19 @@ var reloadPosition = 1237;
 var barMargin = 0;
 
 function setFriendMargin(){
-    if(resolution <= 17 / 9){
-        return
+    var offset = defaultMarginX;
+    barMargin = offset;
+    if(resolution > 17 / 9){
+        offset = 32;
+        barMargin = 127;
     }
-	barMargin = 127;
-	friendX = 76 + 32;
+	friendX = 76 + offset;
 	friendServantPosition[0][0] = friendX;
 	friendServantPosition[1][0] = friendX;
 	friendItemPosition[0][0] = friendX;
 	friendItemPosition[1][0] = friendX;
-	positionX[0] = 600 + 32;
-	positionX[1] = 1200 + 32;
+	positionX[0] = 600 + offset;
+	positionX[1] = 1200 + offset;
 }
 
 function selectFriend(filter,servant,item,star,checkIsFriend,scrollTimes){
@@ -222,14 +224,14 @@ function checkFriendServant(screenshot,servantImage,lineY){
     if(isDebug){
         console.log("checkFriendServant " +lineY);
     }
-    return checkImage(screenshot,servantImage,defaultMarginX + friendX,lineY+friendServantYOffset,friendServantSize[0],friendServantSize[1],0.9);
+    return checkImage(screenshot,servantImage,friendX,lineY+friendServantYOffset,friendServantSize[0],friendServantSize[1],0.9);
 }
 
 function checkFriendItem(screenshot,itemImage,lineY,star){
     if(isDebug){
         console.log("checkFriendItem " +lineY);
     }
-    if(!checkImage(screenshot,itemImage,defaultMarginX + friendX,lineY+friendItemYOffset,friendItemSize[0],friendItemSize[1],0.9)){
+    if(!checkImage(screenshot,itemImage,friendX,lineY+friendItemYOffset,friendItemSize[0],friendItemSize[1],0.9)){
         return false;
     }
     if(star){
@@ -303,9 +305,9 @@ function saveFriendServantImage(cnt){
     }
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,defaultMarginX + friendServantPosition[0][0],friendServantPosition[0][1],friendServantPosition[0][2],friendServantPosition[0][3]);
+        crop = cropImage(screenShot,friendServantPosition[0][0],friendServantPosition[0][1],friendServantPosition[0][2],friendServantPosition[0][3]);
     }else{
-        crop = cropImage(screenShot,defaultMarginX + friendServantPosition[1][0],friendServantPosition[1][1],friendServantPosition[1][2],friendServantPosition[1][3]);
+        crop = cropImage(screenShot,friendServantPosition[1][0],friendServantPosition[1][1],friendServantPosition[1][2],friendServantPosition[1][3]);
     }
     var currentdate = new Date();
     var time = currentdate.getTime();
@@ -326,9 +328,9 @@ function saveFriendItemImage(cnt){
     }
     var crop;
     if(cnt==1){
-        crop = cropImage(screenShot,defaultMarginX + friendItemPosition[0][0],friendItemPosition[0][1],friendItemPosition[0][2],friendItemPosition[0][3]);
+        crop = cropImage(screenShot,friendItemPosition[0][0],friendItemPosition[0][1],friendItemPosition[0][2],friendItemPosition[0][3]);
     }else{
-        crop = cropImage(screenShot,defaultMarginX + friendItemPosition[1][0],friendItemPosition[1][1],friendItemPosition[1][2],friendItemPosition[1][3]);
+        crop = cropImage(screenShot,friendItemPosition[1][0],friendItemPosition[1][1],friendItemPosition[1][2],friendItemPosition[1][3]);
     }
     var currentdate = new Date();
     var time = currentdate.getTime();

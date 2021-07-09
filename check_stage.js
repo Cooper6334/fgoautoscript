@@ -9,9 +9,6 @@ function setMarginIcon(){
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
-	icon["friendPage"][0] = 1237;
-	iconMargin["friendPage"] = true;
-
 	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
 	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
 	iconMargin["teamPage"] = true;
@@ -30,6 +27,13 @@ function setMarginIcon(){
 
 	icon["friendEnd3"][0] = realScreenSize[0] / screenScale[0] - 195;
 	iconMargin["friendEnd3"] = true;
+
+
+	if(resolution <= 17 / 9){
+		return
+	}
+	icon["friendPage"][0] = 1237;
+	iconMargin["friendPage"] = true;
 }
 
 function checkIconListInScreen(iconList,allPass,threshold){
