@@ -26,10 +26,10 @@ var useMargin = undefined;
 function setInStageMargin(){
     useMargin = 0;
     var leftMargin = 0;
-    if(resolution > 18/9){
+    if(resolution >= 18/9){
         leftMargin = 75;
         skillPositionY = 850 - 24;
-        currentStagePosition[0] = realScreenSize[0] / screenScale[0] - 700;
+        currentStagePosition[0] = realScreenSize[0] / screenScale[0] - 656;
     }else if(resolution > 16/9){
         leftMargin = defaultMarginX;
         currentStagePosition[0] = 1317 + defaultMarginX;
