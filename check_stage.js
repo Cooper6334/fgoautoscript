@@ -9,10 +9,6 @@ function setMarginIcon(){
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
-	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
-	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
-	iconMargin["teamPage"] = true;
-
 	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 265;
 	iconMargin["battleMain1"] = true;
 
@@ -34,6 +30,10 @@ function setMarginIcon(){
 	}
 	icon["friendPage"][0] = 1237;
 	iconMargin["friendPage"] = true;
+
+	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
+	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
+	iconMargin["teamPage"] = true;
 }
 
 function checkIconListInScreen(iconList,allPass,threshold){
