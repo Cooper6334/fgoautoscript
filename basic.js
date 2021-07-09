@@ -86,7 +86,7 @@ function getScreenshotResize(){
     }
     var screenshot = getScreenshot();
     var cutScreenshot = cropImage(screenshot,blackEdge[0] + blueEdge[0],blackEdge[1] + blueEdge[1],realScreenSize[0],realScreenSize[1]);
-    var resizeScreenshot = resizeImage(cutScreenshot,realScreenSize[0] * screenScale[0],realScreenSize[1] * screenScale[1]);
+    var resizeScreenshot = resizeImage(cutScreenshot,realScreenSize[0] / screenScale[0],realScreenSize[1] / screenScale[1]);
     releaseImage(screenshot);
     releaseImage(cutScreenshot);
     return resizeScreenshot;
@@ -245,7 +245,7 @@ function swipeScale(x,y,endX,endY,step){
 function waitLoading(){
     while(isScriptRunning){
         sleep(1500);
-        if(!checkPixel(1200,671,255,255,255)){
+        if(!checkPixel(1800 + defaultMarginX,1006,255,255,255)){
             return;
         }
     }

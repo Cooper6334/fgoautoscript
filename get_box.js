@@ -1,9 +1,3 @@
-var boxResetPosition = [1105,220,95,20];
-var boxFullImage;
-var boxFullPosition = [475,400,325,200];
-var boxNoPointImage;
-var boxNoPointPosition = [240,420,130,55];
-
 function getBox(newBox,fast){
     boxFullImage = openImage(imagePath+"boxFull.png");
     boxNoPointImage = openImage(imagePath+"boxNoPoint.png");
@@ -35,7 +29,7 @@ function getBox(newBox,fast){
             if(!isScriptRunning){
                 break;
             }
-            tapScale(400,477);
+            tapScale(600 + defaultMarginX,715);
             sleep(waitTime);
         }
     }
@@ -47,14 +41,14 @@ function getBox(newBox,fast){
 function checkIsBoxFinish(){
     var screenshot = getScreenshotResize();
     var r = false;
-    if(checkImage(screenshot,boxFullImage,defaultMarginX + boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){
+    if(isGetBoxFull()){
         console.log("禮物箱已滿");
         sendUrgentMessage(runningScriptName,"禮物箱已滿");
         releaseImage(screenshot);
         isScriptRunning = false;
         return true;
     }
-    if(checkImage(screenshot,boxNoPointImage,defaultMarginX + boxNoPointPosition[0],boxNoPointPosition[1],boxNoPointPosition[2],boxNoPointPosition[3])){
+    if(isGetBoxNoPoint()){
         r = true;
     }
     releaseImage(screenshot);
@@ -63,12 +57,12 @@ function checkIsBoxFinish(){
 
 function resetBox(){
     console.log("重置箱子");
-    tapScale(defaultMarginX + boxResetPosition[0] + boxResetPosition[2]/2,boxResetPosition[1] + boxResetPosition[3]/2);
+    clickIcon("boxReset");
     sleep(1000);
-    tapScale(850,567);
+    tapScale(1275 + defaultMarginX,850);
     waitLoading();
     sleep(1000);
-    tapScale(625,567);
+    tapScale(937 + defaultMarginX,850);
     sleep(1000);
 }
 

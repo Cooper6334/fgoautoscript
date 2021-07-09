@@ -356,10 +356,12 @@ ga('set', 'historyImportTask', null); // Disable history checking (requires read
             }
         });
         $("#addGetFriendPoint").click(function(){
+            clearScript();
             commandId++;
             insertNewCommand(getGetFriendPoint(commandId));
         });
         $("#addGetBox").click(function(){
+            clearScript();
             commandId++;
             insertNewCommand(getGetBox(commandId));
             $("#getBoxReset"+commandId).select2({

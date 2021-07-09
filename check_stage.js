@@ -341,7 +341,7 @@ function isFriendPointFull(){
 }
 
 function isFriendPointContinue(){
-	return checkIconInScreen("friendPointContinue");	
+	return checkIconInScreen("friendPointContinue");
 }
 
 function isPresentBoxFull(){
@@ -351,6 +351,16 @@ function isPresentBoxFull(){
 
 //getbox-----------------------------------------------
 icon["boxNoPoint"] =  [360,630,195,82];
+icon["boxFull"] = [712,600,487,300];
+icon["boxReset"] = [1657,330,142,30];
+
+function isGetBoxNoPoint(){
+	return checkIconInScreen("boxNoPoint");
+}
+
+function isGetBoxFull(){
+	return checkIconInScreen("boxFull");
+}
 
 loadApiCnt++;
 console.log("Load check stage api finish");
