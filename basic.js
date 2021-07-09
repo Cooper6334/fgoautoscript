@@ -1,5 +1,5 @@
 var loadApiCnt = 0;
-var version = "V3.0.1";
+var version = "V3.01";
 
 var runningScriptName = "";
 var isDebug = false;
@@ -33,6 +33,9 @@ function startScript(loopTime,script,scriptName){
         spaceUltColor = -1;
         isReplay = false;
         runScript(script);
+        if(!havePlan){
+            break;
+        }
     }
     isScriptRunning = false;
     console.log("script finish");

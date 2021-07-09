@@ -1,3 +1,10 @@
+
+    var path = getStoragePath();
+    var filepath = path+"/crop"+currentdate.getTime()+".png";
+    var srceenshot = getScreenshotResize();
+    saveImage(crop,filepath);
+    console.log("adb -s 127.0.0.1:62027 pull "+filepath);
+
 function saveScreenShotImage(){
     var path = getStoragePath();
     var currentdate = new Date();
@@ -8,10 +15,10 @@ function saveScreenShotImage(){
     console.log("save screenshot at "+filepath);
 }
 
-function saveCropImage(l,t,r,b){
+function saveCropImage(l,t,w,h){
     var path = getStoragePath();
-    var width = r-l;
-    var height = b-t;
+    var width = w;
+    var height = h;
     var x = l;
     var y = t;
     var currentdate = new Date();
@@ -21,7 +28,7 @@ function saveCropImage(l,t,r,b){
     saveImage(crop,filepath);
     releaseImage(screenShot);
     releaseImage(crop);
-    console.log("save crop at "+filepath);
+    console.log("adb -s 127.0.0.1:62025 pull "+filepath);
 }
 
 function saveCropIcon(name){
