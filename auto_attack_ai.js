@@ -8,9 +8,9 @@ var servantAliveW = 300;
 var servantAliveH = 150;
 
 var servantExistX =[166,642,1122];
-var servantExistY = 671;
+var servantExistY = 1010;
 var servantExistWidth = 37;
-var servantExistHeight = 16;
+var servantExistHeight = 18;
 
 //skill
 var skillUsedImage;
