@@ -5,17 +5,14 @@ function setMarginIcon(){
 	if(resolution < 17 / 9){
 		return;
 	}
+	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
+	iconMargin["main"] = true;
+
 	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 220;
 	iconMargin["battleMain1"] = true;
 
 	icon["battleMain2"][0] = realScreenSize[0] / screenScale[0] - 220;
 	iconMargin["battleMain2"] = true;
-
-	if(resolution <= 17 / 9){
-		return
-	}
-	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
-	iconMargin["main"] = true;
 
 	if(resolution <= 18 / 9){
 		return
