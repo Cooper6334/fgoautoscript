@@ -3,20 +3,29 @@ var iconMargin = [];
 
 function setMarginIcon(){
 	if(resolution < 17 / 9){
+		return;
+	}
+	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 220;
+	iconMargin["battleMain1"] = true;
+
+	icon["battleMain2"][0] = realScreenSize[0] / screenScale[0] - 220;
+	iconMargin["battleMain2"] = true;
+
+	if(resolution <= 17 / 9){
 		return
 	}
-	console.log("setMarginIcon");
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
-	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 265;
-	iconMargin["battleMain1"] = true;
+	if(resolution <= 18 / 9){
+		return
+	}
+	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
+	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
+	iconMargin["teamPage"] = true;
 
-	icon["battleMain2"][0] = realScreenSize[0] / screenScale[0] - 265;
-	iconMargin["battleMain2"] = true;
-
-	icon["battleMain3"][0] = realScreenSize[0] / screenScale[0] - 375;
-	iconMargin["battleMain3"] = true;
+	icon["friendPage"][0] = 1237;
+	iconMargin["friendPage"] = true;
 
 	icon["friendEnd"][0] = realScreenSize[0] / screenScale[0] - 195;
 	iconMargin["friendEnd"] = true;
@@ -24,16 +33,17 @@ function setMarginIcon(){
 	icon["friendEnd3"][0] = realScreenSize[0] / screenScale[0] - 195;
 	iconMargin["friendEnd3"] = true;
 
+	icon["battleMain3"][0] = realScreenSize[0] / screenScale[0] - 375;
+	iconMargin["battleMain3"] = true;
 
-	if(resolution <= 17 / 9){
-		return
+	if(resolution < 19 / 9){
+		return;
 	}
-	icon["friendPage"][0] = 1237;
-	iconMargin["friendPage"] = true;
+	icon["battleMain1"][0] = realScreenSize[0] / screenScale[0] - 265;
+	iconMargin["battleMain1"] = true;
 
-	icon["teamPage"][0] = realScreenSize[0] / screenScale[0] - 305;
-	icon["teamPage"][1] = realScreenSize[1] / screenScale[1] - 150;
-	iconMargin["teamPage"] = true;
+	icon["battleMain2"][0] = realScreenSize[0] / screenScale[0] - 265;
+	iconMargin["battleMain2"] = true;
 }
 
 function checkIconListInScreen(iconList,allPass,threshold){
@@ -97,7 +107,6 @@ function checkIconInScreen(iconName,threshold){
    	if(iconMargin[iconName] != true){
    		margin = defaultMarginX;
    	}
-   	console.log(margin);
     var iconPath = imagePath+iconName+".png";
     if(isDebug){
        console.log("checkIconInScreen open icon "+iconPath);

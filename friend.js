@@ -25,7 +25,7 @@ var barMargin = 0;
 function setFriendMargin(){
     var offset = defaultMarginX;
     barMargin = offset;
-    if(resolution > 17 / 9){
+    if(resolution > 18 / 9){
         offset = 32;
         barMargin = 127;
     }
