@@ -26,13 +26,13 @@ var useMargin = undefined;
 function setInStageMargin(){
     useMargin = 0;
     var leftMargin = 0;
-    if(resolution >= 18/9){
+    if(resolution < 18/9){
+        leftMargin = defaultMarginX;
+        currentStagePosition[0] = 1317 + defaultMarginX;
+    }else{
         leftMargin = 75;
         skillPositionY = 850 - 24;
         currentStagePosition[0] = realScreenSize[0] / screenScale[0] - 656;
-    }else if(resolution > 16/9){
-        leftMargin = defaultMarginX;
-        currentStagePosition[0] = 1317 + defaultMarginX;
     }
     skillPositionX[0] = 75 + leftMargin;
     skillPositionX[1] = 225 + leftMargin;
@@ -47,7 +47,6 @@ function setInStageMargin(){
     enemyPositionX[0] = 870 + leftMargin;
     enemyPositionX[1] = 510 + leftMargin;
     enemyPositionX[2] = 172 + leftMargin;
-
 }
 
 function useSkill(player,skill,target){
