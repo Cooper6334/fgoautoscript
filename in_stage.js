@@ -26,7 +26,7 @@ var useMargin = undefined;
 function setInStageMargin(){
     useMargin = 0;
     var leftMargin = 0;
-    if(resolution < 18/9){
+    if(resolution <= 18/9){
         leftMargin = defaultMarginX;
         currentStagePosition[0] = 1317 + defaultMarginX;
     }else{
