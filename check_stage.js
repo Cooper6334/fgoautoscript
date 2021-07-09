@@ -2,9 +2,10 @@ var icon = [];
 var iconMargin = [];
 
 function setMarginIcon(){
-	if(resolution <= 17 / 9){
+	if(resolution < 17 / 9){
 		return
 	}
+	console.log("setMarginIcon");
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;
 	iconMargin["main"] = true;
 
@@ -92,6 +93,7 @@ function checkIconInScreen(iconName,threshold){
    	if(iconMargin[iconName] != true){
    		margin = defaultMarginX;
    	}
+   	console.log(margin);
     var iconPath = imagePath+iconName+".png";
     if(isDebug){
        console.log("checkIconInScreen open icon "+iconPath);

@@ -23,6 +23,9 @@ var reloadPosition = 1237;
 var barMargin = 0;
 
 function setFriendMargin(){
+    if(resolution <= 17 / 9){
+        return
+    }
 	barMargin = 127;
 	friendX = 76 + 32;
 	friendServantPosition[0][0] = friendX;
