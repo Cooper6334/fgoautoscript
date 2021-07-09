@@ -47,14 +47,14 @@ function getBox(newBox,fast){
 function checkIsBoxFinish(){
     var screenshot = getScreenshotResize();
     var r = false;
-    if(checkImage(screenshot,boxFullImage,boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){
+    if(checkImage(screenshot,boxFullImage,defaultMarginX + boxFullPosition[0],boxFullPosition[1],boxFullPosition[2],boxFullPosition[3])){
         console.log("禮物箱已滿");
         sendUrgentMessage(runningScriptName,"禮物箱已滿");
         releaseImage(screenshot);
         isScriptRunning = false;
         return true;
     }
-    if(checkImage(screenshot,boxNoPointImage,boxNoPointPosition[0],boxNoPointPosition[1],boxNoPointPosition[2],boxNoPointPosition[3])){
+    if(checkImage(screenshot,boxNoPointImage,defaultMarginX + boxNoPointPosition[0],boxNoPointPosition[1],boxNoPointPosition[2],boxNoPointPosition[3])){
         r = true;
     }
     releaseImage(screenshot);
@@ -63,7 +63,7 @@ function checkIsBoxFinish(){
 
 function resetBox(){
     console.log("重置箱子");
-    tapScale(boxResetPosition[0] + boxResetPosition[2]/2,boxResetPosition[1] + boxResetPosition[3]/2);
+    tapScale(defaultMarginX + boxResetPosition[0] + boxResetPosition[2]/2,boxResetPosition[1] + boxResetPosition[3]/2);
     sleep(1000);
     tapScale(850,567);
     waitLoading();
