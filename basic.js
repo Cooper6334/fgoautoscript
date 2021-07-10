@@ -97,7 +97,7 @@ function getScreenshotResize(){
 
 function checkImage(screenshot,icon,x,y,width,height,threshold){
     if(isDebug){
-       console.log("checkImage");
+        console.log("checkImage",x,y,width,height);
     }
     if(threshold == undefined){
         threshold = 0.85;
