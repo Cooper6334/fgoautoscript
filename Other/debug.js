@@ -1,9 +1,32 @@
+//var deviceId = "98071FFAZ002JS";
+var deviceId = "127.0.0.1:62027";
 
+function saveMyImage(name,image){
     var path = getStoragePath();
-    var filepath = path+"/crop"+currentdate.getTime()+".png";
-    var srceenshot = getScreenshotResize();
+    var filepath = path+"/"+name+".png";
+    saveImage(image,filepath);
+    console.log("adb -s " + deviceId + " pull "+filepath);
+    releaseImage(image);
+}
+
+function saveCropIcon(name){    
+    var margin = 0;
+   	if(iconMargin[name] != true){
+   		margin = defaultMarginX;
+   	}
+    var path = getStoragePath();
+    var x = icon[name][0] + margin;
+    var y = icon[name][1];
+    var width = icon[name][2];
+    var height = icon[name][3];
+    var filepath = path+"/cropImage/"+name+".png";
+    var screenshot = getScreenshotResize();
+    var crop = cropImage(screenshot,x,y,width,height);
     saveImage(crop,filepath);
-    console.log("adb -s 127.0.0.1:62027 pull "+filepath);
+    releaseImage(screenshot);
+    releaseImage(crop);
+    console.log("adb -s " + deviceId + " pull "+filepath);
+}
 
 function saveScreenShotImage(){
     var path = getStoragePath();
@@ -28,23 +51,9 @@ function saveCropImage(l,t,w,h){
     saveImage(crop,filepath);
     releaseImage(screenShot);
     releaseImage(crop);
-    console.log("adb -s 127.0.0.1:62025 pull "+filepath);
+    console.log("adb -s" + deviceId + "pull "+filepath);
 }
 
-function saveCropIcon(name){
-    var path = getStoragePath();
-    var x = icon[name][0];
-    var y = icon[name][1];
-    var width = icon[name][2];
-    var height = icon[name][3];
-    var filepath = path+"/cropImage/"+name+".png";
-    var screenshot = getScreenshotResize();
-    var crop = cropImage(screenshot,x,y,width,height);
-    saveImage(crop,filepath);
-    releaseImage(screenshot);
-    releaseImage(crop);
-    console.log("adb -s 127.0.0.1:62025 pull "+filepath);
-}
 
 function checkAllPage(){
     var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond","addFriend","item"];
@@ -78,3 +87,5 @@ function checkAllPage(){
         console.log("not in any page");
     }
 }
+
+console.log("load debug api finish");
