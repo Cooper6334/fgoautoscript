@@ -96,7 +96,7 @@ function initHTML(serverString){
     if(itemList.slice(-1)==','){
       itemList = itemList.slice(0,-1);
     }
-    return scriptList+';'+servantList+';'+itemList+';'+itemPath+';'+version+';'+havePlan;
+    return scriptList+';'+servantList+';'+itemList+';'+itemPath+';'+version;
 }
 
 console.log("load index.jx finish");
