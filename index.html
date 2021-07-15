@@ -1211,12 +1211,14 @@ function initHTML(result){
         $("#serverMessage").text("台服 "+version+" 啟動成功 - 其他伺服器版本請至腳本商店下載");
     }
 
+    var gaEvent = 'app'+server;
     if(freeMode){
         var tmp = $("#serverMessage").text();
         $("#serverMessage").text(tmp+"\n此為免費試用版，無法連續周回。正式版請訂閱Robotmon FGO方案!\n");
         $("#serverMessage").html($("#serverMessage").html().replace(/\n/g,'<br/>'));
+        gaEvent += '_free';
     }
-    ga('set', 'page', 'app'+server);
+    ga('set', 'page', gaEvent);
     ga('send', 'pageview');
 }
 
