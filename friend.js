@@ -269,7 +269,7 @@ function checkFriendIsFriend(screenshot,lineY){
     if(isDebug){
         console.log("checkFriendIsFriend " +lineY);
     }
-    return checkPixel(defaultMarginX + 1722,lineY+198,227,255,177,screenshot);
+    return checkPixel(friendX + 1646, lineY + 198,227,255,177,screenshot);
 }
 
 function reloadFriend(){

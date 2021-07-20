@@ -1,12 +1,11 @@
 //var deviceId = "98071FFAZ002JS";
-var deviceId = "127.0.0.1:62025";
+var deviceId = "127.0.0.1:62026";
 
 function saveMyImage(name,image){
     var path = getStoragePath();
     var filepath = path+"/"+name+".png";
     saveImage(image,filepath);
     console.log("adb -s " + deviceId + " pull "+filepath);
-    releaseImage(image);
 }
 
 function saveCropIcon(name){    
