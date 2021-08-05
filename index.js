@@ -5,7 +5,7 @@ var itemPath;
 var server;
 var loadApiCnt;
 
-var version = "V3.08";
+var version = "V3.09";
 
 function start(loopTime,script,scriptName){
     startScript(loopTime,script,scriptName);
@@ -17,8 +17,8 @@ function stop(){
 
 function initHTML(serverString){
     console.log("initHTML",serverString);
-    server = serverString.split(",")[0];
-    initServer(serverString.split(",")[1]);
+    server = serverString;
+    initServer();
 
     if(!loadApi()){
         return;
@@ -63,22 +63,16 @@ function initHTML(serverString){
     return scriptList+';'+servantList+';'+itemList+';'+itemPath+';'+version;
 }
 
-function initServer(free){
+function initServer(){
     var path = getStoragePath();
     if(server == "JP"){
         console.log("JP server");
         packagePath = path+"/scripts/com.cooper.FGO/";
-        if(free){
-            packagePath = path+"/scripts/com.cooper.FGOFREE/";
-        }
         imagePath = packagePath+"image_jp/"
     }
     else if(server == "TW"){
         console.log("TW server");
         packagePath = path+"/scripts/com.cooper.FGOTW/";
-        if(free){
-            //packagePath = path+"/scripts/com.cooper.FGOTWFREE/";
-        }
         imagePath = packagePath+"image_tw/"
     }
     itemPath = path+"/FGOV3/";
