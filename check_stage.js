@@ -3,6 +3,34 @@ var iconMargin = [];
 
 function setMarginIcon(){
 	if(resolution < 17 / 9){
+		//default
+		icon["main"][0] = 1710;
+		iconMargin["main"] = undefined;
+
+		icon["teamPage"][0] = 1702;
+		icon["teamPage"][1] = 975;
+		iconMargin["teamPage"] = undefined;
+
+		icon["friendPage"][0] = 1110;
+		iconMargin["friendPage"] = undefined;
+
+		icon["friendEnd"][0] = 1852;
+		iconMargin["friendEnd"] = undefined;
+
+		icon["friendEnd3"][0] = 1852;
+		iconMargin["friendEnd3"] = undefined;
+
+
+		icon["battleMain1"][0] = 1752;
+		iconMargin["battleMain1"] = undefined;
+	
+		icon["battleMain2"][0] = 1752;
+		iconMargin["battleMain2"] = undefined;
+
+		icon["battleMain3"][0] = 1672;
+		iconMargin["battleMain3"] = undefined;
+
+		icon["friendPointContinue"][1] = 975;
 		return;
 	}
 	icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;

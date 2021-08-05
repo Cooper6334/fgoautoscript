@@ -44,11 +44,11 @@ function initScreenSize(){
 
     if(resolution > 16 / 9){
         defaultMarginX = (realScreenSize[0] / screenScale[0] - defaultScreenSize[0]) / 2;
-        setMarginIcon();
-        setFriendMargin();
-        setInStageMargin();
-        setAutoAttackMargin();
     }
+    setMarginIcon();
+    setFriendMargin();
+    setInStageMargin();
+    setAutoAttackMargin();
 }
 
 function getBlackEdge(){
