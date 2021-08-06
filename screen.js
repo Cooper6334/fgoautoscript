@@ -53,12 +53,13 @@ function initScreenSize(){
 
 
 function getBlackEdge(){
+    sleep(2000);
     var screenshot = getScreenshot();
     var imageSize = getImageSize(screenshot);
     var w = imageSize.width;
     var h = imageSize.height;
     blackEdge = [undefined,undefined,undefined,undefined];
-    for(var j = 0; j < 3; j++){
+    for(var j = 1; j <= 3; j++){
         for(var i = 0;i<w;i++){
             if(blackEdge[0] != undefined && i >= blackEdge[0]){
                 break;
