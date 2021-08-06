@@ -16,7 +16,6 @@ function stop(){
 }
 
 function initHTML(serverString){
-    console.log("initHTML",serverString);
     server = serverString;
     initServer();
 
