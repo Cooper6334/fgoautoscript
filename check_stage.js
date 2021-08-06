@@ -227,7 +227,7 @@ icon["battleServant1"] =  [375,90,210,45];
 icon["battleServant2"] =  [375,90,210,45];
 icon["battleSkill"] =  [855,255,210,45];
 icon["battleTarget"] =  [1620,195,60,60];
-icon["spaceColor"] = [690,240,540,90];
+icon["spaceColor"] = [690,288,540,45];
 icon["emiyaColor"] = [690,240,540,90];
 icon["ultFailed"] = [900,637,123,60];
 icon["skillFailed"] = [870,802,180,60];
@@ -278,6 +278,9 @@ function isBattleSkillTargetDialog(){
 }
 
 function isBattleSkillSpaceDialog(){
+	if(isBattleSkillEmiyaDialog()){
+		return false;
+	}
 	return checkIconInScreen("spaceColor",0.75);
 }
 
