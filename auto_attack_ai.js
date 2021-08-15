@@ -24,7 +24,7 @@ var servantAliveMessage;
 var cardList = [];
 var cardStatus = []; // -1:null 0:disable 1:weak 2:resist
 var cardWidth = 225;
-var cardHeight = 97;
+var cardHeight = 75;
 
 var updateCardListX = [94,478,861,1248,1638];
 var updateCardListY = 802;
@@ -52,6 +52,7 @@ var allServentDieFlag = false;
 function setAutoAttackMargin(){
     if(server == "TW"){        
         skillUsedPositionOffset = [-5,82];
+        offsetDisableX = [89,196];
         return;
     }
 }
