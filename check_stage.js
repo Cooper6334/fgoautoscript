@@ -225,7 +225,7 @@ function isSelectTeamPage(){
 	return checkIconInScreen("teamPage");
 }
 	
-	function isUseItemDialog(){
+function isUseItemDialog(){
 	//TODO
 	return false;
 }
