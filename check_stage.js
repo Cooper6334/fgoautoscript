@@ -176,7 +176,6 @@ function isMainPage(){
 }
 
 function isStageRestart(){
-	//TODO:TW
 	return checkIconInScreen("stageRestart");
 }
 
@@ -366,12 +365,6 @@ function isFriendPointTen(){
 	return checkIconInScreen("friendPointTen");
 }
 
-/*
-function isFriendPointReload(){
-	//TODO: need check
-	return checkIconInScreen("friendPointReload");
-}
-*/
 function isFriendPointNew(){
 	//TODO: need check
 	//return checkIconInScreen(22);
