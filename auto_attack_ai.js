@@ -161,7 +161,8 @@ function attackAI(mainColor,sameColor,weak,die,ult,skill,currentStage){
                 switch(die){
                     case 0:
                         isScriptRunning = false;
-                        console.log("從者退場，停止腳本");
+                        console.log("從者退場，停止腳本");                        
+                        sendUrgentMessage(runningScriptName,"從者退場，停止腳本");
                     return;
                     case 1:
                         if(!skillUsed[i*3+j] && servantExist[i]){

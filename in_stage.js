@@ -308,7 +308,8 @@ function waitUntilPlayerCanMoveOrFinish(){
         }
         if(isBattleStageFailedDialog()){
             sleep(1000);
-            if(isBattleStageFailedDialog()){
+            if(isBattleStageFailedDialog()){                
+                sendUrgentMessage(runningScriptName,"戰鬥失敗，停止腳本");
                 return false;
             }
         }
