@@ -143,7 +143,7 @@ function useSkill(player,skill,target){
     //     console.log("無法偵測目標從者視窗，強迫選擇好友");
     //     selectSkillTarget(target);
     }else{
-        console.log("使用技能-技能動畫中");
+        //console.log("使用技能-技能動畫中");
     }
 }
 
