@@ -32,8 +32,8 @@ var cardMoveRange = 12;
 var cardColorOffset = [0,199];
 
 var cardListOffsetWeakX = 172;
-var cardListOffsetWeakY = -90;
-var cardListWeakMoveRange = 60;
+var cardListOffsetWeakY = -120;
+var cardListWeakMoveRange = 90;
 var weakW = 75;
 var weakH = 22;
 
