@@ -269,7 +269,7 @@ function isBattleCardPage(){
 }
 
 function isBattleServantDialog(){
-	return checkIconListInScreen(["battleServant1","battleServant2"],false);
+	return checkIconListInScreen(["battleServant1","battleServant2"],false,0.9);
 }
 
 function isBattleSkillFailedDialog(){
