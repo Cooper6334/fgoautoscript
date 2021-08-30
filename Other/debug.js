@@ -34,7 +34,7 @@ function saveScreenShotImage(){
     var screenShot = getScreenshot();
     saveImage(screenShot,filepath);
     releaseImage(screenShot);
-    console.log("save screenshot at "+filepath);
+    console.log("adb -s " + deviceId + " pull "+filepath);
 }
 
 function saveCropImage(l,t,w,h){
@@ -50,41 +50,12 @@ function saveCropImage(l,t,w,h){
     saveImage(crop,filepath);
     releaseImage(screenShot);
     releaseImage(crop);
-    console.log("adb -s" + deviceId + "pull "+filepath);
+    console.log("adb -s " + deviceId + " pull "+filepath);
 }
 
-
-function checkAllPage(){
-    var name = ["main","itemFull","apple","friend","refresh","team","item","battleMain","battleCard","battleServant","skillFailed","skillDetail","skillTarget","ultFailed","stageFailed","bond","addFriend","item"];
-    var result = [];
-    result[0] = isMainPage();
-    result[1] = isItemOrServantFullDialog();
-    result[2] = isUseAppleDialog();
-    result[3] = isSelectFriendPage();
-    result[4] = isSelectFriendRefreshDialog();
-    result[5] = isSelectTeamPage();
-    result[6] = isUseItemDialog();
-    result[7] = isBattleMainPage();
-    result[8] = isBattleCardPage();
-    result[9] = isBattleServantDialog();
-    result[10] = isBattleSkillFailedDialog();
-    result[11] = isBattleSkillDetailDialog();
-    result[12] = isBattleSkillTargetDialog();
-    result[13] = isBattleUltFailedDialog();
-    result[14] = isBattleStageFailedDialog();
-    result[15] = isFinishBondPage();
-    result[16] = isAddFriendPage();
-    result[17] = isItemPage();
-    var inPage = false;
-    for(var i = 0;i<result.length;i++){
-        if(result[i]){
-            inPage = true;
-            console.log("is in page "+name[i]);
-        }
-    }
-    if(!inPage){
-        console.log("not in any page");
-    }
+function testCard(){
+    loadAllImage();
+    releaseAllImage();
 }
 
 console.log("load debug api finish");
