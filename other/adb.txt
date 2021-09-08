@@ -1,0 +1,4 @@
+98071FFAZ002JS
+127.0.0.1:62025
+adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
+adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
