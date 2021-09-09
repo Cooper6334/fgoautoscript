@@ -487,7 +487,7 @@ function getFinishItem(id) {
   return getCommandItem(id, "結束關卡");
 }
 
-//init command
+//other command
 function getSpaceUltItem(id) {
   return getCommandItem(
     id,
@@ -502,4 +502,22 @@ function getSpaceUltItem(id) {
       '<option value = "1">藍</option>' +
       '<option value = "0">紅</option></select></div>'
   );
+}
+
+function getAdditionalFriendServentItem(id){
+  return getCommandItem(
+    id,
+    "設定多重好友從者",
+      "<div class='commandSelectDiv'>敘述</div>" +
+      "<div class='commandSelectDiv'>" +
+      "<div class='commandItem'>指定從者</div>" +
+      '<select id = "additionalFriendServant' +
+      id +
+      '">' +
+      '<option value = "-1" selected>無</option></select>' +
+      '<img class = "selectFriendServantImg" id = "additionalFriendServantImg' +
+      id +
+      '"></div>'
+  );
+
 }

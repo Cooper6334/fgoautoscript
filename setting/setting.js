@@ -387,6 +387,10 @@ function initButton() {
     commandId++;
     addSpaceUlt(commandId);
   });
+  $("#additionalFriendServant").click(function () {
+    commandId++;
+    addAdditionalFriendServant(commandId);
+  });
 }
 
 function insertNewCommand(newCmd) {
@@ -878,6 +882,10 @@ function resetScript(result) {
       content = content.replace("setSpaceUltColor(", "");
       content = content.replace(")", "");
       addSpaceUlt(commandId, content);
+    } else if (checkstring(content, "additionalFriendServant")) {
+      content = content.replace("additionalFriendServant(", "");
+      content = content.replace(")", "");
+      addAdditionalFriendServant(commandId, content);
     }
   });
   insertDirection = currentDirection;

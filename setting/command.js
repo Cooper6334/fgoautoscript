@@ -400,3 +400,47 @@ function addSpaceUlt(commandId, content) {
     .val(content)
     .trigger("change");
 }
+
+function addAdditionalFriendServant(commandId, content) {
+  insertNewCommand(getAdditionalFriendServentItem(commandId));
+
+  $("#additionalFriendServant" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#additionalFriendServant" + commandId).append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  $("#additionalFriendServant" + commandId).change(function () {
+    if ($(this).val() != -1) {
+      var path = servantImgPath + $(this).select2("data")[0].text + ".png";
+      $("#additionalFriendServantImg" + commandId).attr("src", path);
+    } else {
+      $("#additionalFriendServantImg" + commandId)
+        .removeAttr("src")
+        .replaceWith($("#additionalFriendServantImg" + commandId).clone());
+    }
+  });
+  $("#additionalFriendServant" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+  });
+
+  if (content == undefined) {
+    return;
+  }
+  for (var i = 0; i < friendServantList.length; i++) {
+    if (
+      new String(friendServantList[i]).valueOf() ==
+      new String(content).valueOf()
+    ) {
+      $("#additionalFriendServant" + commandId)
+        .val(i)
+        .trigger("change");
+      break;
+    }
+  }
+}
