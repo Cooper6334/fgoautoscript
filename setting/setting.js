@@ -29,7 +29,6 @@ function initButton() {
     var t = $("#loopTime").val();
     var n = 1;
     $("#loopTime").val(n);
-    console.log(getCurrentScript());
   });
   $("#loopTimePlus").click(function () {
     var t = $("#loopTime").val();
