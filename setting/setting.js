@@ -29,6 +29,7 @@ function initButton() {
     var t = $("#loopTime").val();
     var n = 1;
     $("#loopTime").val(n);
+    console.log(getCurrentScript());
   });
   $("#loopTimePlus").click(function () {
     var t = $("#loopTime").val();
@@ -114,6 +115,32 @@ function initButton() {
     addSelectTeam(commandId);
     commandId++;
     addStartQuest(commandId);
+    commandId++;
+    addAuto(commandId);
+    commandId++;
+    addFinish(commandId);
+    insertDirection = currentDirection;
+  });
+
+  $("#addAllFlowSwitch").click(function () {
+    var currentDirection = insertDirection;
+    insertDirection = 1;
+    clearScript();
+    commandId++;
+    addSelectStage(commandId);
+    commandId++;
+    addSelectFriend(commandId);
+    commandId++;
+    addSelectTeam(commandId);
+    commandId++;
+    addStartQuest(commandId);
+    commandId++;
+    addAuto(
+      commandId,
+      "1,0,1,1,0,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1"
+    );
+    commandId++;
+    addSwitchServant(commandId);
     commandId++;
     addAuto(commandId);
     commandId++;
@@ -487,14 +514,20 @@ function getCurrentScript() {
             $("#useSkillTarget" + itemId).val() +
             ");";
           break;
-        case "使用衣服技能":
+        case "使用御主技能":
           newScript +=
             "useClothesSkill(" +
             $("#clothSkill" + itemId).val() +
             "," +
             $("#clothSkillTarget" + itemId).val() +
+            ");";
+          break;
+        case "戰鬥服換人":
+          newScript +=
+            "switchServant(" +
+            $("#switchServantFront" + itemId).val() +
             "," +
-            $("#clothSkillChange" + itemId).val() +
+            $("#switchServantBack" + itemId).val() +
             ");";
           break;
         case "選擇敵人":
@@ -822,6 +855,10 @@ function resetScript(result) {
       content = content.replace("useClothesSkill(", "");
       content = content.replace(")", "");
       addCloth(commandId, content);
+    } else if (checkstring(content, "switchServant")) {
+      content = content.replace("switchServant(", "");
+      content = content.replace(")", "");
+      addSwitchServant(commandId, content);
     } else if (checkstring(content, "selectEnemy")) {
       content = content.replace("selectEnemy(", "");
       content = content.replace(")", "");

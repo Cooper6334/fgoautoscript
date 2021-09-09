@@ -394,7 +394,7 @@ function getUseSkillItem(id) {
 function getClothItem(id) {
   return getCommandItem(
     id,
-    "使用衣服技能",
+    "使用御主技能",
     "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>技能</div>" +
       '<select id = "clothSkill' +

@@ -292,10 +292,6 @@ function addCloth(commandId, content) {
     minimumResultsForSearch: -1,
     width: "120px",
   });
-  $("#clothSkillChange" + commandId).select2({
-    minimumResultsForSearch: -1,
-    width: "120px",
-  });
 
   if (content == undefined) {
     return;
@@ -306,9 +302,6 @@ function addCloth(commandId, content) {
     .trigger("change");
   $("#clothSkillTarget" + commandId)
     .val(scriptValue[1])
-    .trigger("change");
-  $("#clothSkillChange" + commandId)
-    .val(scriptValue[2])
     .trigger("change");
 }
 

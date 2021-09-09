@@ -5,7 +5,7 @@ var itemPath;
 var server;
 var loadApiCnt;
 
-var version = "V3.14";
+var version = "V3.21";
 
 function start(loopTime, script, scriptName) {
   startScript(loopTime, script, scriptName);
@@ -37,7 +37,7 @@ function initHTML(serverString) {
     execute(
       "cp " +
         packagePath +
-        "BasicItem/default.js " +
+        "basic_item/default.js " +
         itemPath +
         "script/自動周回.js"
     );
@@ -46,7 +46,7 @@ function initHTML(serverString) {
     execute(
       "cp " +
         packagePath +
-        "BasicItem/csaber.png " +
+        "basic_item/csaber.png " +
         itemPath +
         "friend_servant/C_Saber.png"
     );
@@ -54,7 +54,7 @@ function initHTML(serverString) {
     execute(
       "cp " +
         packagePath +
-        "BasicItem/cskadi.png " +
+        "basic_item/cskadi.png " +
         itemPath +
         "friend_servant/C_Skadi.png"
     );
@@ -63,7 +63,7 @@ function initHTML(serverString) {
     execute(
       "cp " +
         packagePath +
-        "BasicItem/qp.png " +
+        "basic_item/qp.png " +
         itemPath +
         "friend_item/QP.png"
     );
@@ -71,7 +71,7 @@ function initHTML(serverString) {
     execute(
       "cp " +
         packagePath +
-        "BasicItem/kitune.png " +
+        "basic_item/kitune.png " +
         itemPath +
         "friend_item/絆.png"
     );
@@ -139,7 +139,7 @@ function loadApi() {
     "friend",
   ];
   for (var i = 0; i < apiList.length; i++) {
-    var s = readFile(packagePath + apiList[i] + ".js");
+    var s = readFile(packagePath + "game_script/" + apiList[i] + ".js");
     if (s == undefined || s.length == 0) {
       console.log("load api failed");
       return false;
