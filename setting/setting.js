@@ -333,6 +333,10 @@ function initButton() {
     commandId++;
     addCloth(commandId);
   });
+  $("#addSwitchServant").click(function () {
+    commandId++;
+    addSwitchServant(commandId);
+  });
   $("#addSelectEnemy").click(function () {
     commandId++;
     addSelectEnemy(commandId);

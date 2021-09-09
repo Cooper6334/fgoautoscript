@@ -52,17 +52,13 @@
   </head>
   <body>
     <div id="titleBar">
-      <div id="titleBarText">FGO</div>
+      <div id="titleBarText">Fate/Grand Order 自動周回小幫手</div>
     </div>
     <div class="container">
       <div id="serverMessage" class="discriptionText">
         腳本開啟中，第一次使用須初始化約15秒，如此行文字一直存在，請重開腳本，並確認Robotmon
         service狀態與檔案完整性
       </div>
-      <a href="https://www.facebook.com/FGOAutoScript" class="discriptionText"
-        >有任何使用上的問題，歡迎到粉絲團來發問</a
-      >
-
       <div id="loopTimeDiv" class="blockDiv">
         <div id="loopTimeTitle" class="blockTitle">
           腳本執行次數 <input id="loopTime" min="0" value="1" readonly />
@@ -75,7 +71,6 @@
           <button id="loopTimeInfinite" class="loopBtn blue">無限</button>
         </div>
       </div>
-
       <div class="blockDiv">
         <div class="blockTitle">好友擷取</div>
         <div class="discriptionText">
@@ -137,7 +132,7 @@
           <button id="addAuto" class="cmdButton">自動戰鬥</button>
           <button id="addSkill" class="cmdButton">使用技能</button>
           <button id="addCloth" class="cmdButton">使用衣服技能</button>
-          <button id="addCloth" class="cmdButton">戰鬥服換人</button>
+          <button id="addSwitchServant" class="cmdButton">戰鬥服換人</button>
         </div>
         <div>
           <button id="addSelectEnemy" class="cmdButton">選擇敵人</button>
@@ -159,6 +154,11 @@
         </button>
       </div>
       <div class="list-group" id="skill-list"></div>
+      <div id="footer">
+        <a href="https://www.facebook.com/FGOAutoScript" class="discriptionText"
+          >有任何使用上的問題，歡迎到FaceBook粉絲團發問</a
+        >
+      </div>
     </div>
   </body>
 </html>

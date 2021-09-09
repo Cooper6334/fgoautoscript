@@ -312,6 +312,30 @@ function addCloth(commandId, content) {
     .trigger("change");
 }
 
+function addSwitchServant(commandId, content) {
+  insertNewCommand(getSwitchServantItem(commandId));
+
+  $("#switchServantFront" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+  $("#switchServantBack" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+
+  if (content == undefined) {
+    return;
+  }
+  var scriptValue = content.split(",");
+  $("#switchServantFront" + commandId)
+    .val(scriptValue[0])
+    .trigger("change");
+  $("#switchServantBack" + commandId)
+    .val(scriptValue[1])
+    .trigger("change");
+}
+
 function addSelectEnemy(commandId, content) {
   insertNewCommand(getSelectEnemy(commandId));
 

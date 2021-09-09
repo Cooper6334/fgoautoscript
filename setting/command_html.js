@@ -414,6 +414,28 @@ function getClothItem(id) {
       '<option value = "2">從者3</option></select></div>'
   );
 }
+function getSwitchServantItem(id) {
+  return getCommandItem(
+    id,
+    "戰鬥服換人",
+    "<div class='commandSelectDiv'>" +
+      "<div class='commandItem'>前場從者</div>" +
+      '<select id = "switchServantFront' +
+      id +
+      '">' +
+      '<option value = "0"selected>從者1</option>' +
+      '<option value = "1">從者2</option>' +
+      '<option value = "2">從者3</option></select></div>' +
+      "<div class='commandSelectDiv'>" +
+      "<div class='commandItem'>後場從者</div>" +
+      '<select id = "switchServantBack' +
+      id +
+      '">' +
+      '<option value = "3"selected>從者4</option>' +
+      '<option value = "4">從者5</option>' +
+      '<option value = "5">從者6</option></select></div>'
+  );
+}
 function getSelectEnemy(id) {
   return getCommandItem(
     id,
