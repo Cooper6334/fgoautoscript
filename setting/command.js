@@ -30,7 +30,7 @@ function addSelectStage(commandId, content) {
 
   $("#autoApple" + commandId).select2({
     minimumResultsForSearch: -1,
-    width: "80px",
+    width: "120px",
   });
 
   if (content == undefined) {
