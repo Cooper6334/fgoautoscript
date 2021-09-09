@@ -11,7 +11,20 @@ var servantImgPath;
 var itemImgPath;
 var insertDirection = 0;
 var listenScriptMode = true;
+
 $(function () {
+  initButton();
+  setTimeout(function () {
+    JavaScriptInterface.showMenu();
+    JavaScriptInterface.runScriptCallback(
+      'initHTML("' + server + '");',
+      "initHTML"
+    );
+  }, 1500);
+});
+
+function initButton() {
+  //set loop btn
   $("#loopTime1").click(function () {
     var t = $("#loopTime").val();
     var n = 1;
@@ -53,6 +66,8 @@ $(function () {
   $("#loopTimeInfinite").click(function () {
     $("#loopTime").val("無限");
   });
+
+  //set crop btn
   $("#getServantImage1").click(function () {
     JavaScriptInterface.hideMenu();
     JavaScriptInterface.setXY(3000, 0);
@@ -85,6 +100,32 @@ $(function () {
       "saveItemConfirm"
     );
   });
+  //set add default script btn
+  $("#addAllFlow").click(function(){
+    resetScript('selectStage(-1);selectFriend(512,"","",0);selectTeam(0);startQuest(-1);autoAttack(3,0,1,1,3,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1);finishQuest()');
+  });
+  $("#addGetFriendPoint").click(function () {
+    clearScript();
+    commandId++;
+    insertNewCommand(getGetFriendPoint(commandId));
+  });
+  $("#addGetBox").click(function () {
+    clearScript();
+    commandId++;
+    insertNewCommand(getGetBox(commandId));
+    $("#getBoxFast" + commandId).select2({
+      minimumResultsForSearch: -1,
+      width:"80px"
+    });
+    $("#getBoxReset" + commandId).select2({
+      minimumResultsForSearch: -1,
+      width:"80px"
+    });
+  });
+  $("#clearScript").click(function () {
+    clearScript();
+  });
+  //set load script btn
   $("#saveScript").click(function () {
     var currentScript = getCurrentScript();
     var scriptName = $("#scriptMode").select2("data")[0].text;
@@ -229,6 +270,8 @@ $(function () {
       "resetScript"
     );
   });
+
+  //set control script display btn
   $("#showAll").click(function () {
     for (var i = 0; i <= commandId; i++) {
       $("#commandvalue" + i).show();
@@ -241,30 +284,12 @@ $(function () {
       $("#hideItem" + i).text("顯示");
     }
   });
-  $("#addGetFriendPoint").click(function () {
-    clearScript();
-    commandId++;
-    insertNewCommand(getGetFriendPoint(commandId));
-  });
-  $("#addGetBox").click(function () {
-    clearScript();
-    commandId++;
-    insertNewCommand(getGetBox(commandId));
-    $("#getBoxReset" + commandId).select2({
-      minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
-    });
-    $("#getBoxFast" + commandId).select2({
-      minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
-    });
-  });
   $("#addSelectStage").click(function () {
     commandId++;
     insertNewCommand(getSelectStage(commandId));
     $("#autoApple" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"80px"
     });
   });
   $("#addSelectFriend").click(function () {
@@ -276,7 +301,7 @@ $(function () {
     insertNewCommand(getSelectTeam(commandId));
     $("#selectTeam" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addStartQuest").click(function () {
@@ -284,7 +309,7 @@ $(function () {
     insertNewCommand(getStartQuest(commandId));
     $("#useItem" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addFinish").click(function () {
@@ -296,7 +321,7 @@ $(function () {
     insertNewCommand(getSpaceUltItem(commandId));
     $("#spaceUltColor" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addSkill").click(function () {
@@ -304,15 +329,15 @@ $(function () {
     insertNewCommand(getUseSkillItem(commandId));
     $("#useSkillServant" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
     $("#useSkill" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
     $("#useSkillTarget" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addCloth").click(function () {
@@ -320,15 +345,15 @@ $(function () {
     insertNewCommand(getClothItem(commandId));
     $("#clothSkill" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
     $("#clothSkillTarget" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
     $("#clothSkillChange" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addSelectEnemy").click(function () {
@@ -336,7 +361,7 @@ $(function () {
     insertNewCommand(getSelectEnemy(commandId));
     $("#selectEnemy" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addStartAttack").click(function () {
@@ -348,7 +373,7 @@ $(function () {
     insertNewCommand(getUseUltItem(commandId));
     $("#useUlt" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addSelectCard").click(function () {
@@ -356,7 +381,7 @@ $(function () {
     insertNewCommand(getSelectCardItem(commandId));
     $("#selectCard" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"120px"
     });
   });
   $("#addAuto").click(function () {
@@ -365,23 +390,23 @@ $(function () {
     $("#autoFightUntil" + commandId).select2({
       minimumResultsForSearch: -1,
       width: "resolve",
-      dropdownAutoWidth: true,
+       width:"160px"
     });
     $("#autoFightColor" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"160px"
     });
     $("#autoFightSameColor" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"160px"
     });
     $("#autoFightWeak" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"160px"
     });
     $("#autoFightDie" + commandId).select2({
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+       width:"160px"
     });
     // $("#ultColor"+commandId).select2({
     //     minimumResultsForSearch: -1,
@@ -390,16 +415,16 @@ $(function () {
     for (var i = 0; i < 3; i++) {
       $("#servant" + i + "ult" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       for (var j = 0; j < 3; j++) {
         $("#servant" + i + "skill" + j + commandId).select2({
           minimumResultsForSearch: -1,
-          dropdownAutoWidth: true,
+           width:"160px"
         });
         $("#servant" + i + "skill" + j + "target" + commandId).select2({
           minimumResultsForSearch: -1,
-          dropdownAutoWidth: true,
+           width:"80px"
         });
       }
     }
@@ -413,15 +438,8 @@ $(function () {
       $("#insertDirection").text("前");
     }
   });
+}
 
-  setTimeout(function () {
-    JavaScriptInterface.showMenu();
-    JavaScriptInterface.runScriptCallback(
-      'initHTML("' + server + '");',
-      "initHTML"
-    );
-  }, 1500);
-});
 function insertNewCommand(newCmd) {
   if (insertDirection == 1) {
     $("#skill-list").append(newCmd);
@@ -430,6 +448,7 @@ function insertNewCommand(newCmd) {
   }
   initCommandButton(commandId);
 }
+
 function initFriendButton(scriptValue) {
   var currentId = commandId;
   insertNewCommand(getSelectFriend(currentId));
@@ -451,7 +470,7 @@ function initFriendButton(scriptValue) {
   });
   $("#selectFriendServant" + currentId).select2({
     minimumResultsForSearch: -1,
-    dropdownAutoWidth: true,
+     width:"160px"
   });
   for (var i = 0; i < friendItemList.length; i++) {
     $("#selectFriendItem" + currentId).append(
@@ -470,19 +489,19 @@ function initFriendButton(scriptValue) {
   });
   $("#selectFriendItem" + currentId).select2({
     minimumResultsForSearch: -1,
-    dropdownAutoWidth: true,
+     width:"160px"
   });
   $("#selectFriendItemFull" + currentId).select2({
     minimumResultsForSearch: -1,
-    dropdownAutoWidth: true,
+     width:"160px"
   });
   $("#selectFriendOnlyFriend" + currentId).select2({
     minimumResultsForSearch: -1,
-    dropdownAutoWidth: true,
+     width:"160px"
   });
   $("#selectFriendScrollCnt" + currentId).select2({
     minimumResultsForSearch: -1,
-    dropdownAutoWidth: true,
+     width:"160px"
   });
   if (scriptValue == undefined || scriptValue.length == 0) {
     return;
@@ -558,12 +577,15 @@ function initCommandButton(currentId) {
     }
   });
 }
+
 function startListenScriptSelect() {
   listenScriptMode = true;
 }
+
 function stopListenScriptSelect() {
   listenScriptMode = false;
 }
+
 function getCurrentScript() {
   var newScript = "";
   $("#skill-list")
@@ -696,6 +718,7 @@ function getCurrentScript() {
     });
   return newScript;
 }
+
 function clearScript() {
   $("#skill-list").empty();
   commandId = 0;
@@ -703,40 +726,6 @@ function clearScript() {
 
 function getCheckSwitchStatus(id) {
   return $(id).is(":checked");
-}
-
-function getCommandItem(id, name, selection) {
-  if (selection == undefined) {
-    selection = "";
-  }
-  var result =
-    '<div class="list-group-item">' +
-    '<label name="' +
-    id +
-    '">' +
-    name +
-    '</label><div class="pull-right">';
-  if (selection != "") {
-    result += '<button id="hideItem' + id + '" type="button">隱藏</button>';
-  }
-  result +=
-    '<button id="moveItemUp' +
-    id +
-    '" type="button">上移</button>' +
-    '<button id="moveItemDown' +
-    id +
-    '" type="button">下移</button>' +
-    '<button id="removeItem' +
-    id +
-    '" type="button">刪除</button>' +
-    "</div><br><br>" +
-    '<div id="commandvalue' +
-    id +
-    '"><ul class="command">' +
-    selection +
-    "</ul></div>" +
-    "</div>";
-  return result;
 }
 
 //Callback------------------------------------------------------------------------------------------------------------------------
@@ -758,8 +747,8 @@ function initHTML(result) {
   }
   if (result[0] == undefined) {
     $("#scriptMode").select2({
-      minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
+      height: "100px",
+      width: "100%",
     });
   } else {
     var scriptList = result[0].split(",");
@@ -771,8 +760,8 @@ function initHTML(result) {
       );
     }
     $("#scriptMode").select2({
+      height: "100px",
       minimumResultsForSearch: -1,
-      dropdownAutoWidth: true,
       placeholder: "請選擇腳本",
       width: "100%",
     });
@@ -781,13 +770,11 @@ function initHTML(result) {
   servantImgPath = storagePath + "friend_servant/";
   itemImgPath = storagePath + "friend_item/";
   if (server == "JP") {
-    $("#serverMessage").text(
-      "日服 " + version + " 啟動成功 - 其他伺服器版本請至腳本商店下載"
-    );
+    $("#titleBarText").text("FGO自動周回小幫手 日服 " + version+ " 啟動成功");
+    $("#serverMessage").remove();
   } else if (server == "TW") {
-    $("#serverMessage").text(
-      "台服 " + version + " 啟動成功 - 其他伺服器版本請至腳本商店下載"
-    );
+    $("#titleBarText").text("FGO自動周回小幫手 台服 " + version + " 啟動成功");
+    $("#serverMessage").remove();
   }
 
   var gaEvent = "app" + server;
@@ -943,7 +930,7 @@ function saveFriendServantConfirm(result) {
       );
       $("#selectFriendServant" + i).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
     }
   }
@@ -962,7 +949,7 @@ function saveFriendItemConfirm(result) {
       );
       $("#selectFriendItem" + i).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
     }
   }
@@ -970,6 +957,8 @@ function saveFriendItemConfirm(result) {
 
 function resetScript(result) {
   clearScript();
+  var currentDirection = insertDirection;
+  insertDirection = 1;
   var scriptContentList = result.split(";");
   scriptContentList.forEach(function (content) {
     commandId++;
@@ -980,7 +969,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#autoApple" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"80px"
       });
       $("#autoApple" + commandId)
         .val(content)
@@ -996,7 +985,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#getBoxReset" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"80px"
       });
       $("#getBoxReset" + commandId)
         .val(scriptValue[0])
@@ -1004,7 +993,7 @@ function resetScript(result) {
 
       $("#getBoxFast" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"80px"
       });
       if (scriptValue.length >= 2) {
         $("#getBoxFast" + commandId)
@@ -1024,7 +1013,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#selectTeam" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#selectTeam" + commandId)
         .val(content)
@@ -1036,7 +1025,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#useItem" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       if (content.length == 0) {
         content = -1;
@@ -1054,7 +1043,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#spaceUltColor" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#spaceUltColor" + commandId)
         .val(content)
@@ -1067,21 +1056,21 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#useSkillServant" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#useSkillServant" + commandId)
         .val(scriptValue[0])
         .trigger("change");
       $("#useSkill" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#useSkill" + commandId)
         .val(scriptValue[1])
         .trigger("change");
       $("#useSkillTarget" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#useSkillTarget" + commandId)
         .val(scriptValue[2])
@@ -1094,21 +1083,21 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#clothSkill" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#clothSkill" + commandId)
         .val(scriptValue[0])
         .trigger("change");
       $("#clothSkillTarget" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#clothSkillTarget" + commandId)
         .val(scriptValue[1])
         .trigger("change");
       $("#clothSkillChange" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#clothSkillChange" + commandId)
         .val(scriptValue[2])
@@ -1120,7 +1109,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#selectEnemy" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#selectEnemy" + commandId)
         .val(content)
@@ -1135,7 +1124,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#useUlt" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#useUlt" + commandId)
         .val(content)
@@ -1147,7 +1136,7 @@ function resetScript(result) {
       initCommandButton(commandId);
       $("#selectCard" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"120px"
       });
       $("#selectCard" + commandId)
         .val(content)
@@ -1161,35 +1150,35 @@ function resetScript(result) {
       $("#autoFightUntil" + commandId).select2({
         minimumResultsForSearch: -1,
         width: "resolve",
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       $("#autoFightUntil" + commandId)
         .val(scriptValue[0])
         .trigger("change");
       $("#autoFightColor" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       $("#autoFightColor" + commandId)
         .val(scriptValue[1])
         .trigger("change");
       $("#autoFightSameColor" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       $("#autoFightSameColor" + commandId)
         .val(scriptValue[2])
         .trigger("change");
       $("#autoFightWeak" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       $("#autoFightWeak" + commandId)
         .val(scriptValue[3])
         .trigger("change");
       $("#autoFightDie" + commandId).select2({
         minimumResultsForSearch: -1,
-        dropdownAutoWidth: true,
+         width:"160px"
       });
       $("#autoFightDie" + commandId)
         .val(scriptValue[4])
@@ -1197,7 +1186,7 @@ function resetScript(result) {
       for (var i = 0; i < 3; i++) {
         $("#servant" + i + "ult" + commandId).select2({
           minimumResultsForSearch: -1,
-          dropdownAutoWidth: true,
+           width:"160px"
         });
         $("#servant" + i + "ult" + commandId)
           .val(scriptValue[5 + 7 * i])
@@ -1205,14 +1194,14 @@ function resetScript(result) {
         for (var j = 0; j < 3; j++) {
           $("#servant" + i + "skill" + j + commandId).select2({
             minimumResultsForSearch: -1,
-            dropdownAutoWidth: true,
+             width:"160px"
           });
           $("#servant" + i + "skill" + j + commandId)
             .val(scriptValue[5 + 7 * i + 1 + j * 2])
             .trigger("change");
           $("#servant" + i + "skill" + j + "target" + commandId).select2({
             minimumResultsForSearch: -1,
-            dropdownAutoWidth: true,
+             width:"80px"
           });
           $("#servant" + i + "skill" + j + "target" + commandId)
             .val(scriptValue[5 + 7 * i + 1 + j * 2 + 1])
@@ -1230,8 +1219,10 @@ function resetScript(result) {
       // });
     }
   });
+  insertDirection = currentDirection;
   bootbox.alert("讀取成功");
 }
+
 function checkstring(longStr, shortStr) {
   if (longStr.substring(0, shortStr.length) == shortStr) {
     return true;
