@@ -100,31 +100,31 @@ function initButton() {
       "saveItemConfirm"
     );
   });
+
   //set add default script btn
-  $("#addAllFlow").click(function(){
-    resetScript('selectStage(-1);selectFriend(512,"","",0);selectTeam(0);startQuest(-1);autoAttack(3,0,1,1,3,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1);finishQuest()');
-  });
-  $("#addGetFriendPoint").click(function () {
+  $("#addAllFlow").click(function () {
+    var currentDirection = insertDirection;
+    insertDirection = 1;
     clearScript();
     commandId++;
-    insertNewCommand(getGetFriendPoint(commandId));
-  });
-  $("#addGetBox").click(function () {
-    clearScript();
+    addSelectStage(commandId);
     commandId++;
-    insertNewCommand(getGetBox(commandId));
-    $("#getBoxFast" + commandId).select2({
-      minimumResultsForSearch: -1,
-      width:"80px"
-    });
-    $("#getBoxReset" + commandId).select2({
-      minimumResultsForSearch: -1,
-      width:"80px"
-    });
+    addSelectFriend(commandId);
+    commandId++;
+    addSelectTeam(commandId);
+    commandId++;
+    addStartQuest(commandId);
+    commandId++;
+    addAuto(commandId);
+    commandId++;
+    addFinish(commandId);
+    insertDirection = currentDirection;
   });
+
   $("#clearScript").click(function () {
     clearScript();
   });
+
   //set load script btn
   $("#saveScript").click(function () {
     var currentScript = getCurrentScript();
@@ -170,7 +170,7 @@ function initButton() {
       });
     }
   });
-  $("#delectScript").click(function () {
+  $("#deleteScript").click(function () {
     var scriptName = $("#scriptMode").select2("data")[0].text;
     bootbox.confirm("是否刪除 " + scriptName + " ?", function (result) {
       if (result) {
@@ -272,6 +272,15 @@ function initButton() {
   });
 
   //set control script display btn
+  $("#insertDirection").click(function () {
+    insertDirection = (parseInt($("#insertDirection").val()) + 1) % 2;
+    $("#insertDirection").val(insertDirection).trigger("change");
+    if (insertDirection == 1) {
+      $("#insertDirection").text("後");
+    } else {
+      $("#insertDirection").text("前");
+    }
+  });
   $("#showAll").click(function () {
     for (var i = 0; i <= commandId; i++) {
       $("#commandvalue" + i).show();
@@ -284,159 +293,69 @@ function initButton() {
       $("#hideItem" + i).text("顯示");
     }
   });
+
+  //command button
+  $("#addGetFriendPoint").click(function () {
+    clearScript();
+    commandId++;
+    addGetFriendPoint(commandId);
+  });
+  $("#addGetBox").click(function () {
+    clearScript();
+    commandId++;
+    addGetBox(commandId);
+  });
   $("#addSelectStage").click(function () {
     commandId++;
-    insertNewCommand(getSelectStage(commandId));
-    $("#autoApple" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"80px"
-    });
+    addSelectStage(commandId);
   });
   $("#addSelectFriend").click(function () {
     commandId++;
-    initFriendButton();
+    addSelectFriend(commandId);
   });
   $("#addSelectTeam").click(function () {
     commandId++;
-    insertNewCommand(getSelectTeam(commandId));
-    $("#selectTeam" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
+    addSelectTeam(commandId);
   });
   $("#addStartQuest").click(function () {
     commandId++;
-    insertNewCommand(getStartQuest(commandId));
-    $("#useItem" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addFinish").click(function () {
-    commandId++;
-    insertNewCommand(getFinishItem(commandId));
-  });
-  $("#addSpaceUlt").click(function () {
-    commandId++;
-    insertNewCommand(getSpaceUltItem(commandId));
-    $("#spaceUltColor" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addSkill").click(function () {
-    commandId++;
-    insertNewCommand(getUseSkillItem(commandId));
-    $("#useSkillServant" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-    $("#useSkill" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-    $("#useSkillTarget" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addCloth").click(function () {
-    commandId++;
-    insertNewCommand(getClothItem(commandId));
-    $("#clothSkill" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-    $("#clothSkillTarget" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-    $("#clothSkillChange" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addSelectEnemy").click(function () {
-    commandId++;
-    insertNewCommand(getSelectEnemy(commandId));
-    $("#selectEnemy" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addStartAttack").click(function () {
-    commandId++;
-    insertNewCommand(getStartAttackItem(commandId));
-  });
-  $("#addUseUlt").click(function () {
-    commandId++;
-    insertNewCommand(getUseUltItem(commandId));
-    $("#useUlt" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
-  });
-  $("#addSelectCard").click(function () {
-    commandId++;
-    insertNewCommand(getSelectCardItem(commandId));
-    $("#selectCard" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"120px"
-    });
+    addStartQuest(commandId);
   });
   $("#addAuto").click(function () {
     commandId++;
-    insertNewCommand(getAutoItem(commandId));
-    $("#autoFightUntil" + commandId).select2({
-      minimumResultsForSearch: -1,
-      width: "resolve",
-       width:"160px"
-    });
-    $("#autoFightColor" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"160px"
-    });
-    $("#autoFightSameColor" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"160px"
-    });
-    $("#autoFightWeak" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"160px"
-    });
-    $("#autoFightDie" + commandId).select2({
-      minimumResultsForSearch: -1,
-       width:"160px"
-    });
-    // $("#ultColor"+commandId).select2({
-    //     minimumResultsForSearch: -1,
-    //     dropdownAutoWidth: true
-    // });
-    for (var i = 0; i < 3; i++) {
-      $("#servant" + i + "ult" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"160px"
-      });
-      for (var j = 0; j < 3; j++) {
-        $("#servant" + i + "skill" + j + commandId).select2({
-          minimumResultsForSearch: -1,
-           width:"160px"
-        });
-        $("#servant" + i + "skill" + j + "target" + commandId).select2({
-          minimumResultsForSearch: -1,
-           width:"80px"
-        });
-      }
-    }
+    addAuto(commandId);
   });
-  $("#insertDirection").click(function () {
-    insertDirection = (parseInt($("#insertDirection").val()) + 1) % 2;
-    $("#insertDirection").val(insertDirection).trigger("change");
-    if (insertDirection == 1) {
-      $("#insertDirection").text("後");
-    } else {
-      $("#insertDirection").text("前");
-    }
+  $("#addSkill").click(function () {
+    commandId++;
+    addSkill(commandId);
+  });
+  $("#addCloth").click(function () {
+    commandId++;
+    addCloth(commandId);
+  });
+  $("#addSelectEnemy").click(function () {
+    commandId++;
+    addSelectEnemy(commandId);
+  });
+  $("#addStartAttack").click(function () {
+    commandId++;
+    addStartAttack(commandId);
+  });
+  $("#addUseUlt").click(function () {
+    commandId++;
+    addUseUlt(commandId);
+  });
+  $("#addSelectCard").click(function () {
+    commandId++;
+    addSelectCard(commandId);
+  });
+  $("#addFinish").click(function () {
+    commandId++;
+    addFinish(commandId);
+  });
+  $("#addSpaceUlt").click(function () {
+    commandId++;
+    addSpaceUlt(commandId);
   });
 }
 
@@ -449,109 +368,9 @@ function insertNewCommand(newCmd) {
   initCommandButton(commandId);
 }
 
-function initFriendButton(scriptValue) {
-  var currentId = commandId;
-  insertNewCommand(getSelectFriend(currentId));
-  for (var i = 0; i < friendServantList.length; i++) {
-    $("#selectFriendServant" + currentId).append(
-      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
-    );
-  }
-
-  $("#selectFriendServant" + currentId).change(function () {
-    if ($(this).val() != -1) {
-      var path = servantImgPath + $(this).select2("data")[0].text + ".png";
-      $("#selectFriendServantImg" + currentId).attr("src", path);
-    } else {
-      $("#selectFriendServantImg" + currentId)
-        .removeAttr("src")
-        .replaceWith($("#selectFriendServantImg" + currentId).clone());
-    }
-  });
-  $("#selectFriendServant" + currentId).select2({
-    minimumResultsForSearch: -1,
-     width:"160px"
-  });
-  for (var i = 0; i < friendItemList.length; i++) {
-    $("#selectFriendItem" + currentId).append(
-      '<option value = "' + i + '">' + friendItemList[i] + "</option>"
-    );
-  }
-  $("#selectFriendItem" + currentId).change(function () {
-    if ($(this).val() != -1) {
-      var path = itemImgPath + $(this).select2("data")[0].text + ".png";
-      $("#selectFriendItemImg" + currentId).attr("src", path);
-    } else {
-      $("#selectFriendItemImg" + currentId)
-        .removeAttr("src")
-        .replaceWith($("#selectFriendItemImg" + currentId).clone());
-    }
-  });
-  $("#selectFriendItem" + currentId).select2({
-    minimumResultsForSearch: -1,
-     width:"160px"
-  });
-  $("#selectFriendItemFull" + currentId).select2({
-    minimumResultsForSearch: -1,
-     width:"160px"
-  });
-  $("#selectFriendOnlyFriend" + currentId).select2({
-    minimumResultsForSearch: -1,
-     width:"160px"
-  });
-  $("#selectFriendScrollCnt" + currentId).select2({
-    minimumResultsForSearch: -1,
-     width:"160px"
-  });
-  if (scriptValue == undefined || scriptValue.length == 0) {
-    return;
-  }
-  var t = 1;
-  for (var i = 0; i < 10; i++) {
-    if (scriptValue[0] & t) {
-      $("#selectFriend" + i + "" + currentId).prop("checked", true);
-    } else {
-      $("#selectFriend" + i + "" + currentId).prop("checked", false);
-    }
-    t *= 2;
-  }
-  for (var i = 0; i < friendServantList.length; i++) {
-    if (
-      new String(friendServantList[i]).valueOf() ==
-      new String(scriptValue[1]).valueOf()
-    ) {
-      $("#selectFriendServant" + currentId)
-        .val(i)
-        .trigger("change");
-      break;
-    }
-  }
-  for (var i = 0; i < friendItemList.length; i++) {
-    if (friendItemList[i] == scriptValue[2]) {
-      $("#selectFriendItem" + currentId)
-        .val(i)
-        .trigger("change");
-      break;
-    }
-  }
-  $("#selectFriendItemFull" + currentId)
-    .val(scriptValue[3])
-    .trigger("change");
-
-  if (scriptValue.length > 4) {
-    $("#selectFriendOnlyFriend" + currentId)
-      .val(scriptValue[4])
-      .trigger("change");
-  }
-  if (scriptValue.length > 5) {
-    $("#selectFriendScrollCnt" + currentId)
-      .val(scriptValue[5])
-      .trigger("change");
-  }
-}
 function initCommandButton(currentId) {
   $("#removeItem" + currentId).click(function () {
-    $(this).parent().parent().remove();
+    $(this).parent().parent().parent().remove();
   });
   $("#hideItem" + currentId).click(function () {
     if ($("#commandvalue" + currentId).is(":visible")) {
@@ -563,14 +382,14 @@ function initCommandButton(currentId) {
     }
   });
   $("#moveItemUp" + currentId).click(function () {
-    var item = $(this).parent().parent();
+    var item = $(this).parent().parent().parent();
     var item2 = item.prev();
     if (item2.is("div")) {
       item2.before(item);
     }
   });
   $("#moveItemDown" + currentId).click(function () {
-    var item = $(this).parent().parent();
+    var item = $(this).parent().parent().parent();
     var item2 = item.next();
     if (item2.is("div")) {
       item.before(item2);
@@ -770,7 +589,7 @@ function initHTML(result) {
   servantImgPath = storagePath + "friend_servant/";
   itemImgPath = storagePath + "friend_item/";
   if (server == "JP") {
-    $("#titleBarText").text("FGO自動周回小幫手 日服 " + version+ " 啟動成功");
+    $("#titleBarText").text("FGO自動周回小幫手 日服 " + version + " 啟動成功");
     $("#serverMessage").remove();
   } else if (server == "TW") {
     $("#titleBarText").text("FGO自動周回小幫手 台服 " + version + " 啟動成功");
@@ -930,7 +749,7 @@ function saveFriendServantConfirm(result) {
       );
       $("#selectFriendServant" + i).select2({
         minimumResultsForSearch: -1,
-         width:"160px"
+        width: "160px",
       });
     }
   }
@@ -949,7 +768,7 @@ function saveFriendItemConfirm(result) {
       );
       $("#selectFriendItem" + i).select2({
         minimumResultsForSearch: -1,
-         width:"160px"
+        width: "160px",
       });
     }
   }
@@ -962,261 +781,63 @@ function resetScript(result) {
   var scriptContentList = result.split(";");
   scriptContentList.forEach(function (content) {
     commandId++;
-    if (checkstring(content, "selectStage")) {
-      content = content.replace("selectStage(", "");
-      content = content.replace(")", "");
-      $("#skill-list").append(getSelectStage(commandId));
-      initCommandButton(commandId);
-      $("#autoApple" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"80px"
-      });
-      $("#autoApple" + commandId)
-        .val(content)
-        .trigger("change");
-    } else if (checkstring(content, "getFriendPoint")) {
-      $("#skill-list").append(getGetFriendPoint(commandId));
-      initCommandButton(commandId);
+    if (checkstring(content, "getFriendPoint")) {
+      addGetFriendPoint(commandId);
     } else if (checkstring(content, "getBox")) {
       content = content.replace("getBox(", "");
       content = content.replace(")", "");
-      var scriptValue = content.split(",");
+      addGetBox(commandId, content);
       $("#skill-list").append(getGetBox(commandId));
       initCommandButton(commandId);
-      $("#getBoxReset" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"80px"
-      });
-      $("#getBoxReset" + commandId)
-        .val(scriptValue[0])
-        .trigger("change");
-
-      $("#getBoxFast" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"80px"
-      });
-      if (scriptValue.length >= 2) {
-        $("#getBoxFast" + commandId)
-          .val(scriptValue[1])
-          .trigger("change");
-      }
+    } else if (checkstring(content, "selectStage")) {
+      content = content.replace("selectStage(", "");
+      content = content.replace(")", "");
+      addSelectStage(commandId, content);
     } else if (checkstring(content, "selectFriend")) {
       content = content.replace("selectFriend(", "");
       content = content.replace(")", "");
       content = content.replace(/"/g, "");
-      var scriptValue = content.split(",");
-      initFriendButton(scriptValue);
+      addSelectFriend(commandId, content);
     } else if (checkstring(content, "selectTeam")) {
       content = content.replace("selectTeam(", "");
       content = content.replace(")", "");
-      $("#skill-list").append(getSelectTeam(commandId));
-      initCommandButton(commandId);
-      $("#selectTeam" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#selectTeam" + commandId)
-        .val(content)
-        .trigger("change");
+      addSelectTeam(commandId, content);
     } else if (checkstring(content, "startQuest")) {
       content = content.replace("startQuest(", "");
       content = content.replace(")", "");
-      $("#skill-list").append(getStartQuest(commandId));
-      initCommandButton(commandId);
-      $("#useItem" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      if (content.length == 0) {
-        content = -1;
-      }
-      $("#useItem" + commandId)
-        .val(content)
-        .trigger("change");
-    } else if (checkstring(content, "finishQuest")) {
-      $("#skill-list").append(getFinishItem(commandId));
-      initCommandButton(commandId);
-    } else if (checkstring(content, "setSpaceUltColor")) {
-      content = content.replace("setSpaceUltColor(", "");
-      content = content.replace(")", "");
-      $("#skill-list").append(getSpaceUltItem(commandId));
-      initCommandButton(commandId);
-      $("#spaceUltColor" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#spaceUltColor" + commandId)
-        .val(content)
-        .trigger("change");
-    } else if (checkstring(content, "useSkill")) {
-      content = content.replace("useSkill(", "");
-      content = content.replace(")", "");
-      var scriptValue = content.split(",");
-      $("#skill-list").append(getUseSkillItem(commandId));
-      initCommandButton(commandId);
-      $("#useSkillServant" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#useSkillServant" + commandId)
-        .val(scriptValue[0])
-        .trigger("change");
-      $("#useSkill" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#useSkill" + commandId)
-        .val(scriptValue[1])
-        .trigger("change");
-      $("#useSkillTarget" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#useSkillTarget" + commandId)
-        .val(scriptValue[2])
-        .trigger("change");
-    } else if (checkstring(content, "useClothesSkill")) {
-      content = content.replace("useClothesSkill(", "");
-      content = content.replace(")", "");
-      var scriptValue = content.split(",");
-      $("#skill-list").append(getClothItem(commandId));
-      initCommandButton(commandId);
-      $("#clothSkill" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#clothSkill" + commandId)
-        .val(scriptValue[0])
-        .trigger("change");
-      $("#clothSkillTarget" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#clothSkillTarget" + commandId)
-        .val(scriptValue[1])
-        .trigger("change");
-      $("#clothSkillChange" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#clothSkillChange" + commandId)
-        .val(scriptValue[2])
-        .trigger("change");
-    } else if (checkstring(content, "selectEnemy")) {
-      content = content.replace("selectEnemy(", "");
-      content = content.replace(")", "");
-      $("#skill-list").append(getSelectEnemy(commandId));
-      initCommandButton(commandId);
-      $("#selectEnemy" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#selectEnemy" + commandId)
-        .val(content)
-        .trigger("change");
-    } else if (checkstring(content, "startAttack")) {
-      $("#skill-list").append(getStartAttackItem(commandId));
-      initCommandButton(commandId);
-    } else if (checkstring(content, "useUlt")) {
-      content = content.replace("useUlt(", "");
-      content = content.replace(")", "");
-      $("#skill-list").append(getUseUltItem(commandId));
-      initCommandButton(commandId);
-      $("#useUlt" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#useUlt" + commandId)
-        .val(content)
-        .trigger("change");
-    } else if (checkstring(content, "selectCard")) {
-      content = content.replace("selectCard(", "");
-      content = content.replace(")", "");
-      $("#skill-list").append(getSelectCardItem(commandId));
-      initCommandButton(commandId);
-      $("#selectCard" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"120px"
-      });
-      $("#selectCard" + commandId)
-        .val(content)
-        .trigger("change");
+      addStartQuest(commandId, content);
     } else if (checkstring(content, "autoAttack")) {
       content = content.replace("autoAttack(", "");
       content = content.replace(")", "");
-      var scriptValue = content.split(",");
-      $("#skill-list").append(getAutoItem(commandId));
-      initCommandButton(commandId);
-      $("#autoFightUntil" + commandId).select2({
-        minimumResultsForSearch: -1,
-        width: "resolve",
-         width:"160px"
-      });
-      $("#autoFightUntil" + commandId)
-        .val(scriptValue[0])
-        .trigger("change");
-      $("#autoFightColor" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"160px"
-      });
-      $("#autoFightColor" + commandId)
-        .val(scriptValue[1])
-        .trigger("change");
-      $("#autoFightSameColor" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"160px"
-      });
-      $("#autoFightSameColor" + commandId)
-        .val(scriptValue[2])
-        .trigger("change");
-      $("#autoFightWeak" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"160px"
-      });
-      $("#autoFightWeak" + commandId)
-        .val(scriptValue[3])
-        .trigger("change");
-      $("#autoFightDie" + commandId).select2({
-        minimumResultsForSearch: -1,
-         width:"160px"
-      });
-      $("#autoFightDie" + commandId)
-        .val(scriptValue[4])
-        .trigger("change");
-      for (var i = 0; i < 3; i++) {
-        $("#servant" + i + "ult" + commandId).select2({
-          minimumResultsForSearch: -1,
-           width:"160px"
-        });
-        $("#servant" + i + "ult" + commandId)
-          .val(scriptValue[5 + 7 * i])
-          .trigger("change");
-        for (var j = 0; j < 3; j++) {
-          $("#servant" + i + "skill" + j + commandId).select2({
-            minimumResultsForSearch: -1,
-             width:"160px"
-          });
-          $("#servant" + i + "skill" + j + commandId)
-            .val(scriptValue[5 + 7 * i + 1 + j * 2])
-            .trigger("change");
-          $("#servant" + i + "skill" + j + "target" + commandId).select2({
-            minimumResultsForSearch: -1,
-             width:"80px"
-          });
-          $("#servant" + i + "skill" + j + "target" + commandId)
-            .val(scriptValue[5 + 7 * i + 1 + j * 2 + 1])
-            .trigger("change");
-        }
-      }
-      // if(scriptValue.length >= 27){
-      //     $("#ultColor"+commandId).val(scriptValue[26]).trigger('change');
-      // }else{
-      //     $("#ultColor"+commandId).val("1").trigger('change');
-      // }
-      // $("#ultColor"+commandId).select2({
-      //     minimumResultsForSearch: -1,
-      //     dropdownAutoWidth: true
-      // });
+      addAuto(commandId, content);
+    } else if (checkstring(content, "useSkill")) {
+      content = content.replace("useSkill(", "");
+      content = content.replace(")", "");
+      addSkill(commandId, content);
+    } else if (checkstring(content, "useClothesSkill")) {
+      content = content.replace("useClothesSkill(", "");
+      content = content.replace(")", "");
+      addCloth(commandId, content);
+    } else if (checkstring(content, "selectEnemy")) {
+      content = content.replace("selectEnemy(", "");
+      content = content.replace(")", "");
+      addSelectEnemy(commandId, content);
+    } else if (checkstring(content, "startAttack")) {
+      addStartAttack(commandId);
+    } else if (checkstring(content, "useUlt")) {
+      content = content.replace("useUlt(", "");
+      content = content.replace(")", "");
+      addUseUlt(commandId, content);
+    } else if (checkstring(content, "selectCard")) {
+      content = content.replace("selectCard(", "");
+      content = content.replace(")", "");
+      addSelectCard(commandId, content);
+    } else if (checkstring(content, "finishQuest")) {
+      addFinish(commandId);
+    } else if (checkstring(content, "setSpaceUltColor")) {
+      content = content.replace("setSpaceUltColor(", "");
+      content = content.replace(")", "");
+      addSpaceUlt(commandId, content);
     }
   });
   insertDirection = currentDirection;
