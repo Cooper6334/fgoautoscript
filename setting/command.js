@@ -473,12 +473,14 @@ function addAuto(commandId, content) {
     .val(scriptValue[4])
     .trigger("change");
   for (var i = 0; i < 3; i++) {
-    $("#autoClothskill" + i + commandId)
-    .val(scriptValue[27 + 2 * i])
-    .trigger("change");
-    $("#autoClothskill" + i + "target" + commandId)
-    .val(scriptValue[27 + 2 * i + 1])
-    .trigger("change");
+    if (scriptValue.length >= 27) {
+      $("#autoClothskill" + i + commandId)
+        .val(scriptValue[27 + 2 * i])
+        .trigger("change");
+      $("#autoClothskill" + i + "target" + commandId)
+        .val(scriptValue[27 + 2 * i + 1])
+        .trigger("change");
+    }
 
     $("#servant" + i + "ult" + commandId)
       .val(scriptValue[5 + 7 * i])
