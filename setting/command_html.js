@@ -294,7 +294,7 @@ function getAutoItem(id) {
       '<option value = "0">停止腳本</option>' +
       '<option value = "1">使用技能</option>' +
       '<option value = "2">不使用技能</option>' +
-      '<option value = "3" selected>沿用前一從者設定</option></select></div>' +
+      '<option value = "3" selected>不檢查</option></select></div>' +
       //
       "<div class='commandSelectDiv'>御主技能設定</div>" +
       getAutoServantSkillItem(id, "autoCloth") +

@@ -231,7 +231,8 @@ function attackAI(
 ) {
   console.log("自動戰鬥 新回合開始");
   var screenshot = getScreenshotResize();
-  var servantAlive = updateServantAlive(screenshot);
+  var servantAlive =
+    die == 3 ? [true, true, true] : updateServantAlive(screenshot);
   var skillUsed = updateSkillUsed(screenshot);
   var servantExist = updateServantExist(screenshot);
   releaseImage(screenshot);
