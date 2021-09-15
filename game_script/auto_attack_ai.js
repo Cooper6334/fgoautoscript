@@ -28,12 +28,11 @@ var cardHeight = 75;
 
 var cardListX = [94, 478, 861, 1248, 1638];
 var cardListY = 608;
-var cardMoveRange = 12;
-var cardColorOffset = [0, 199];
+var cardMoveRange = 102;
+var cardColorOffset = [0, 124];
 
 var cardListOffsetWeakX = 172;
 var cardListOffsetWeakY = -120;
-var cardListWeakMoveRange = 90;
 var weakW = 75;
 var weakH = 22;
 
@@ -461,7 +460,7 @@ function updateCardList() {
       cardListX[i] + defaultMarginX + cardListOffsetWeakX,
       cardListY + cardListOffsetWeakY,
       weakW + 1,
-      weakH + cardMoveRange + cardListWeakMoveRange
+      weakH + cardMoveRange
     );
     if (
       findImage(cropDisable[0], cardImage[5]).score >= 0.85 &&
