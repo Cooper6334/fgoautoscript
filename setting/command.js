@@ -1,6 +1,233 @@
+//command to script
+function getCurrentScript() {
+  var newScript = "";
+  $("#skill-list")
+    .children()
+    .each(function () {
+      var itemTitle = $(this).find("label:first").text();
+      var itemId = $(this).find("label:first").attr("name");
+      switch (itemTitle) {
+        case "友抽":
+          newScript += "getFriendPoint();";
+          break;
+        case "抽箱":
+          newScript +=
+            "getBox(" +
+            $("#getBoxReset" + itemId).val() +
+            "," +
+            $("#getBoxFast" + itemId).val() +
+            ");";
+          break;
+        case "選擇關卡":
+          newScript += "selectStage(" + $("#autoApple" + itemId).val() + ");";
+          break;
+        case "選擇好友":
+          var filter = 0;
+          var t = 1;
+          for (var i = 0; i < 10; i++) {
+            if ($("#selectFriend" + i + "" + itemId).is(":checked")) {
+              filter += t;
+            }
+            t *= 2;
+          }
+          var servant = "";
+          if ($("#selectFriendServant" + itemId).val() != -1) {
+            servant = $("#selectFriendServant" + itemId).select2("data")[0]
+              .text;
+          }
+          var item = "";
+          if ($("#selectFriendItem" + itemId).val() != -1) {
+            item = $("#selectFriendItem" + itemId).select2("data")[0].text;
+          }
+          newScript +=
+            "selectFriend(" +
+            filter +
+            ',"' +
+            servant +
+            '","' +
+            item +
+            '",' +
+            $("#selectFriendItemFull" + itemId).val() +
+            "," +
+            $("#selectFriendOnlyFriend" + itemId).val() +
+            "," +
+            $("#selectFriendScrollCnt" + itemId).val() +
+            ");";
+          break;
+        case "選擇隊伍":
+          newScript += "selectTeam(" + $("#selectTeam" + itemId).val() + ");";
+          break;
+        case "進入關卡":
+          newScript += "startQuest(" + $("#useItem" + itemId).val() + ");";
+          break;
+        case "結束關卡":
+          newScript += "finishQuest();";
+          break;
+        case "設定技能改變寶具顏色":
+          newScript +=
+            "setSpaceUltColor(" + $("#spaceUltColor" + itemId).val() + ");";
+          break;
+        case "使用技能":
+          newScript +=
+            "useSkill(" +
+            $("#useSkillServant" + itemId).val() +
+            "," +
+            $("#useSkill" + itemId).val() +
+            "," +
+            $("#useSkillTarget" + itemId).val() +
+            ");";
+          break;
+        case "使用御主技能":
+          newScript +=
+            "useClothesSkill(" +
+            $("#clothSkill" + itemId).val() +
+            "," +
+            $("#clothSkillTarget" + itemId).val() +
+            ");";
+          break;
+        case "戰鬥服換人":
+          newScript +=
+            "switchServant(" +
+            $("#switchServantFront" + itemId).val() +
+            "," +
+            $("#switchServantBack" + itemId).val() +
+            ");";
+          break;
+        case "選擇敵人":
+          newScript += "selectEnemy(" + $("#selectEnemy" + itemId).val() + ");";
+          break;
+        case "開始選卡":
+          newScript += "startAttack();";
+          break;
+        case "使用寶具":
+          newScript += "useUlt(" + $("#useUlt" + itemId).val() + ");";
+          break;
+        case "選擇卡片":
+          newScript += "selectCard(" + $("#selectCard" + itemId).val() + ");";
+          break;
+        case "自動戰鬥":
+          newScript +=
+            "autoAttack(" +
+            $("#autoFightUntil" + itemId).val() +
+            "," +
+            $("#autoFightColor" + itemId).val() +
+            "," +
+            $("#autoFightSameColor" + itemId).val() +
+            "," +
+            $("#autoFightWeak" + itemId).val() +
+            "," +
+            $("#autoFightDie" + itemId).val();
+          for (var i = 0; i < 3; i++) {
+            newScript += "," + $("#servant" + i + "ult" + itemId).val();
+            for (var j = 0; j < 3; j++) {
+              newScript += "," + $("#servant" + i + "skill" + j + itemId).val();
+              newScript +=
+                "," + $("#servant" + i + "skill" + j + "target" + itemId).val();
+            }
+          }
+
+          // newScript+=","+$("#ultColor"+itemId).val();
+          newScript += ",false";
+          for (var i = 0; i < 3; i++) {
+            newScript += "," + $("#autoClothskill" + i + itemId).val();
+            newScript +=
+              "," + $("#autoClothskill" + i + "target" + itemId).val();
+          }
+
+          newScript += ");";
+          break;
+        default:
+          newScript += "/*no this function*/";
+          break;
+      }
+    });
+  return newScript;
+}
+
+//load script
+function resetScript(result) {
+  clearScript();
+  var currentDirection = insertDirection;
+  insertDirection = 1;
+  var scriptContentList = result.split(";");
+  scriptContentList.forEach(function (content) {
+    commandId++;
+    if (checkstring(content, "getFriendPoint")) {
+      addGetFriendPoint(commandId);
+    } else if (checkstring(content, "getBox")) {
+      content = content.replace("getBox(", "");
+      content = content.replace(")", "");
+      addGetBox(commandId, content);
+      $("#skill-list").append(getGetBox(commandId));
+      initCommandButton(commandId);
+    } else if (checkstring(content, "selectStage")) {
+      content = content.replace("selectStage(", "");
+      content = content.replace(")", "");
+      addSelectStage(commandId, content);
+    } else if (checkstring(content, "selectFriend")) {
+      content = content.replace("selectFriend(", "");
+      content = content.replace(")", "");
+      content = content.replace(/"/g, "");
+      addSelectFriend(commandId, content);
+    } else if (checkstring(content, "selectTeam")) {
+      content = content.replace("selectTeam(", "");
+      content = content.replace(")", "");
+      addSelectTeam(commandId, content);
+    } else if (checkstring(content, "startQuest")) {
+      content = content.replace("startQuest(", "");
+      content = content.replace(")", "");
+      addStartQuest(commandId, content);
+    } else if (checkstring(content, "autoAttack")) {
+      content = content.replace("autoAttack(", "");
+      content = content.replace(")", "");
+      addAuto(commandId, content);
+    } else if (checkstring(content, "useSkill")) {
+      content = content.replace("useSkill(", "");
+      content = content.replace(")", "");
+      addSkill(commandId, content);
+    } else if (checkstring(content, "useClothesSkill")) {
+      content = content.replace("useClothesSkill(", "");
+      content = content.replace(")", "");
+      addCloth(commandId, content);
+    } else if (checkstring(content, "switchServant")) {
+      content = content.replace("switchServant(", "");
+      content = content.replace(")", "");
+      addSwitchServant(commandId, content);
+    } else if (checkstring(content, "selectEnemy")) {
+      content = content.replace("selectEnemy(", "");
+      content = content.replace(")", "");
+      addSelectEnemy(commandId, content);
+    } else if (checkstring(content, "startAttack")) {
+      addStartAttack(commandId);
+    } else if (checkstring(content, "useUlt")) {
+      content = content.replace("useUlt(", "");
+      content = content.replace(")", "");
+      addUseUlt(commandId, content);
+    } else if (checkstring(content, "selectCard")) {
+      content = content.replace("selectCard(", "");
+      content = content.replace(")", "");
+      addSelectCard(commandId, content);
+    } else if (checkstring(content, "finishQuest")) {
+      addFinish(commandId);
+    } else if (checkstring(content, "setSpaceUltColor")) {
+      content = content.replace("setSpaceUltColor(", "");
+      content = content.replace(")", "");
+      addSpaceUlt(commandId, content);
+    } else if (checkstring(content, "additionalFriendServant")) {
+      content = content.replace("additionalFriendServant(", "");
+      content = content.replace(")", "");
+      addAdditionalFriendServant(commandId, content);
+    }
+  });
+  insertDirection = currentDirection;
+  bootbox.alert("讀取成功");
+}
+
+//Add command=====================================================
 function addGetFriendPoint(commandId) {
   insertNewCommand(getGetFriendPoint(commandId));
 }
+
 function addGetBox(commandId, content) {
   insertNewCommand(getGetBox(commandId));
 
@@ -200,10 +427,20 @@ function addAuto(commandId, content) {
     width: "160px",
   });
   for (var i = 0; i < 3; i++) {
+    $("#autoClothskill" + i + commandId).select2({
+      minimumResultsForSearch: -1,
+      width: "160px",
+    });
+    $("#autoClothskill" + i + "target" + commandId).select2({
+      minimumResultsForSearch: -1,
+      width: "160px",
+    });
+
     $("#servant" + i + "ult" + commandId).select2({
       minimumResultsForSearch: -1,
       width: "160px",
     });
+
     for (var j = 0; j < 3; j++) {
       $("#servant" + i + "skill" + j + commandId).select2({
         minimumResultsForSearch: -1,
@@ -236,6 +473,13 @@ function addAuto(commandId, content) {
     .val(scriptValue[4])
     .trigger("change");
   for (var i = 0; i < 3; i++) {
+    $("#autoClothskill" + i + commandId)
+    .val(scriptValue[27 + 2 * i])
+    .trigger("change");
+    $("#autoClothskill" + i + "target" + commandId)
+    .val(scriptValue[27 + 2 * i + 1])
+    .trigger("change");
+
     $("#servant" + i + "ult" + commandId)
       .val(scriptValue[5 + 7 * i])
       .trigger("change");

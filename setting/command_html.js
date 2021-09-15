@@ -31,7 +31,46 @@ function getCommandItem(id, name, selection) {
     "</div>";
   return result;
 }
-//default command
+
+function insertNewCommand(newCmd) {
+  if (insertDirection == 1) {
+    $("#skill-list").append(newCmd);
+  } else {
+    $("#skill-list").prepend(newCmd);
+  }
+  initCommandButton(commandId);
+}
+
+function initCommandButton(currentId) {
+  $("#removeItem" + currentId).click(function () {
+    $(this).parent().parent().parent().remove();
+  });
+  $("#hideItem" + currentId).click(function () {
+    if ($("#commandvalue" + currentId).is(":visible")) {
+      $(this).text("顯示");
+      $("#commandvalue" + currentId).hide();
+    } else {
+      $(this).text("隱藏");
+      $("#commandvalue" + currentId).show();
+    }
+  });
+  $("#moveItemUp" + currentId).click(function () {
+    var item = $(this).parent().parent().parent();
+    var item2 = item.prev();
+    if (item2.is("div")) {
+      item2.before(item);
+    }
+  });
+  $("#moveItemDown" + currentId).click(function () {
+    var item = $(this).parent().parent().parent();
+    var item2 = item.next();
+    if (item2.is("div")) {
+      item.before(item2);
+    }
+  });
+}
+
+//command html=============================
 function getGetFriendPoint(id) {
   return getCommandItem(
     id,
@@ -504,11 +543,11 @@ function getSpaceUltItem(id) {
   );
 }
 
-function getAdditionalFriendServentItem(id){
+function getAdditionalFriendServentItem(id) {
   return getCommandItem(
     id,
     "設定多重好友從者",
-      "<div class='commandSelectDiv'>敘述</div>" +
+    "<div class='commandSelectDiv'>敘述</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>指定從者</div>" +
       '<select id = "additionalFriendServant' +
@@ -519,5 +558,4 @@ function getAdditionalFriendServentItem(id){
       id +
       '"></div>'
   );
-
 }

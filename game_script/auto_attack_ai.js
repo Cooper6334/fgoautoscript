@@ -42,6 +42,8 @@ var offsetDisableY = -67;
 var disableW = 45;
 var disableH = 45;
 
+var clothSkillUsed = [];
+
 /*
 //ult
 var ultList = [];
@@ -88,7 +90,13 @@ function autoAttack(
   p2t1,
   p2s2,
   p2t2,
-  ultColor
+  ultColor,
+  ctime0,
+  ctarget0,
+  ctime1,
+  ctarget1,
+  ctime2,
+  ctarget2
 ) {
   var ult = [];
   ult[0] = p0ult;
@@ -134,6 +142,22 @@ function autoAttack(
   skill[0] = p0;
   skill[1] = p1;
   skill[2] = p2;
+
+  clothSkillUsed = [false,false,false];
+  var c0 = [];
+  c0[0] = ctime0 == undefined ? -1 : ctime0;
+  c0[1] = ctarget0 == undefined ? -1 : ctarget0;
+  var c1 = [];
+  c1[0] = ctime1 == undefined ? -1 : ctime1;
+  c1[1] = ctarget1 == undefined ? -1 : ctarget1;
+  var c2 = [];
+  c2[0] = ctime2 == undefined ? -1 : ctime2;
+  c2[1] = ctarget2 == undefined ? -1 : ctarget2;
+
+  var clothSkill = [];
+  clothSkill[0] = c0;
+  clothSkill[1] = c1;
+  clothSkill[2] = c2;
 
   servantInited = false;
   servantAliveMessage = [true, true, true];
@@ -193,7 +217,15 @@ function attackAI(mainColor, sameColor, weak, die, ult, skill, currentStage) {
   var skillUsed = updateSkillUsed(screenshot);
   var servantExist = updateServantExist(screenshot);
   releaseImage(screenshot);
-
+  for (var i = 0; i < 3; i++) {
+    if (!isScriptRunning) {
+      return;
+    }
+    if(!clothSkillUsed[i] && clothSkill[i][0] >= currentStage){
+      useClothesSkill(i,clothSkill[i][1]);
+      clothSkillUsed[i] = true;
+    }
+  }
   for (var i = 0; i < 3; i++) {
     for (var j = 2; j >= 0; j--) {
       if (!isScriptRunning) {
