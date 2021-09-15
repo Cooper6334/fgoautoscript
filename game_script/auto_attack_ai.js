@@ -143,7 +143,7 @@ function autoAttack(
   skill[1] = p1;
   skill[2] = p2;
 
-  clothSkillUsed = [false,false,false];
+  clothSkillUsed = [false, false, false];
   var c0 = [];
   c0[0] = ctime0 == undefined ? -1 : ctime0;
   c0[1] = ctarget0 == undefined ? -1 : ctarget0;
@@ -200,7 +200,16 @@ function autoAttack(
         sendNormalMessage(runningScriptName, "Wave " + (lastStage + 1));
       }
     }
-    attackAI(mainColor, sameColor, weak, die, ult, skill, currentStage);
+    attackAI(
+      mainColor,
+      sameColor,
+      weak,
+      die,
+      clothSkill,
+      ult,
+      skill,
+      currentStage
+    );
     if (until == 0) {
       console.log("一回合完成，自動戰鬥結束");
       break;
@@ -210,7 +219,16 @@ function autoAttack(
   releaseAllImage();
 }
 
-function attackAI(mainColor, sameColor, weak, die, ult, skill, currentStage) {
+function attackAI(
+  mainColor,
+  sameColor,
+  weak,
+  die,
+  clothSkill,
+  ult,
+  skill,
+  currentStage
+) {
   console.log("自動戰鬥 新回合開始");
   var screenshot = getScreenshotResize();
   var servantAlive = updateServantAlive(screenshot);
@@ -221,8 +239,8 @@ function attackAI(mainColor, sameColor, weak, die, ult, skill, currentStage) {
     if (!isScriptRunning) {
       return;
     }
-    if(!clothSkillUsed[i] && clothSkill[i][0] >= currentStage){
-      useClothesSkill(i,clothSkill[i][1]);
+    if (!clothSkillUsed[i] && currentStage >= clothSkill[i][0]) {
+      useClothesSkill(i, clothSkill[i][1]);
       clothSkillUsed[i] = true;
     }
   }

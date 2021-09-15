@@ -1,5 +1,5 @@
-//var server = "JP"
-var server = "TW";
+var server = "JP"
+//var server = "TW";
 
 var version = "";
 var commandId = 0;

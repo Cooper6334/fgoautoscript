@@ -1,3 +1,2 @@
 *.zip
-other/test.js
-other/debug.js
+/debug/test.js
