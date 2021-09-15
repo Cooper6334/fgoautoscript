@@ -239,7 +239,7 @@ function attackAI(
     if (!isScriptRunning) {
       return;
     }
-    if (!clothSkillUsed[i] && currentStage >= clothSkill[i][0]) {
+    if (!clothSkillUsed[i] && clothSkill[i][0] >= 0 && currentStage >= clothSkill[i][0]) {
       useClothesSkill(i, clothSkill[i][1]);
       clothSkillUsed[i] = true;
     }
