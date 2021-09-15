@@ -1,4 +1,4 @@
-var server = "JP"
+var server = "JP";
 //var server = "TW";
 
 var version = "";
@@ -136,12 +136,41 @@ function initButton() {
     commandId++;
     addAuto(
       commandId,
-      "1,0,1,1,0,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1"
+      "1,0,1,1,0,0,-1,-1,-1,-1,-1,-1,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,false,-1,-1,-1,-1,-1,-1"
     );
     commandId++;
-    addSwitchServant(commandId);
+    addSwitchServant(commandId, "2,3");
     commandId++;
     addAuto(commandId);
+    commandId++;
+    addFinish(commandId);
+    insertDirection = currentDirection;
+  });
+  $("#addAllFlowSwitchT1").click(function () {
+    var currentDirection = insertDirection;
+    insertDirection = 1;
+    clearScript();
+    commandId++;
+    addSelectStage(commandId);
+    commandId++;
+    addSelectFriend(commandId);
+    commandId++;
+    addSelectTeam(commandId);
+    commandId++;
+    addStartQuest(commandId);
+    commandId++;
+    addSkill(commandId, "2,0,0");
+    commandId++;
+    addSkill(commandId, "2,1,0");
+    commandId++;
+    addSkill(commandId, "2,2,0");
+    commandId++;
+    addSwitchServant(commandId, "2,3");
+    commandId++;
+    addAuto(
+      commandId,
+      "3,0,1,1,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,false,2,-1,-1,-1,-1,-1"
+    );
     commandId++;
     addFinish(commandId);
     insertDirection = currentDirection;

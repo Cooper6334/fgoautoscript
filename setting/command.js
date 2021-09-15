@@ -472,8 +472,9 @@ function addAuto(commandId, content) {
   $("#autoFightDie" + commandId)
     .val(scriptValue[4])
     .trigger("change");
+
   for (var i = 0; i < 3; i++) {
-    if (scriptValue.length >= 27) {
+    if (scriptValue.length > 27) {
       $("#autoClothskill" + i + commandId)
         .val(scriptValue[27 + 2 * i])
         .trigger("change");
