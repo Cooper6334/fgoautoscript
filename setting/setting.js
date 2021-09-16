@@ -185,11 +185,13 @@ function initButton() {
     var currentScript = getCurrentScript();
     var scriptName = $("#scriptMode").select2("data")[0].text;
     if (scriptName != "") {
+      //overwrite script
       JavaScriptInterface.runScriptCallback(
         'saveScript("' + scriptName + "\",'" + currentScript + "');",
         "saveScriptConfirm"
       );
     } else {
+      //create new script
       bootbox.prompt({
         title: "腳本名稱",
         value: "新腳本" + (scriptCnt + 1),
@@ -266,7 +268,7 @@ function initButton() {
         if (scriptNameOK) {
           JavaScriptInterface.runScriptCallback(
             'saveScript("' + newScriptName + "\",'" + "');",
-            "createScriptConfirm"
+            "createEmptyScriptConfirm"
           );
         } else {
           console.log("Create script file name failed " + newScriptName);
@@ -585,7 +587,7 @@ function saveItemConfirm(time) {
   });
 }
 
-function createScriptConfirm(result) {
+function createEmptyScriptConfirm(result) {
   if (result == null) {
     return;
   }
@@ -596,6 +598,19 @@ function createScriptConfirm(result) {
     '<option value = "' + scriptCnt + '" selected>' + result
   );
   clearScript();
+  startListenScriptSelect();
+}
+
+function createScriptConfirm(result){
+  if (result == null) {
+    return;
+  }
+  bootbox.alert("建立成功");
+  scriptCnt++;
+  stopListenScriptSelect();
+  $("#scriptMode").append(
+    '<option value = "' + scriptCnt + '" selected>' + result
+  );
   startListenScriptSelect();
 }
 
