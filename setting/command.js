@@ -438,11 +438,11 @@ function addAuto(commandId, content) {
   for (var i = 0; i < 3; i++) {
     $("#autoClothskill" + i + commandId).select2({
       minimumResultsForSearch: -1,
-      width: "160px",
+      width: "120px",
     });
     $("#autoClothskill" + i + "target" + commandId).select2({
       minimumResultsForSearch: -1,
-      width: "160px",
+      width: "64px",
     });
 
     $("#servant" + i + "ult" + commandId).select2({
@@ -453,11 +453,11 @@ function addAuto(commandId, content) {
     for (var j = 0; j < 3; j++) {
       $("#servant" + i + "skill" + j + commandId).select2({
         minimumResultsForSearch: -1,
-        width: "160px",
+        width: "120px",
       });
       $("#servant" + i + "skill" + j + "target" + commandId).select2({
         minimumResultsForSearch: -1,
-        width: "80px",
+        width: "64px",
       });
     }
   }

@@ -125,41 +125,42 @@ function getSelectFriend(id) {
     id,
     "選擇好友",
     "<div class='commandSelectDiv'>建議優先使用遊戲內建的禮裝篩選</div>" +
-      "<div class='commandSelectDiv'>如需篩選同一從者不同靈基，請使用\"設定多重好友從者\"指令</div>" +
+      "<div class='commandSelectDiv'>如需篩選同一從者不同靈基，請使用\"好友從者多選\"指令</div>" +
       "<div class='commandSelectClassDiv'>" +
       "<div class='commandItem'>搜尋職階</div>" +
-      "<div class='servantClassDiv'><div>" +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend0' +
+      '<div class="servantClassDiv2L">' +
+      "<div class='servantClassDiv'>" +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend0' +
       id +
-      '">全' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend1' +
+      '">全</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend1' +
       id +
-      '">劍' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend2' +
+      '">劍</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend2' +
       id +
-      '">弓' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend3' +
+      '">弓</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend3' +
       id +
-      '">槍' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend4' +
+      '">槍</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend4' +
       id +
-      '">騎' +
-      "</div><div>" +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend5' +
+      '">騎</div>' +
+      "</div><div class='servantClassDiv'>" +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend5' +
       id +
-      '" >術' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend6' +
+      '">術</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend6' +
       id +
-      '">殺' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend7' +
+      '">殺</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend7' +
       id +
-      '">狂' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend8' +
+      '">狂</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend8' +
       id +
-      '">特' +
-      '<input type="checkbox" class = "servantClassBox" id = "selectFriend9' +
+      '">特</div>' +
+      '<div class="classDiv"><input type="checkbox" class = "servantClassBox" id = "selectFriend9' +
       id +
-      '"checked>混</div></div></div>' +
+      '"checked>混</div></div></div></div>' +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>指定從者</div>" +
       '<select id = "selectFriendServant' +
@@ -314,7 +315,7 @@ function getAutoItem(id) {
 function getAutoServantSkillItem(id, user) {
   return (
     "<div class='commandSelectDiv'>" +
-    "<div class='commandServantSkillTitle'>技能一</div>" +
+    "<div class='skillDiv'><div class='commandServantSkillTitle'>技能一</div>" +
     '<select id = "' +
     user +
     "skill0" +
@@ -333,10 +334,10 @@ function getAutoServantSkillItem(id, user) {
     '<option value = "-1" selected>無</option>' +
     '<option value = "0">從者1</option>' +
     '<option value = "1">從者2</option>' +
-    '<option value = "2">從者3</option></select></div>' +
+    '<option value = "2">從者3</option></select></div></div>' +
     //
     "<div class='commandSelectDiv'>" +
-    "<div class='commandServantSkillTitle'>技能二</div>" +
+    "<div class='skillDiv'><div class='commandServantSkillTitle'>技能二</div>" +
     '<select id = "' +
     user +
     "skill1" +
@@ -355,10 +356,10 @@ function getAutoServantSkillItem(id, user) {
     '<option value = "-1" selected>無</option>' +
     '<option value = "0">從者1</option>' +
     '<option value = "1">從者2</option>' +
-    '<option value = "2">從者3</option></select></div>' +
+    '<option value = "2">從者3</option></select></div></div>' +
     //
     "<div class='commandSelectDiv'>" +
-    "<div class='commandServantSkillTitle'>技能三</div>" +
+    "<div class='skillDiv'><div class='commandServantSkillTitle'>技能三</div>" +
     '<select id = "' +
     user +
     "skill2" +
@@ -377,7 +378,7 @@ function getAutoServantSkillItem(id, user) {
     '<option value = "-1" selected>無</option>' +
     '<option value = "0">從者1</option>' +
     '<option value = "1">從者2</option>' +
-    '<option value = "2">從者3</option></select></div>'
+    '<option value = "2">從者3</option></select></div></div>'
   );
 }
 

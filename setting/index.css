@@ -19,9 +19,9 @@
 }
 
 .cmdButton {
-  height: 40px;
-  font-size: 18px;
-  border-radius: 6px;
+  height: 30px;
+  font-size: 14px;
+  border-radius: 4px;
   margin: 4px;
   user-select: none;
 }
@@ -58,40 +58,57 @@
   user-select: none;
 }
 
-.command{
+.command {
   margin-left: 10px;
 }
 
 .commandSelectDiv {
-  height: 40px;
   margin: 4px;
-  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 12px;
   display: flex;
   align-items: center;
 }
 
 .commandServantSkillTitle {
-  width: 60px;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .commandSelectClassDiv {
-  height: 60px;
   margin: 4px;
   font-size: 16px;
   display: flex;
   align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.servantClassDiv2L {
+  display: flex;
+  flex-direction: column;
 }
 
 .servantClassDiv {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.classDiv {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  font-size: 12px;
 }
 
 .servantClassBox {
   width: 24px;
   height: 24px;
-  margin-left: 10px !important;
+  margin-left: 6px !important;
+  margin-right: 4px !important;
 }
 
 .selectFriendServantImg {
@@ -107,7 +124,6 @@
 }
 
 .commandTitle {
-  font-weight: bold;
   font-size: 20px;
   margin-bottom: 4px;
   user-select: none;
@@ -126,11 +142,18 @@
 
 .commandItem {
   margin-right: 10px;
+  font-size: 12px;
+}
+
+.skillDiv {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
 }
 
 #titleBar {
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   text-align: center;
   border-radius: 2px;
   background-color: #2196f3;
@@ -141,7 +164,7 @@
 
 #titleBarText {
   color: white;
-  font-size: 24px;
+  font-size: 16px;
 }
 
 #loopTimeDiv {
