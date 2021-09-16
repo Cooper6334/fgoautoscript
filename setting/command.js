@@ -538,6 +538,16 @@ function addSkill(commandId, content) {
 }
 
 function addCloth(commandId, content) {
+  //handle old version
+  if (content != undefined) {
+    var test = content.split(",");
+    if (test.length >= 3 && test[0] == 2 && test[2] != -1) {
+      var newContext = test[1]+","+test[2];
+      addSwitchServant(commandId, newContext);
+      return;
+    }
+  }
+
   insertNewCommand(getClothItem(commandId));
 
   $("#clothSkill" + commandId).select2({
