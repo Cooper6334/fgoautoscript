@@ -52,6 +52,7 @@ function startScript(loopTime, script, scriptName) {
       false,
       false,
     ];
+    selectFriendList = [];
     spaceUltColor = -1;
     isReplay = false;
     runScript(script);

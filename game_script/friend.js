@@ -33,6 +33,8 @@ var friendStarSize = 7;
 var reloadPosition = 1237;
 var barMargin = 0;
 
+var selectFriendList = [];
+
 function setFriendMargin() {
   if (resolution <= 16 / 9) {
     friendX = 76;
@@ -82,14 +84,19 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
     isScriptRunning = false;
     return;
   }
-  var servantImage;
+  var servantImage = [];
   if (servant.length > 0) {
-    var servantImagePath = itemPath + "friend_servant/" + servant + ".png";
-    servantImage = openImage(servantImagePath);
+    additionalFriendServant(servant);
+  }
+  for (var i = 0; i < selectFriendList.length; i++) {
+    var servantImagePath =
+      itemPath + "friend_servant/" + selectFriendList[i] + ".png";
+    servantImage[i] = openImage(servantImagePath);
     if (isDebug) {
       console.log("check servant image " + servantImagePath);
     }
   }
+
   var itemImage;
   if (item.length > 0) {
     var servantItemPath = itemPath + "friend_item/" + item + ".png";
@@ -100,8 +107,8 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
   }
   while (isScriptRunning) {
     var t = 1;
+    //loop for class filter
     for (var i = 0; i < selectFriendPosition.length; i++) {
-      //loop for filter
       if (!isScriptRunning) {
         return;
       }
@@ -131,14 +138,20 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
         if (isDebug) {
           console.log("好友座標 " + friendLinePosition);
         }
+        //loop for line
         for (var j = 0; j < friendLinePosition.length; j++) {
           var lineY = friendLinePosition[j];
           // console.log("check line "+lineY);
           var isSameServant = true;
           var isSameItem = true;
           var isFriend = true;
-          if (servantImage != undefined) {
-            isSameServant = checkFriendServant(screenshot, servantImage, lineY);
+          for (var k = 0; k < servantImage.length; k++) {
+            if (servantImage[k] != undefined) {
+              if (checkFriendServant(screenshot, servantImage[k], lineY)) {
+                isSameServant = true;
+                break;
+              }
+            }
           }
           if (itemImage != undefined) {
             isSameItem = checkFriendItem(screenshot, itemImage, lineY, star);
@@ -169,9 +182,13 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
         }
         releaseImage(screenshot);
         if (found) {
-          if (servantImage != undefined) {
-            releaseImage(servantImage);
+          for (var k = 0; k < servantImage.length; k++) {
+            if (servantImage[k] != undefined) {
+              releaseImage(servantImage[k]);
+            }
           }
+          servantImage = [];
+
           if (itemImage != undefined) {
             releaseImage(itemImage);
           }
@@ -469,6 +486,10 @@ function confirmSaveFriendItemImage(imageName, time) {
     );
   }
   return imageName;
+}
+
+function additionalFriendServant(friend) {
+  selectFriendList[selectFriendList.length] = friend;
 }
 
 loadApiCnt++;

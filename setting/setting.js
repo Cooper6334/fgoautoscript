@@ -1,6 +1,3 @@
-var server = "JP";
-//var server = "TW";
-
 var version = "";
 var commandId = 0;
 var scriptCnt = 0;
@@ -24,9 +21,13 @@ $(function () {
 });
 
 function initButton() {
+  if (isDebug) {
+    $("#titleBar").click(function () {
+      logAll(getCurrentScript());
+    });
+  }
   //set loop btn
   $("#loopTime1").click(function () {
-    var t = $("#loopTime").val();
     var n = 1;
     $("#loopTime").val(n);
   });
@@ -601,7 +602,7 @@ function createEmptyScriptConfirm(result) {
   startListenScriptSelect();
 }
 
-function createScriptConfirm(result){
+function createScriptConfirm(result) {
   if (result == null) {
     return;
   }
@@ -649,12 +650,22 @@ function saveFriendServantConfirm(result) {
   if (result == null) {
     return;
   }
+  //update all exist frient select
+  var id = friendServantList.length - 1;
   for (var i = 0; i < commandId + 1; i++) {
     if ($("#selectFriendServant" + i).length) {
       $("#selectFriendServant" + i).append(
-        '<option value = "' + commandId + '">' + result + "</option>"
+        '<option value = "' + id + '">' + result + "</option>"
       );
       $("#selectFriendServant" + i).select2({
+        minimumResultsForSearch: -1,
+        width: "160px",
+      });
+    } else if ($("#additionalFriendServant" + i).length) {
+      $("#additionalFriendServant" + i).append(
+        '<option value = "' + id + '">' + result + "</option>"
+      );
+      $("#additionalFriendServant" + i).select2({
         minimumResultsForSearch: -1,
         width: "160px",
       });
@@ -726,4 +737,9 @@ function onEvent(eventType) {
 
 function onLog(message) {
   console.log(message);
+}
+
+function logAll(message) {
+  console.log(message);
+  JavaScriptInterface.runScript("console.log('" + message + "')");
 }

@@ -155,4 +155,4 @@ function loadApi() {
   }
 }
 
-console.log("load index.jx finish");
+console.log("load index.js finish");

@@ -58,6 +58,10 @@
   user-select: none;
 }
 
+.command{
+  margin-left: 10px;
+}
+
 .commandSelectDiv {
   height: 40px;
   margin: 4px;
@@ -179,14 +183,18 @@
   width: 100px;
 }
 
-#skill-list{
+#skill-list {
   min-height: 100px;
   margin-bottom: 200px;
 }
 
-#footer{
+#footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
+}
+
+#additionalFriendItem {
+  display: none;
 }

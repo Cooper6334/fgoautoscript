@@ -25,9 +25,9 @@ function getCommandItem(id, name, selection) {
     "</div></div>" +
     '<div id="commandvalue' +
     id +
-    '"><ul class="command">' +
+    '"><div class="command">' +
     selection +
-    "</ul></div>" +
+    "</div></div>" +
     "</div>";
   return result;
 }
@@ -530,7 +530,7 @@ function getFinishItem(id) {
 function getSpaceUltItem(id) {
   return getCommandItem(
     id,
-    "設定技能改變寶具顏色",
+    "技能改變寶具顏色",
     "<div class='commandSelectDiv'>請將此指令放在最上面</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>寶具顏色</div>" +
@@ -543,10 +543,10 @@ function getSpaceUltItem(id) {
   );
 }
 
-function getAdditionalFriendServentItem(id) {
+function getAdditionalFriendServent(id) {
   return getCommandItem(
     id,
-    "設定多重好友從者",
+    "好友從者多選",
     "<div class='commandSelectDiv'>敘述</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>指定從者</div>" +
@@ -559,3 +559,22 @@ function getAdditionalFriendServentItem(id) {
       '"></div>'
   );
 }
+
+/*
+function getAdditionalFriendItem(id) {
+  return getCommandItem(
+    id,
+    "好友禮裝多選",
+    "<div class='commandSelectDiv'>敘述</div>" +
+      "<div class='commandSelectDiv'>" +
+      "<div class='commandItem'>指定從者</div>" +
+      '<select id = "additionalFriendServant' +
+      id +
+      '">' +
+      '<option value = "-1" selected>無</option></select>' +
+      '<img class = "selectFriendServantImg" id = "additionalFriendServantImg' +
+      id +
+      '"></div>'
+  );
+}
+*/

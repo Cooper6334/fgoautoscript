@@ -1,9 +1,12 @@
+isDebug = true;
+
 var JavaScriptInterface = {
   showMenu() {
     console.log("show menu");
   },
   runScriptCallback(name, callback) {
-    if (name == `initHTML("TW");`) {
+    console.log("JS runScriptCallback", name, callback);
+    if (name == `initHTML("TW");` || name == `initHTML("JP");`) {
       initHTML(
         `default,default2;csaber,cskadi;kitune,qp;debug/test/;debug version`
       );
@@ -14,6 +17,9 @@ var JavaScriptInterface = {
         .then((response) => response.text())
         .then((text) => resetScript(text));
     }
+  },
+  runScript(name) {
+    console.log("JS runscript", name);
   },
 };
 console.log("load html debug");

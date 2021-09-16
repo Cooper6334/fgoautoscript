@@ -136,6 +136,14 @@ function getCurrentScript() {
 
           newScript += ");";
           break;
+        case "好友從者多選":
+          var servant = "";
+          if ($("#additionalFriendServant" + itemId).val() != -1) {
+            servant = $("#additionalFriendServant" + itemId).select2("data")[0]
+              .text;
+          }
+          newScript += 'additionalFriendServant("' + servant + '");';
+          break;
         default:
           newScript += "/*no this function*/";
           break;
@@ -216,6 +224,7 @@ function resetScript(result) {
     } else if (checkstring(content, "additionalFriendServant")) {
       content = content.replace("additionalFriendServant(", "");
       content = content.replace(")", "");
+      content = content.replace(/"/g, "");
       addAdditionalFriendServant(commandId, content);
     }
   });
@@ -649,7 +658,7 @@ function addSpaceUlt(commandId, content) {
 }
 
 function addAdditionalFriendServant(commandId, content) {
-  insertNewCommand(getAdditionalFriendServentItem(commandId));
+  insertNewCommand(getAdditionalFriendServent(commandId));
 
   $("#additionalFriendServant" + commandId).select2({
     minimumResultsForSearch: -1,

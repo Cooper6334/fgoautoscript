@@ -31,6 +31,11 @@
     </script>
     <!-- End Google Analytics -->
 
+    <script>
+      var server = "JP";
+      //var server = "TW";
+      var isDebug = false;
+    </script>
     <!-- For debug -->
     <!-- <script src="./debug/debug_html.js"></script> -->
 
@@ -47,8 +52,6 @@
     <script src="./setting/command_html.js"></script>
     <script src="./setting/command.js"></script>
     <script src="./setting/setting.js"></script>
-
-    <script></script>
   </head>
   <body>
     <div id="titleBar">
@@ -88,7 +91,9 @@
         <div>
           <button id="addAllFlow" class="cmdButton">周回</button>
           <button id="addAllFlowSwitch" class="cmdButton">周回-換人</button>
-          <button id="addAllFlowSwitchT1" class="cmdButton">周回-第一回合換人</button>
+          <button id="addAllFlowSwitchT1" class="cmdButton">
+            周回-第一回合換人
+          </button>
           <button id="addGetFriendPoint" class="cmdButton">友抽</button>
           <button id="addGetBox" class="cmdButton">抽箱</button>
           <button id="clearScript" class="cmdButton">清空</button>
