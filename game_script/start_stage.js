@@ -50,10 +50,12 @@ function selectStage(useApple) {
     }
   }
   if (status == 0) {
-    console.log("倉庫已滿-選擇關卡失敗");
+    console.log("倉庫已滿-選擇關卡失敗");    
+    sendUrgentMessage(runningScriptName, "倉庫已滿-選擇關卡失敗");
     isScriptRunning = false;
     return;
   } else if (status == 1) {
+    //handle apple dialog
     switch (useApple) {
       case -1:
         console.log("AP不足-選擇關卡失敗");
@@ -80,15 +82,11 @@ function selectStage(useApple) {
         sendNormalMessage(runningScriptName, "使用聖晶石");
         break;
       case 4:
-        var counter = 0;
+        isReplay = false;
         while (isScriptRunning) {
           sleep(1000);
+          //close apple dialog
           tapScale(960, 930);
-          console.log("等待一分鐘回復體力");
-          if (counter == 0) {
-            sendNormalMessage(runningScriptName, "等待回復體力");
-          }
-          counter = (counter + 1) % 5;
           if (selectStageAutoRestore()) {
             break;
           }
@@ -111,8 +109,10 @@ function selectStage(useApple) {
 }
 
 function selectStageAutoRestore() {
+  console.log("等待五分鐘回復體力");
+  //sleep 5min
   for (var i = 0; i < 55; i++) {
-    sleep(1000);
+    sleep(5000);
     if (!isScriptRunning) {
       return;
     }
@@ -126,6 +126,7 @@ function selectStageAutoRestore() {
     } else if (isSelectFriendPage()) {
       return true;
     }
+    //wait loading
   }
 }
 
