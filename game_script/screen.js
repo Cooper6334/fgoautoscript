@@ -10,7 +10,6 @@ var defaultMarginX = 0;
 
 function initScreenSize() {
   getBlackEdge();
-  var size = getScreenSize();
   blueEdge[0] = 0;
   blueEdge[1] = 0;
   //var w = size.width;

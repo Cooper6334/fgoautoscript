@@ -10,7 +10,17 @@ var insertDirection = 0;
 var listenScriptMode = true;
 
 $(function () {
-  initButton();
+  try {
+    if (JavaScriptInterface != undefined) {
+      console.log("檢查連接Robotmon服務成功");
+    }
+  } catch (e) {
+    console.log("無法連接Robotmon服務，請檢查Robotmon是否啟動成功");
+    $("#serverMessage").text(
+      "無法連接Robotmon服務，請檢查Robotmon是否啟動成功"
+    );
+    return;
+  }
   setTimeout(function () {
     JavaScriptInterface.showMenu();
     JavaScriptInterface.runScriptCallback(
@@ -444,7 +454,19 @@ function getCheckSwitchStatus(id) {
 
 //Callback------------------------------------------------------------------------------------------------------------------------
 function initHTML(result) {
-  if (result == undefined) {
+  if (result == undefined || result.includes("UNAVAILABLE")) {
+    $("#serverMessage").text(
+      "無法連接Robotmon服務，請檢查Robotmon是否啟動成功"
+    );
+    return;
+  }
+  if (result == "noimg") {
+    logAll(
+      "無法取得螢幕截圖，可能是此裝置不支援火箭模式啟動造成，請參考啟動教學文件，推薦使用Simple Manager啟動"
+    );
+    $("#serverMessage").text(
+      "無法取得螢幕截圖，可能是此裝置不支援火箭模式啟動造成，請參考啟動教學文件，推薦使用Simple Manager啟動"
+    );
     return;
   }
   result = result.split(";");
@@ -452,6 +474,8 @@ function initHTML(result) {
     $("#serverMessage").text("請重新開啟腳本以完成更新");
     return;
   }
+
+  initButton();
   version = result[4];
   if (result[1].length > 0) {
     friendServantList = result[1].split(",");

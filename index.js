@@ -16,6 +16,19 @@ function stop() {
 }
 
 function initHTML(serverString) {
+  console.log("初始化中");
+  var img = getScreenshot();
+  if (img == undefined) {
+    console.log("無法取得螢幕截圖");
+    releaseImage(img);
+    return "noimg";
+  } else if (isAllBlack(img)) {
+    console.log("無法取得螢幕截圖");
+    releaseImage(img);
+    return "noimg";
+  }
+  releaseImage(img);
+
   server = serverString;
   initServer();
 
@@ -153,6 +166,26 @@ function loadApi() {
     console.log("load api failed");
     return false;
   }
+}
+
+function isAllBlack(image) {
+  var imageSize = getImageSize(image);
+  if (imageSize.width <= 0 || imageSize.height <= 0) {
+    console.log("螢幕截圖寬高為0");
+    return true;
+  }
+
+  for (var x = 0; x < 10; x++) {
+    var checkX = (imageSize.width * (x + 1)) / 11;
+    for (var y = 0; y < imageSize.height; y++) {
+      var color = getImageColor(image, checkX, y);
+      if (color.r != 0 || color.g != 0 || color.b != 0) {
+        return false;
+      }
+    }
+  }
+  console.log("螢幕截圖全黑");
+  return true;
 }
 
 console.log("load index.js finish");
