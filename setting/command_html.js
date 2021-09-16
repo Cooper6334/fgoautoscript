@@ -124,8 +124,7 @@ function getSelectFriend(id) {
   return getCommandItem(
     id,
     "選擇好友",
-    "<div class='commandSelectDiv'>建議優先使用遊戲內建的禮裝篩選</div>" +
-      "<div class='commandSelectDiv'>如需篩選同一從者不同靈基，請使用\"好友從者多選\"指令</div>" +
+    "<div class='commandSelectDiv'>如需篩選同一從者不同靈基，請使用\"好友從者多選\"指令</div>" +
       "<div class='commandSelectClassDiv'>" +
       "<div class='commandItem'>搜尋職階</div>" +
       '<div class="servantClassDiv2L">' +
@@ -179,6 +178,7 @@ function getSelectFriend(id) {
       '<img class = "selectFriendItemImg" id = "selectFriendItemImg' +
       id +
       '"></div>' +
+      "<div class='commandSelectDiv'>建議優先使用遊戲內建的禮裝篩選</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>指定突滿</div>" +
       '<select id = "selectFriendItemFull' +
