@@ -5,9 +5,23 @@ adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
 adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw/
 
+//JP
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
 adb -s 127.0.0.1:62026 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
+rm -rf \code\robotmon-scripts\scripts\com.cooper.FGO
+mkdir \code\robotmon-scripts\scripts\com.cooper.FGO
+mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
+"%ProgramFiles%"\7-Zip\7z.exe e \code\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGO -y -spf
 
+//TW
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
 adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgotw
+
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
+rm -rf \code\robotmon-scripts\scripts\com.cooper.FGOTW
+mkdir \code\robotmon-scripts\scripts\com.cooper.FGOTW
+mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGOTW\
+"%ProgramFiles%"\7-Zip\7z.exe e \code\robotmon-scripts\scripts\com.cooper.FGOTW\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGOTW -y -spf
+
