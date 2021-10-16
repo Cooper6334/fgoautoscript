@@ -7,7 +7,7 @@ adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw
 
 //JP
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
-adb -s 127.0.0.1:62026 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
+adb -s 98071FFAZ002JS push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
 rm -rf \code\robotmon-scripts\scripts\com.cooper.FGO
