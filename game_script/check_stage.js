@@ -41,8 +41,8 @@ function setMarginIcon() {
     icon["battleMain3"][0] = 1672;
     iconMargin["battleMain3"] = undefined;
 
-    icon["friendPointContinue"][1] = 975;    
-    
+    icon["friendPointContinue"][1] = 975;
+
     icon["itemPage"][0] = 32;
     iconMargin["itemPage"] = undefined;
     return;
@@ -234,7 +234,7 @@ function isSelectFriendPage() {
 
 function isSelectFriendRefreshDialog() {
   //TODO
-  return checkIconListInScreen(["friendRefresh","friendRefresh2"], false);
+  return checkIconListInScreen(["friendRefresh", "friendRefresh2"], false);
 }
 
 function isSelectFriendEnd() {
@@ -248,6 +248,7 @@ function isSelectFriendEmpty() {
 
 //select team-----------------------------------------------
 icon["teamPage"] = [1702, 975, 172, 75];
+icon["useItemDialog"] = [1140, 940, 200, 60];
 
 function isSelectTeamPage() {
   return checkIconInScreen("teamPage");
@@ -255,6 +256,9 @@ function isSelectTeamPage() {
 
 function isUseItemDialog() {
   //TODO
+  if (server == "TW") {
+    return checkIconInScreen("useItemDialog");
+  }
   return false;
 }
 
