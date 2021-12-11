@@ -340,9 +340,26 @@ function waitUntilPlayerCanMoveOrFinish() {
       return false;
     }
     if (isBattleStageFailedDialog()) {
-      sleep(1000);
+      if (isDebug){
+        console.log("isBattleStageFailedDialog check 1");
+        var filepath = path + "/debug_stage_failed_1.png";
+        var screenshot = getScreenshotResize();
+        saveImage(screenshot,filepath)
+        releaseImage(screenshot);
+        console.log("adb pull " + filepath);
+      }
+      sleep(3000);
       if (isBattleStageFailedDialog()) {
         sendUrgentMessage(runningScriptName, "戰鬥失敗，停止腳本");
+        isScriptRunning = false;
+        if (isDebug){
+          console.log("isBattleStageFailedDialog check 2");
+          var filepath2 = path + "/debug_stage_failed_2.png";
+          var screenshot2 = getScreenshotResize();
+          saveImage(screenshot2,filepath2)
+          releaseImage(screenshot2);
+          console.log("adb pull " + filepath2);
+        }
         return false;
       }
     }
