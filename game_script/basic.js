@@ -7,6 +7,8 @@ var skillUsedInLoop = undefined;
 
 var lastTimeUseItem = -1;
 
+var skillSpeedUp = true;
+
 function startScript(loopTime, script, scriptName) {
   console.log("開始執行指令，版本" + version);
   if (isDebug) {

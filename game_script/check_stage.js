@@ -365,7 +365,7 @@ function isFinishBondPage() {
       return true;
     }
   }
-  tapScale(460, 5);
+  tapScale(1650,450);
   return false;
 }
 
