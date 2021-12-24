@@ -188,4 +188,10 @@ function isAllBlack(image) {
   return true;
 }
 
+function showLogAlertMessage() {
+  if (isScriptRunning) {
+    console.log("腳本執行中開啟除錯指令，可能會擋到畫面導致腳本判斷錯誤");
+  }
+}
+
 console.log("load index.js finish");

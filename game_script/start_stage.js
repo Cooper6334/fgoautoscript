@@ -162,7 +162,7 @@ function selectTeam(team) {
   sleep(2000);
 }
 
-function startQuest(useItem) {
+function startQuest(useItem,checkStageLoadFinish) {
   if (!isScriptRunning) {
     return;
   }
@@ -190,6 +190,20 @@ function startQuest(useItem) {
       return;
     }
     selectItem(useItem);
+  }
+  if(checkStageLoadFinish == 1){
+    while(isScriptRunning){
+      if(!isBattleMainPage()){
+        sleep(3000);
+        continue;
+      }
+      clickIcon("battleMain1");
+      sleep(1000);
+      if(isSettingDialog()){
+        clickIcon("battleMain1");
+        break;
+      }
+    }
   }
 }
 
