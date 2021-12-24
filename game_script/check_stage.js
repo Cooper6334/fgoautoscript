@@ -15,6 +15,7 @@ function setMarginIcon() {
 
     icon["boxNoPoint"] = [360, 630, 195, 82];
     icon["stageFailed"] = [900, 154, 140, 60];
+    icon["settingDialog"] = [840, 220, 240, 60];
     return;
   }
   if (resolution < 17 / 9) {
@@ -279,7 +280,7 @@ icon["spaceColor"] = [690, 288, 540, 45];
 icon["emiyaColor"] = [690, 240, 540, 90];
 icon["ultFailed"] = [900, 637, 123, 60];
 icon["skillFailed"] = [870, 802, 180, 60];
-icon["settingDialog"] = [840, 220, 240, 60];
+icon["settingDialog"] = [750, 220, 350, 60];
 
 function isBattleMainPage() {
   if (
