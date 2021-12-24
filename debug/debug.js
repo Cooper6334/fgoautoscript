@@ -1,5 +1,5 @@
 //var deviceId = "98071FFAZ002JS";
-var deviceId = "127.0.0.1:62026";
+var deviceId = "127.0.0.1:62025";
 
 function saveMyImage(name, image) {
   var path = getStoragePath();

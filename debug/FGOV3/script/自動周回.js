@@ -1,0 +1,1 @@
+additionalFriendServant("術傻1");additionalFriendServant("術傻2");selectStage(-1);selectFriend(32,"C_Saber","",0,0,-1);selectTeam(7);startQuest(-1);autoAttack(3,0,0,2,3,-1,0,-1,0,2,0,2,-1,-1,-1,0,2,0,2,0,0,-1,-1,-1,0,-1,false,2,2,-1,-1,0,2);finishQuest();

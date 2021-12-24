@@ -1,0 +1,1 @@
+useClothesSkill(2,0);selectStage(1);selectFriend(32,"C_Saber","",1,0,-1);selectTeam(4);startQuest(-1);useSkill(2,0,-1);useSkill(2,1,1);useSkill(2,2,1);switchServant(2,3);autoAttack(3,0,1,1,0,1,1,-1,-1,-1,-1,-1,0,-1,-1,0,-1,2,-1,-1,0,-1,0,1,0,1,false,-1,-1,-1,-1,-1,-1);finishQuest();

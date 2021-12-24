@@ -1,0 +1,1 @@
+selectStage(-1);selectFriend(16,"","qp2",0,0,-1);selectTeam(0);startQuest(-1);useClothesSkill(1,0,-1);autoAttack(3,0,1,1,0,0,0,-1,-1,-1,0,-1,-1,0,-1,0,0,0,0,-1,-1,-1,0,0,0,0,false);finishQuest();

@@ -58,7 +58,12 @@ function getCurrentScript() {
           newScript += "selectTeam(" + $("#selectTeam" + itemId).val() + ");";
           break;
         case "進入關卡":
-          newScript += "startQuest(" + $("#useItem" + itemId).val() + ");";
+          newScript +=
+            "startQuest(" +
+            $("#useItem" + itemId).val() +
+            "," +
+            $("#checkStageLoadFinish" + itemId).val() +
+            ");";
           break;
         case "結束關卡":
           newScript += "finishQuest();";
@@ -154,6 +159,9 @@ function getCurrentScript() {
 
 //load script
 function resetScript(result) {
+  if (isDebug) {
+    console.log("reset script", result);
+  }
   clearScript();
   var currentDirection = insertDirection;
   insertDirection = 1;
@@ -411,6 +419,7 @@ function addStartQuest(commandId, content) {
   if (content == undefined) {
     return;
   }
+  console.log("addStartQuest", content);
   var scriptValue = content.split(",");
   if (scriptValue.length > 1) {
     $("#useItem" + commandId)

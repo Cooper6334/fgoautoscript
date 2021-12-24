@@ -1,0 +1,1 @@
+additionalFriendServant("術師匠");selectStage(-1);selectFriend(32,"C_Skadi","",0,0,-1);selectTeam(0);startQuest(-1);autoAttack(3,0,1,1,0,0,-1,-1,-1,-1,0,-1,-1,1,-1,0,-1,0,-1,-1,0,-1,2,-1,2,-1,false,-1,-1,-1,-1,-1,-1);finishQuest();

@@ -1,0 +1,1 @@
+selectStage(2);selectFriend(32,"術師匠","",0,0,-1);selectTeam(3);startQuest(-1);useSkill(2,0,1);useSkill(2,2,1);useSkill(2,1,-1);useClothesSkill(2,2,3);useClothesSkill(0,-1,-1);autoAttack(3,0,1,1,0,2,-1,-1,-1,-1,2,-1,0,-1,-1,-1,-1,0,-1,-1,1,1,0,-1,0,-1,false);finishQuest();
