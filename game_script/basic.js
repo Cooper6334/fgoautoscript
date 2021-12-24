@@ -14,7 +14,7 @@ function startScript(loopTime, script, scriptName) {
   }
   initScreenSize();
   if(script==undefined || script.length <= 0){
-    console.log("請設定腳本指令再開始執行");
+    console.log("請先設定腳本指令再開始執行");
     return true;
   }
   isScriptRunning = true;

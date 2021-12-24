@@ -403,12 +403,30 @@ function addStartQuest(commandId, content) {
     width: "120px",
   });
 
+  $("#checkStageLoadFinish" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+
   if (content == undefined) {
     return;
   }
-  $("#useItem" + commandId)
-    .val(content)
-    .trigger("change");
+  var scriptValue = content.split(",");
+  if (scriptValue.length > 1) {
+    $("#useItem" + commandId)
+      .val(scriptValue[0])
+      .trigger("change");
+    $("#checkStageLoadFinish" + commandId)
+      .val(scriptValue[1])
+      .trigger("change");
+  } else {
+    $("#useItem" + commandId)
+      .val(content)
+      .trigger("change");
+    $("#checkStageLoadFinish" + commandId)
+      .val(0)
+      .trigger("change");
+  }
 }
 
 function addAuto(commandId, content) {
