@@ -419,7 +419,6 @@ function addStartQuest(commandId, content) {
   if (content == undefined) {
     return;
   }
-  console.log("addStartQuest", content);
   var scriptValue = content.split(",");
   if (scriptValue.length > 1) {
     $("#useItem" + commandId)
