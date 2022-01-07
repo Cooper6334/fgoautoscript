@@ -27,17 +27,18 @@ var colorName = ["紅", "藍", "綠"];
 var useMargin = undefined;
 //----------------------------------------------Battle main page
 function setInStageMargin() {
+
+  useMargin = undefined;
+  skillPositionX = [66, 198, 330, 542, 674, 806, 1018, 1150, 1282];
+  currentStagePosition = [1317, 18, 37, 37];
+  skillPositionY = 824;
   if (server == "TW") {
     currentStagePosition = [1301, 23, 19, 29];
     skillPositionX = [50, 182, 315, 526, 658, 791, 1002, 1135, 1267];
     skillPositionY = 817;
     return;
-  }
+  } 
   if (resolution <= 16 / 9) {
-    useMargin = undefined;
-    currentStagePosition[0] = 1317;
-    skillPositionX = [66, 198, 330, 542, 674, 806, 1018, 1150, 1282];
-    skillPositionY = 824;
     enemyPositionX = [870, 510, 172];
     return;
   }

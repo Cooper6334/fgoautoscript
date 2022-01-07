@@ -2,6 +2,20 @@ var icon = [];
 var iconMargin = [];
 
 function setMarginIcon() {
+  //JP default
+  iconMargin = [];
+  icon["main"] = [1710, 924, 150, 75];
+  icon["friendEnd"] = [1852, 1027, 60, 45];
+  icon["battleServant1"] = [375, 90, 600, 45];
+  icon["battleServant2"] = [375, 90, 600, 45];
+  icon["finishNext"] = [1575, 933, 180, 60];
+  icon["friendPointMain"] = [675, 538, 675, 108];
+  icon["friendPointFree"] = [787, 740, 337, 75];
+  icon["friendPointTen"] = [1125, 740, 240, 75];
+  icon["boxNoPoint"] = [470, 530, 200, 100];
+  icon["stageFailed"] = [750,160,300,60];
+  icon["settingDialog"] = [750, 220, 350, 60];
+
   if (server == "TW") {
     icon["main"] = [1710, 984, 150, 75];
     icon["friendEnd"] = [1832, 1027, 60, 45];
@@ -19,36 +33,14 @@ function setMarginIcon() {
     return;
   }
   if (resolution < 17 / 9) {
-    //default
-    icon["main"][0] = 1710;
-    iconMargin["main"] = undefined;
-
     icon["teamPage"][0] = 1702;
     icon["teamPage"][1] = 975;
-    iconMargin["teamPage"] = undefined;
-
     icon["friendPage"][0] = 1110;
-    iconMargin["friendPage"] = undefined;
-
-    icon["friendEnd"][0] = 1852;
-    iconMargin["friendEnd"] = undefined;
-
-    icon["friendEnd3"][0] = 1852;
-    iconMargin["friendEnd3"] = undefined;
-
     icon["battleMain1"][0] = 1752;
-    iconMargin["battleMain1"] = undefined;
-
     icon["battleMain2"][0] = 1752;
-    iconMargin["battleMain2"] = undefined;
-
     icon["battleMain3"][0] = 1672;
-    iconMargin["battleMain3"] = undefined;
-
     icon["friendPointContinue"][1] = 975;
-
     icon["itemPage"][0] = 32;
-    iconMargin["itemPage"] = undefined;
     return;
   }
   icon["main"][0] = realScreenSize[0] / screenScale[0] - 337;

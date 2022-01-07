@@ -257,6 +257,7 @@ function tapScale(x, y, wait, margin) {
     return;
   }
   x = (x + margin) * screenScale[0] + blueEdge[0] + blackEdge[0];
+  console.log("tapScale x "+x +" margin "+margin+" scale "+screenScale[0]+" blue "+blueEdge[0]+" black "+blackEdge[0]);
   y = y * screenScale[1] + blueEdge[1] + blackEdge[1];
   tap(x, y, wait);
 }

@@ -38,6 +38,8 @@ var selectFriendList = [];
 function setFriendMargin() {
   if (server == "TW") {
     reloadPosition = 1237;
+  }else{
+    reloadPosition = 1400;
   }
   if (resolution <= 16 / 9) {
     friendX = 76;
@@ -201,6 +203,7 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
           }
           waitLoading();
           while (isScriptRunning) {
+            console.log("cooper debug wait next page load");
             if (isSelectTeamPage()) {
               sleep(500);
               return;
@@ -370,6 +373,8 @@ function checkFriendIsFriend(screenshot, lineY) {
 
 function reloadFriend() {
   while (isScriptRunning) {
+    console.log("cooper debug reloadFriend server "+sevrer+" "+
+     (reloadPosition + barMargin)+" "+reloadPosition +" "+ barMargin);
     tapScale(reloadPosition + barMargin, 175, undefined, 0);
     sleep(1000);
     if (isSelectFriendRefreshDialog()) {
