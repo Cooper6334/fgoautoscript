@@ -6,6 +6,7 @@ adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
 adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw/
 
 //JP
+cd f:\code\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
 adb -s 98071FFAZ002JS push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 
