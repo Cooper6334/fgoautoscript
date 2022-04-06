@@ -1,6 +1,10 @@
 98071FFAZ002JS
 127.0.0.1:62025
 
+adb shell wm size 1080x1920
+adb shell wm size reset
+
+
 adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
 adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw/

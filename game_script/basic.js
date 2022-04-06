@@ -322,7 +322,7 @@ function isSameColor(r1, g1, b1, r2, g2, b2, threshold) {
   // if(isDebug){
   //     console.log("check pixel diff "+diff);
   // }
-  if (diff < threshold) {
+  if (diff <= threshold) {
     return true;
   }
   return false;
