@@ -9,7 +9,6 @@ var resolution = 16 / 9;
 var defaultMarginX = 0;
 
 function initScreenSize() {
-  getBlackEdge();
   blueEdge[0] = 0;
   blueEdge[1] = 0;
   //var w = size.width;
@@ -60,13 +59,38 @@ function initScreenSize() {
   setAutoAttackMargin();
 }
 
-function getBlackEdge() {
+function setBlackEdgeByHtmlValue(be) {
+  if (be != undefined && be.length >= 4) {
+    for (var i = 0; i < 4; i++) {
+      if (be[i] != 0) {
+        blackEdge = be;
+        return;
+      }
+    }
+  }
+  clearBlackEdge();
+}
+
+function clearBlackEdge() {
+  var size = getScreenSize();
+  if (size.width > size.height) {
+    blackEdge = [0, 0, size.width - 1, size.height - 1];
+  } else {
+    blackEdge = [0, 0, size.height - 1, size.width - 1];
+  }
+}
+
+function saveBlackEdge(be) {
+  return writeFile(itemPath + "preference.js", be.toString());
+}
+
+function detectBlackEdge() {
   sleep(2000);
   var screenshot = getScreenshot();
   var imageSize = getImageSize(screenshot);
   var width = imageSize.width;
   var height = imageSize.height;
-  blackEdge = [0, 0, width - 1, height - 1];
+  var result = [0, 0, width - 1, height - 1];
   //actual is first color pixel
 
   var ltColor = getImageColor(screenshot, 0, 0);
@@ -103,7 +127,7 @@ function getBlackEdge() {
       }
       leftBlackEdge++;
     }
-    blackEdge[0] = leftBlackEdge;
+    result[0] = leftBlackEdge;
 
     var topBlackEdge = 0;
     var haveTopBlackEdge = true;
@@ -136,7 +160,7 @@ function getBlackEdge() {
       }
       topBlackEdge++;
     }
-    blackEdge[1] = topBlackEdge;
+    result[1] = topBlackEdge;
   }
 
   if (rbColor.r < 35 && rbColor.g < 35 && rbColor.b < 35) {
@@ -171,7 +195,7 @@ function getBlackEdge() {
       }
       rightBlackEdge--;
     }
-    blackEdge[2] = rightBlackEdge;
+    result[2] = rightBlackEdge;
 
     var bottomBlackEdge = height - 1;
     var haveBottomBlackEdge = true;
@@ -204,10 +228,11 @@ function getBlackEdge() {
       }
       bottomBlackEdge--;
     }
-    blackEdge[3] = bottomBlackEdge;
+    result[3] = bottomBlackEdge;
   }
-  console.log("取得黑邊 " + blackEdge);
+  console.log("取得黑邊 " + result);
   releaseImage(screenshot);
+  return result.toString();
 }
 
 loadApiCnt++;

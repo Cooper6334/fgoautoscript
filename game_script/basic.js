@@ -7,13 +7,14 @@ var skillUsedInLoop = undefined;
 
 var lastTimeUseItem = -1;
 
-function startScript(loopTime, script, scriptName) {
+function startScript(loopTime, script, scriptName, be) {
   console.log("開始執行指令，版本" + version);
   if (isDebug) {
     console.log(script);
-  }
+  }  
+  setBlackEdgeByHtmlValue(be);
   initScreenSize();
-  if(script==undefined || script.length <= 0){
+  if (script == undefined || script.length <= 0) {
     console.log("請先設定腳本指令再開始執行");
     return true;
   }
