@@ -24,7 +24,8 @@ mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
 
 //TW
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
-adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgotw
+zip -r index.zip basic_item game_script image_tw jquery setting index.html index.js
+adb  push index.zip /sdcard/robotmon/scripts/com.cooper.fgotw
 
 cd f:\code\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
