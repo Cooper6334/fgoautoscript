@@ -510,13 +510,16 @@ function getSelectEnemy(id) {
     id,
     "選擇敵人",
     "<div class='commandSelectDiv'>" +
-      "<div class='commandItem'>敵人</div>" +
+      "<div class='commandItem'>敵人(右上為1)</div>" +
       '<select id = "selectEnemy' +
       id +
       '">' +
       '<option value = "0">敵人1</option>' +
       '<option value = "1">敵人2</option>' +
-      '<option value = "2">敵人3</option></select></div>'
+      '<option value = "2">敵人3</option>' +
+      '<option value = "3">敵人4</option>' +
+      '<option value = "4">敵人5</option>' +
+      '<option value = "5">敵人6</option></select></div>'
   );
 }
 function getStartAttackItem(id) {
