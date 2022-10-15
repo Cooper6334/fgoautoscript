@@ -46,7 +46,7 @@ function setInStageMargin() {
 
   if (resolution <= 16 / 9) {
     useMargin = undefined;
-    enemyPositionX = [870, 510, 172];
+    enemyPositionX = enemyPositionXDefault;
     if (server == "TW") {
       currentStagePosition = [currentStagePositionDefaultX, 23, 19, 29];
       skillPositionX = [50, 182, 315, 526, 658, 791, 1002, 1135, 1267];
@@ -77,10 +77,10 @@ function setInStageMargin() {
    */
   currentStagePosition[0] = realScreenSize[0] / screenScale[0] - 656;
 
-  var enemyLeftMargin = defaultMarginX;
+  var enemyLeftMargin = 0;
   var skillLeftEdge = skillPositionDefaultX + defaultMarginX;
   if (resolution > 18 / 9) {
-    enemyLeftMargin = 120;
+    enemyLeftMargin = defaultMarginX - 120;
     skillLeftEdge = skillPositionDefaultX + 75;
     skillPositionY = skillPositionDefaultY - 32;
   }
@@ -89,7 +89,7 @@ function setInStageMargin() {
     skillPositionX[i] = skillLeftEdge + skillSmallOffset * (i % 3) + skillLargeOffset * Math.floor(i / 3);
   }
   for (var i = 0; i < 6; i++) {
-    enemyPositionX[i] = enemyPositionXDefault[i] + enemyLeftMargin;
+    enemyPositionX[i] = enemyPositionXDefault[i] - enemyLeftMargin;
   }
 }
 
