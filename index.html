@@ -32,8 +32,8 @@
     <!-- End Google Analytics -->
 
     <script>
-      // var server = "JP";
-      var server = "TW";
+      var server = "JP";
+      // var server = "TW";
       var isDebug = false;
     </script>
 
@@ -41,7 +41,7 @@
     <!-- <script>
       isDebug = true;
     </script>
-    <script src="./debug/debug_html.js"></script> -->
+    <script src="./debug/debug_html.js"></script>  -->
     <!--       ====================For debug================          -->
 
     <script src="./jquery/jquery.min.js"></script>
@@ -80,18 +80,66 @@
         </div>
       </div>
       <div class="blockDiv">
+        <button id = "switchPreferenceBlock" class="blockTitle">偏好設定</button>
         <button id = "switchGetBlackEdgeBlock" class="blockTitle">黑邊設定</button>
         <button id = "switchGetServantBlock" class="blockTitle">擷取好友從者禮裝</button>
       </div>
+      <div id="preferenceBlock" class="blockDiv" style="display:none">
+        <div class="blockDiv">
+          <div class="commandSelectDiv">
+            <div class='commandItem'>選擇好友精確度</div>
+            <select id="friendStrictSelect" class="commandItem">
+              <option value="0">一般</option>
+              <option value="1">嚴格</option>
+            </select>
+          </div>
+          <div class="commandSelectDiv">
+            <div class='commandItem'>從者順序</div>
+            <select id="servantDirectionSelect" class="commandItem">
+              <option value="0">從左到右</option>
+              <option value="1">從右到左</option>
+            </select>
+          </div>
+          <div class="commandSelectDiv">
+            <div class='commandItem'>技能順序</div>
+            <select id="skillDirectionSelect" class="commandItem">
+              <option value="0">從左到右</option>
+              <option value="1">從右到左</option>
+            </select>
+          </div>
+          <div class="blockDiv">
+            <button id="savePreferenceButton" class="cmdButton">儲存偏好設定</button>
+          </div>
+        </div>
+      </div>
       <div id="getServantBlock" class="blockDiv" style="display:none">
-        <div class="discriptionText">
-          請用不同排序方式找到需要的從者禮裝，不要上下滑動
+        <div class="blockDiv">
+          <div class="blockTitle">
+            擷取圖片
+          </div>
+          <div class="blockDiv">
+            <button id="getServantImage1" class="cmdButton">擷取從者1</button>
+            <button id="getItemImage1" class="cmdButton">擷取禮裝1</button>
+            <button id="getServantImage2" class="cmdButton">擷取從者2</button>
+            <button id="getItemImage2" class="cmdButton">擷取禮裝2</button>
+          </div>
+          <div class="blockDiv">
+            請用不同排序方式找到需要的從者禮裝，不要上下滑動
+          </div>
         </div>
         <div class="blockDiv">
-          <button id="getServantImage1" class="cmdButton">擷取從者1</button>
-          <button id="getItemImage1" class="cmdButton">擷取禮裝1</button>
-          <button id="getServantImage2" class="cmdButton">擷取從者2</button>
-          <button id="getItemImage2" class="cmdButton">擷取禮裝2</button>
+          <div class="blockTitle">
+            刪除圖片
+          </div>
+          <div class='commandSelectDiv'>
+            <select id="deleteCropImageSelect">
+              <option></option>
+            </select>
+            <img id="deleteCropImg">
+          </div>
+          <div class="blockDiv">
+            <button id="deleteCropImgButton" class="cmdButton">刪除截圖</button>
+          </div>
         </div>
       </div>
       <div id="getBlackEdgeBlock" class="blockDiv" style="display:none">
@@ -132,7 +180,7 @@
       </div>
       <div class="blockDiv">
         <div>
-          <div id="scriptTitle">讀取自訂腳本</div>
+          <div class="blockTitle">讀取自訂腳本</div>
           <div>
           <select id="scriptMode">
             <option></option>

@@ -63,7 +63,7 @@ function setFriendMargin() {
   positionX[0] = 600 + offset;
   positionX[1] = 1200 + offset;
 }
-
+//selectFriend(0,"csaber",null,0,0,0);
 function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes) {
   if (!isScriptRunning) {
     return;

@@ -465,6 +465,7 @@ function initButton() {
     if (display == "none") {
       $("#getServantBlock").css("display", "");
       $("#getBlackEdgeBlock").css("display", "none");
+      $("#preferenceBlock").css("display", "none");
     } else {
       $("#getServantBlock").css("display", "none");
     }
@@ -473,9 +474,20 @@ function initButton() {
     var display = $("#getBlackEdgeBlock").css("display");
     if (display == "none") {
       $("#getBlackEdgeBlock").css("display", "");
+      $("#preferenceBlock").css("display", "none");
       $("#getServantBlock").css("display", "none");
     } else {
       $("#getBlackEdgeBlock").css("display", "none");
+    }
+  });
+  $("#switchPreferenceBlock").click(function () {
+    var display = $("#preferenceBlock").css("display");
+    if (display == "none") {
+      $("#preferenceBlock").css("display", "");
+      $("#getServantBlock").css("display", "none");
+      $("#getBlackEdgeBlock").css("display", "none");
+    } else {
+      $("#preferenceBlock").css("display", "none");
     }
   });
   $("#switchCommandBlock").click(function () {
@@ -484,6 +496,42 @@ function initButton() {
       $("#commandBlock").css("display", "");
     } else {
       $("#commandBlock").css("display", "none");
+    }
+  });
+
+  $("#friendStrictSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+  $("#servantDirectionSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+  $("#skillDirectionSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+
+  $("#deleteCropImageSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+    minimumResultsForSearch: -1,
+    placeholder: "請選擇截圖",
+  });
+  $("#deleteCropImageSelect").change(function () {
+    var index = $(this).val();
+    var path;
+    console.log("index",index);
+    if (index != -1) {
+      if(index >= friendServantList.length){
+        index -= friendServantList.length;
+        path = itemImgPath + "/"+friendItemList[index] + ".png";
+        $("#deleteCropImg").css("height", 20);
+      }else{
+        path = servantImgPath +"/"+ friendServantList[index] + ".png";
+        $("#deleteCropImg").css("height", 40);
+      }
+      $("#deleteCropImg").attr("src", path);
     }
   });
 }
@@ -533,12 +581,26 @@ function initHTML(result) {
 
   initButton();
   version = result[4];
+  //init cropt image
   if (result[1].length > 0) {
     friendServantList = result[1].split(",");
   }
   if (result[2].length > 0) {
     friendItemList = result[2].split(",");
   }
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+
+
+  //init select script
   if (result[0] == undefined) {
     $("#scriptMode").select2({
       height: "100px",
@@ -571,6 +633,7 @@ function initHTML(result) {
     $("#serverMessage").text("");
   }
 
+  //init black edge
   var blackEdge = [0, 0, 0, 0];
   if (result[5] != undefined) {
     result[5] = result[5].split(",");
