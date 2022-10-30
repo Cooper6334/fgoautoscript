@@ -580,7 +580,7 @@ function getAdditionalFriendServent(id) {
   return getCommandItem(
     id,
     "好友從者多選",
-    "<div class='commandSelectDiv'>請將此指令放在選擇好友指令之前，會從所有指令的從者中做選擇</div>" +
+    "<div class='commandSelectDiv'>請將此指令放在選擇好友指令之前，會從全部的指定從者中做選擇</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>指定從者</div>" +
       '<select id = "additionalFriendServant' +

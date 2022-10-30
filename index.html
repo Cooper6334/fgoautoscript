@@ -32,8 +32,8 @@
     <!-- End Google Analytics -->
 
     <script>
-      // var server = "JP";
-      var server = "TW";
+      var server = "JP";
+      // var server = "TW";
       var isDebug = false;
     </script>
 
@@ -89,14 +89,10 @@
             黑邊設定
           </div>
           <div class="discriptionText">
-            預設0,0,0,0使用全螢幕範圍作為遊戲範圍，如果手機截圖沒有黑邊則無需調整
+            如果手機截圖沒有黑邊則無需調整，部分手機只有一側有黑邊，請注意螢幕旋轉方向。
           </div>
           <div class="discriptionText">
-            使用偵測黑邊功能請先移動到遊戲主畫面，若偵測不準確請手動輸入數值
-          </div>
-          <div class="discriptionText">
-            詳情請見<a href="https://sites.google.com/view/fgoautoscript/%E9%BB%91%E9%82%8A%E8%A8%AD%E5%AE%9A"
-              class="discriptionText">說明文件</a>
+            使用偵測黑邊功能請先移動到遊戲主畫面，部分手機偵測不準確請手動輸入數值，詳情請見說明文件。
           </div>
           <div class="blockDiv">
             左<input id="blackEdgeLeft" type="number" class="blackEdgeInput">
@@ -115,7 +111,6 @@
           <div class="blockTitle">
             其他設定
           </div>
-          <div class="blockDiv">若有誤選或是沒有選到指定從者禮裝，請調整此選項</div>
           <div class="commandSelectDiv">
             <div class='commandItem'>選擇好友精確度</div>
             <select id="friendStrictSelect" class="commandItem">
@@ -123,6 +118,7 @@
               <option value="1">寬鬆</option>
             </select>
           </div>
+          <div class="blockDiv">若有誤選或是沒有選到指定從者禮裝，請調整此選項</div>
           <div class="commandSelectDiv">
             <div class='commandItem'>從者順序</div>
             <select id="servantDirectionSelect" class="commandItem">
@@ -138,7 +134,7 @@
             </select>
           </div>
           <div class="blockDiv">
-            <button id="savePreferenceButton" class="cmdButton">儲存偏好設定</button>
+            <button id="savePreferenceButton" class="cmdButton">儲存偏好與黑邊設定</button>
           </div>
         </div>
       </div>

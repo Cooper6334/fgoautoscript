@@ -737,20 +737,6 @@ function saveServantConfirm(time) {
       }
     },
   });
-
-  $("#deleteCropImageSelect").children().remove().end();
-  for (var i = 0; i < friendServantList.length; i++) {
-    $("#deleteCropImageSelect").append(
-      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
-    );
-  }
-  for (var i = 0; i < friendItemList.length; i++) {
-    $("#deleteCropImageSelect").append(
-      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
-    );
-  }
-  $("#deleteCropImageSelect").val(-1).trigger("change");
-  $("#deleteCropImg").css("height", 40);
 }
 
 function saveItemConfirm(time) {
@@ -890,6 +876,19 @@ function saveFriendServantConfirm(result) {
       });
     }
   }
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
   bootbox.alert("從者儲存成功");
 }
 
@@ -897,7 +896,6 @@ function saveFriendItemConfirm(result) {
   if (result == null) {
     return;
   }
-  bootbox.alert("禮裝儲存成功");
   for (var i = 0; i < commandId + 1; i++) {
     if ($("#selectFriendItem" + i).length) {
       $("#selectFriendItem" + i).append(
@@ -909,6 +907,20 @@ function saveFriendItemConfirm(result) {
       });
     }
   }
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
+  bootbox.alert("禮裝儲存成功");
 }
 
 function savePreferenceConfirm() {
