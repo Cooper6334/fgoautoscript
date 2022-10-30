@@ -12,7 +12,7 @@ function startScript(loopTime, script, scriptName, be, pref) {
   console.log("開始執行指令，版本" + version);
 
   if (isDebug) {
-    console.log(script,be,script);
+    console.log(script, be, script);
   }
   setBlackEdgeByHtmlValue(be);
   setOtherPreference(pref);
@@ -24,7 +24,7 @@ function startScript(loopTime, script, scriptName, be, pref) {
   isScriptRunning = true;
   runningScriptName = scriptName;
   var plan = getUserPlan();
-  if(plan.length <= 0){
+  if (plan.length <= 0) {
     plan = "user_plan_fgo";
   }
   if (plan != "user_plan_fgo" && plan != 3) {
@@ -45,30 +45,15 @@ function startScript(loopTime, script, scriptName, be, pref) {
       sendNormalMessage(runningScriptName, "開始執行腳本 無限次數");
     } else {
       console.log("開始執行腳本 " + (loop + 1) + "/" + loopTime);
-      sendNormalMessage(
-        runningScriptName,
-        "開始執行腳本 " + (loop + 1) + "/" + loopTime
-      );
+      sendNormalMessage(runningScriptName, "開始執行腳本 " + (loop + 1) + "/" + loopTime);
     }
-    skillUsedInLoop = [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ];
+    skillUsedInLoop = [false, false, false, false, false, false, false, false, false];
     selectFriendList = [];
     spaceUltColor = -1;
     isReplay = false;
     runScript(script);
     if (plan != "user_plan_fgo" && plan != 3) {
-      console.log(
-        "方案ID為" + plan + "," + getUserPlan() + "，判斷未訂閱方案，結束周回"
-      );
+      console.log("方案ID為" + plan + "," + getUserPlan() + "，判斷未訂閱方案，結束周回");
       break;
     }
   }
@@ -79,7 +64,7 @@ function startScript(loopTime, script, scriptName, be, pref) {
 
 function stopScript() {
   isScriptRunning = false;
-  console.log("User press stop");
+  console.log("手動停止腳本");
 }
 
 function initIDE(serverString) {
@@ -195,9 +180,7 @@ function checkPixel(x, y, r, g, b, screenshot) {
     releaseImage(screenshot);
   }
   if (isDebug) {
-    console.log(
-      "get color " + x + "," + y + ":" + color.r + "," + color.g + "," + color.b
-    );
+    console.log("get color " + x + "," + y + ":" + color.r + "," + color.g + "," + color.b);
   }
   if (isSameColor(color.r, color.g, color.b, r, g, b)) {
     return true;
@@ -340,9 +323,7 @@ function compareImageColor(image1, offsetx, offsety, image2, w, h, scale) {
     for (var y = 0; y < h; y += scale) {
       var color1 = getImageColor(image1, offsetx + x, offsety + y);
       var color2 = getImageColor(image2, x, y);
-      if (
-        !isSameColor(color1.r, color1.g, color1.b, color2.r, color2.g, color2.b)
-      ) {
+      if (!isSameColor(color1.r, color1.g, color1.b, color2.r, color2.g, color2.b)) {
         e++;
       } else {
         c++;

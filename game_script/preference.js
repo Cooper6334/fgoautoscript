@@ -1,13 +1,17 @@
-var blackEdge = [0,0,0,0]; //l 52,t 0,r 2176,b 1035
-var selectFriendLoose = 0;//0 strict 1 loose
-var servantDirection = 0;//0 l->r 1 r->l
-var skillDirection = 0;//0 l->r 1 r->l
+var blackEdge = [0, 0, 0, 0]; //l 52,t 0,r 2176,b 1035
+var selectFriendLoose = 0; //0 strict 1 loose
+var servantDirection = 0; //0 l->r 1 r->l
+var skillDirection = 0; //0 l->r 1 r->l
 
 function loadPreference() {
+  var fileName = "preferencejp.js";
+  if (server == "TW") {
+    fileName = "preferencetw.js";
+  }
   var valueMissing = false;
   var preference = undefined;
   try {
-    preference = readFile(itemPath + "preference.js");
+    preference = readFile(itemPath + fileName);
   } catch (e) {
     console.log("偏好設定檔案不存在");
     valueMissing = true;
@@ -31,39 +35,43 @@ function loadPreference() {
   skillDirection = split[6];
   if (valueMissing) {
     console.log("偏好設定缺損，重新建立");
-    writeFile(itemPath + "preference.js", "0,0,0,0,0,0,0");
+    writeFile(itemPath + fileName, "0,0,0,0,0,0,0");
   }
   return getPreferenceString();
 }
 
-function savePreference(pref){
-    console.log("儲存偏好設定",pref);
-    blackEdge = pref.slice(0,4);
-    selectFriendLoose = pref[4];
-    servantDirection = pref[5];
-    skillDirection = pref[6];
-    return writeFile(itemPath + "preference.js", getPreferenceString());
+function savePreference(pref) {
+  var fileName = "preferencejp.js";
+  if (server == "TW") {
+    fileName = "preferencetw.js";
+  }
+  console.log("儲存偏好設定", pref);
+  blackEdge = pref.slice(0, 4);
+  selectFriendLoose = pref[4];
+  servantDirection = pref[5];
+  skillDirection = pref[6];
+  return writeFile(itemPath + fileName, getPreferenceString());
 }
 
-function setOtherPreference(pref){
+function setOtherPreference(pref) {
   selectFriendLoose = pref[0];
-    servantDirection = pref[1];
-    skillDirection = pref[2];
+  servantDirection = pref[1];
+  skillDirection = pref[2];
 }
 
-function getPreferenceString(){
-    var p = "";
-    for(var i=0;i<4;i++){
-        p+=blackEdge[i];
-        p+=",";
-    }
-    p+=selectFriendLoose;
-    p+=",";
-    p+=servantDirection;
-    p+=",";
-    p+=skillDirection;
+function getPreferenceString() {
+  var p = "";
+  for (var i = 0; i < 4; i++) {
+    p += blackEdge[i];
+    p += ",";
+  }
+  p += selectFriendLoose;
+  p += ",";
+  p += servantDirection;
+  p += ",";
+  p += skillDirection;
 
-    return p;
+  return p;
 }
 
 loadApiCnt++;

@@ -13,25 +13,38 @@ adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw
 
 
 #Mac
-#JP
-#To device
+#JP device
 cd ~/code_cooper/fgoautoscript
 zip -r index.zip basic_item game_script image_jp jquery setting index.html index.js
+adb shell rm -rf /sdcard/download/robotmon/scripts/com.cooper.fgo
+adb shell mkdir /sdcard/download/robotmon/scripts/com.cooper.fgo
 adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
 
-#Build
+#JP build
 cd ~/code_cooper/fgoautoscript
 zip -r index.zip basic_item game_script image_jp jquery setting index.html index.js
 rm -rf ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGO
 mkdir ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGO
 mv index.zip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGO/
 unzip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGO/index.zip -d ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGO/
+cd ~/code_cooper/robotmon-scripts
 
 
-#TW
+#TW device
 cd ~/code_cooper/fgoautoscript
 zip -r index.zip basic_item game_script image_tw jquery setting index.html index.js
-adb push index.zip /sdcard/robotmon/scripts/com.cooper.fgotw
+adb shell rm -rf /sdcard/download/robotmon/scripts/com.cooper.fgotw
+adb shell mkdir /sdcard/download/robotmon/scripts/com.cooper.fgotw
+adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw/
+
+#TW build
+cd ~/code_cooper/fgoautoscript
+zip -r index.zip basic_item game_script image_tw jquery setting index.html index.js
+rm -rf ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW
+mkdir ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW
+mv index.zip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/
+unzip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/index.zip -d ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/
+cd ~/code_cooper/robotmon-scripts
 
 ===============================
 
