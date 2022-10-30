@@ -506,6 +506,18 @@ function confirmSaveFriendItemImage(imageName, time) {
   return imageName;
 }
 
+function deleteFriendServantImage(imageName){
+  var path = itemPath + "friend_servant/" + imageName + ".png";
+  execute("rm " + path);
+  return imageName;
+}
+
+function deleteFriendItemImage(imageName){
+  var path = itemPath + "friend_item/" + imageName + ".png";
+  execute("rm " + path);
+  return imageName;
+}
+
 function additionalFriendServant(friend) {
   selectFriendList[selectFriendList.length] = friend;
 }

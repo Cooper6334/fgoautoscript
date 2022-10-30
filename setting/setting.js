@@ -265,6 +265,9 @@ function initButton() {
   });
   $("#deleteScript").click(function () {
     var scriptName = $("#scriptMode").select2("data")[0].text;
+    if (scriptName == null || scriptName.length <= 0) {
+      return;
+    }
     bootbox.confirm("是否刪除 " + scriptName + " ?", function (result) {
       if (result) {
         if (scriptName == "") {
@@ -521,8 +524,7 @@ function initButton() {
   $("#deleteCropImageSelect").change(function () {
     var index = $(this).val();
     var path;
-    console.log("index",index);
-    if (index != -1) {
+    if (index != null && index != -1) {
       if(index >= friendServantList.length){
         index -= friendServantList.length;
         path = itemImgPath + "/"+friendItemList[index] + ".png";
@@ -532,7 +534,35 @@ function initButton() {
         $("#deleteCropImg").css("height", 40);
       }
       $("#deleteCropImg").attr("src", path);
+    }else{
+      $("#deleteCropImg")
+      .removeAttr("src")
+      .replaceWith($("#deleteCropImg").clone());
     }
+  });
+  $("#deleteCropImgButton").click(function () {
+    var index = $("#deleteCropImageSelect").val();
+    var isServant = true;
+    var imageName;
+    if (index == null || index == -1) {
+      return;
+    }
+    if (index >= friendServantList.length) {
+      index -= friendServantList.length;
+      imageName = friendItemList[index];
+      isServant = false;
+    } else {
+      imageName = friendServantList[index];
+    }
+    bootbox.confirm("是否刪除 " + imageName + ".png?", function (result) {
+      if (result && imageName.length > 0) {
+        if(isServant){
+          JavaScriptInterface.runScriptCallback('deleteFriendServantImage("' + imageName + '");', "deleteFriendServantConfirm");
+        }else{
+          JavaScriptInterface.runScriptCallback('deleteFriendItemImage("' + imageName + '");', "deleteFriendItemConfirm");
+        }
+      }
+    });
   });
 }
 
@@ -850,6 +880,75 @@ function saveFriendItemConfirm(result) {
 
 function saveBlackEdgeConfirm() {
   bootbox.alert("儲存黑邊完成");
+}
+
+function deleteFriendServantConfirm(image){
+  var index = friendServantList.indexOf(image);
+  friendServantList.splice(index, 1);
+
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
+
+  for (var i = 0; i < commandId + 1; i++) {
+    if ($("#selectFriendServant" + i).length) {
+      if($("#selectFriendServant" + i).val() == index){
+        $("#selectFriendServant" + i)
+        .val(-1)
+        .trigger("change");
+      }
+      $("#selectFriendServant"+i+" option[value='"+index+"']").remove();
+    } else if ($("#additionalFriendServant" + i).length) {
+      if($("#additionalFriendServant" + i).val() == index){
+        $("#additionalFriendServant" + i)
+        .val(-1)
+        .trigger("change");
+      }
+      $("#additionalFriendServant"+i+" option[value='"+index+"']").remove();
+    }
+  }
+  bootbox.alert("截圖刪除成功");
+}
+
+function deleteFriendItemConfirm(image){
+  var index = friendItemList.indexOf(image);
+  friendItemList.splice(index, 1);
+
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
+
+  for (var i = 0; i < commandId + 1; i++) {
+    if ($("#selectFriendItem" + i).length) {
+      if($("#selectFriendItem" + i).val() == index){
+        $("#selectFriendItem" + i)
+        .val(-1)
+        .trigger("change");
+      }
+      $("#selectFriendItem"+i+" option[value='"+index+"']").remove();
+    }
+  }
+  bootbox.alert("截圖刪除成功");
 }
 
 function detectBlackEdgeCallback(blackEdge) {

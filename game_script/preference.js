@@ -14,18 +14,18 @@ function loadPreference(){
     if (preference == undefined || preference.length == 0) {
       preference = "0,0,0,0,0,0,0";
     }
-    var splite = preference.splite(",");
+    var split = preference.split(",");
     for(var i=0;i<7;i++){
-        if(splite[i]==undefined){
-            splite[i] = 0;
+        if(split[i]==undefined){
+            split[i] = 0;
         }
     }
     for(var i=0;i<4;i++){
-        blackEdge[i] = splite[i];
+        blackEdge[i] = split[i];
     }
-    friendStrict = splite[4];
-    servantDirection = splite[5];
-    skillDirection = splite[6];
+    friendStrict = split[4];
+    servantDirection = split[5];
+    skillDirection = split[6];
 
 }
 
@@ -55,3 +55,6 @@ function getPreferenceString(){
 
     return p;
 }
+
+loadApiCnt++;
+console.log("Load preference api finish");

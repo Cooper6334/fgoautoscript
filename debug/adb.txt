@@ -17,7 +17,7 @@ adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw
 #To device
 cd ~/code_cooper/fgoautoscript
 zip -r index.zip basic_item game_script image_jp jquery setting index.html index.js
-adb push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
+adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
 
 #Build
 cd ~/code_cooper/fgoautoscript

@@ -17,6 +17,16 @@ var JavaScriptInterface = {
       fetch(scriptPath)
         .then((response) => response.text())
         .then((text) => resetScript(text));
+    }else if (name.startsWith(`deleteFriendServantImage`)) {
+      var imageName = name.split(`"`)[1];
+      var imagePath = "basic_item/FGOV3/friend_servant/" + imageName + ".png";
+      console.log("delect " + imagePath);
+      deleteFriendServantConfirm(imageName);
+    }else if (name.startsWith(`deleteFriendItemImage`)) {
+      var imageName = name.split(`"`)[1];
+      var imagePath = "basic_item/FGOV3/friend_item/" + imageName + ".png";
+      console.log("delect " + imagePath);
+      deleteFriendItemConfirm(imageName);
     }
   },
   runScript(name) {
