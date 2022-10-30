@@ -129,11 +129,11 @@ function initButton() {
   $("#clearBlackEdge").click(function () {
     setBlackEdgeValue([0, 0, 0, 0]);
   });
-  $("#saveBlackEdge").click(function () {
-    var blackEdge = getBlackEdgeValue();
+  $("#savePreferenceButton").click(function () {
+    var preference = getPreferenceValue();
     JavaScriptInterface.runScriptCallback(
-      "saveBlackEdge([" + blackEdge + "])",
-      "saveBlackEdgeConfirm"
+      "savePreference([" + preference +"])",
+      "savePreferenceConfirm"
     );
   });
 
@@ -467,20 +467,9 @@ function initButton() {
     var display = $("#getServantBlock").css("display");
     if (display == "none") {
       $("#getServantBlock").css("display", "");
-      $("#getBlackEdgeBlock").css("display", "none");
       $("#preferenceBlock").css("display", "none");
     } else {
       $("#getServantBlock").css("display", "none");
-    }
-  });
-  $("#switchGetBlackEdgeBlock").click(function () {
-    var display = $("#getBlackEdgeBlock").css("display");
-    if (display == "none") {
-      $("#getBlackEdgeBlock").css("display", "");
-      $("#preferenceBlock").css("display", "none");
-      $("#getServantBlock").css("display", "none");
-    } else {
-      $("#getBlackEdgeBlock").css("display", "none");
     }
   });
   $("#switchPreferenceBlock").click(function () {
@@ -488,7 +477,6 @@ function initButton() {
     if (display == "none") {
       $("#preferenceBlock").css("display", "");
       $("#getServantBlock").css("display", "none");
-      $("#getBlackEdgeBlock").css("display", "none");
     } else {
       $("#preferenceBlock").css("display", "none");
     }
@@ -663,13 +651,30 @@ function initHTML(result) {
     $("#serverMessage").text("");
   }
 
-  //init black edge
+  //init black edge and preference
   var blackEdge = [0, 0, 0, 0];
   if (result[5] != undefined) {
     result[5] = result[5].split(",");
     for (var i = 0; i < 4; i++) {
       blackEdge[i] = parseInt(result[5][i]);
     }
+    var friendStrict= parseInt(result[5][4]);
+    if(friendStrict == undefined || friendStrict == null){
+      friendStrict = 0;
+    }
+    $("#friendStrictSelect").val(friendStrict).trigger("change");
+
+    var servantDirection= parseInt(result[5][5]);
+    if(servantDirection == undefined || servantDirection == null){
+      servantDirection = 0;
+    }
+    $("#servantDirectionSelect").val(servantDirection).trigger("change");
+
+    var skillDirection= parseInt(result[5][6]);
+    if(skillDirection == undefined || skillDirection == null){
+      skillDirection = 0;
+    }
+    $("#skillDirectionSelect").val(skillDirection).trigger("change");
   }
   setBlackEdgeValue(blackEdge);
 
@@ -878,8 +883,8 @@ function saveFriendItemConfirm(result) {
   }
 }
 
-function saveBlackEdgeConfirm() {
-  bootbox.alert("儲存黑邊完成");
+function savePreferenceConfirm() {
+  bootbox.alert("偏好設定儲存完成");
 }
 
 function deleteFriendServantConfirm(image){
@@ -986,6 +991,23 @@ function getBlackEdgeValue() {
   return blackEdge;
 }
 
+function getOtherPreferenceValue() {
+  var preference = [];
+  preference[0] = parseInt($("#friendStrictSelect").val());
+  preference[1] = parseInt($("#servantDirectionSelect").val());
+  preference[2] = parseInt($("#skillDirectionSelect").val());
+  return preference;
+}
+
+function getPreferenceValue(){
+  var preference = getBlackEdgeValue();
+  preference[4] = parseInt($("#friendStrictSelect").val());
+  preference[5] = parseInt($("#servantDirectionSelect").val());
+  preference[6] = parseInt($("#skillDirectionSelect").val());
+  return preference;
+
+}
+
 //Call by Android app---------------------------------------------------
 function onEvent(eventType) {
   if (eventType == "OnPlayClick") {
@@ -998,6 +1020,7 @@ function onEvent(eventType) {
     var l = server + "_" + version;
     var scriptName = $("#scriptMode").select2("data")[0].text;
     var blackEdge = getBlackEdgeValue();
+    var preference = getOtherPreferenceValue();
     JavaScriptInterface.runScriptCallback(
       "start(" +
         loopTime +
@@ -1007,6 +1030,8 @@ function onEvent(eventType) {
         scriptName +
         "',[" +
         blackEdge +
+        "],[" +
+        preference +
         "]);",
       "scriptFinish"
     );

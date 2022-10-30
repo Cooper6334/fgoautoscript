@@ -81,11 +81,40 @@
       </div>
       <div class="blockDiv">
         <button id = "switchPreferenceBlock" class="blockTitle">偏好設定</button>
-        <button id = "switchGetBlackEdgeBlock" class="blockTitle">黑邊設定</button>
         <button id = "switchGetServantBlock" class="blockTitle">擷取好友從者禮裝</button>
       </div>
       <div id="preferenceBlock" class="blockDiv" style="display:none">
         <div class="blockDiv">
+          <div class="blockTitle">
+            黑邊設定
+          </div>
+          <div class="discriptionText">
+            預設0,0,0,0使用全螢幕範圍作為遊戲範圍，如果手機截圖沒有黑邊則無需調整
+          </div>
+          <div class="discriptionText">
+            使用偵測黑邊功能請先移動到遊戲主畫面，若偵測不準確請手動輸入數值
+          </div>
+          <div class="discriptionText">
+            詳情請見<a href="https://sites.google.com/view/fgoautoscript/%E9%BB%91%E9%82%8A%E8%A8%AD%E5%AE%9A"
+              class="discriptionText">說明文件</a>
+          </div>
+          <div class="blockDiv">
+            左<input id="blackEdgeLeft" type="number" class="blackEdgeInput">
+            上<input id="blackEdgeTop" type="number" class="blackEdgeInput">
+          </div>
+          <div class="blockDiv">
+            右<input id="blackEdgeRight" type="number" class="blackEdgeInput">
+            下<input id="blackEdgeBottom" type="number" class="blackEdgeInput">
+          </div>
+          <div class="blockDiv">
+            <button id="getBlackEdge" class="cmdButton">偵測黑邊</button>
+            <button id="clearBlackEdge" class="cmdButton">清除黑邊數值</button>
+          </div>
+        </div>
+        <div class="blockDiv">
+          <div class="blockTitle">
+            其他設定
+          </div>
           <div class="commandSelectDiv">
             <div class='commandItem'>選擇好友精確度</div>
             <select id="friendStrictSelect" class="commandItem">
@@ -140,30 +169,6 @@
           <div class="blockDiv">
             <button id="deleteCropImgButton" class="cmdButton">刪除截圖</button>
           </div>
-        </div>
-      </div>
-      <div id="getBlackEdgeBlock" class="blockDiv" style="display:none">
-        <div class="discriptionText">
-          預設0,0,0,0使用全螢幕範圍作為遊戲範圍，如果手機畫面沒有黑邊則無需調整
-        </div>
-        <div class="discriptionText">
-          使用偵測黑邊功能請先移動到遊戲主畫面
-        </div>
-        <div class="discriptionText">
-          也可以手動輸入，數值為遊戲範圍第一個像素的位置。例如解析度1920x1080沒有黑邊則輸入0,0,1919,1079
-        </div>
-        <div class="blockDiv">
-          左<input id="blackEdgeLeft" type="number" class="blackEdgeInput">
-          上<input id="blackEdgeTop" type="number" class="blackEdgeInput">
-        </div>
-        <div class="blockDiv">
-          右<input id="blackEdgeRight" type="number" class="blackEdgeInput">
-          下<input id="blackEdgeBottom" type="number" class="blackEdgeInput">
-        </div>
-        <div class="blockDiv">
-          <button id="getBlackEdge" class="cmdButton">偵測黑邊</button>
-          <button id="clearBlackEdge" class="cmdButton">清除黑邊數值</button>
-          <button id="saveBlackEdge" class="cmdButton">儲存黑邊數值</button>
         </div>
       </div>
       <div class="blockDiv">

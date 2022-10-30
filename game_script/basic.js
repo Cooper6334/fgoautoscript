@@ -8,21 +8,14 @@ var skillUsedInLoop = undefined;
 var lastTimeUseItem = -1;
 var isScriptRunning = false;
 
-function startScript(loopTime, script, scriptName, be) {
-
-  try {
-    if (typeof user_plan_fgo === "undefined") {
-      var user_plan_fgo = 3;
-    }
-  } catch (e) {
-    var user_plan_fgo = 3;
-  }
-  console.log("開始執行指令，版本" + version+", 方案"+user_plan_fgo);
+function startScript(loopTime, script, scriptName, be, pref) {
+  console.log("開始執行指令，版本" + version);
 
   if (isDebug) {
-    console.log(script);
+    console.log(script,be,script);
   }
   setBlackEdgeByHtmlValue(be);
+  setOtherPreference(pref);
   initScreenSize();
   if (script == undefined || script.length <= 0) {
     console.log("請先設定腳本指令再開始執行");
@@ -31,7 +24,7 @@ function startScript(loopTime, script, scriptName, be) {
   isScriptRunning = true;
   runningScriptName = scriptName;
   var plan = getUserPlan();
-  if (plan != user_plan_fgo) {
+  if (plan != "user_plan_fgo" && plan != 3) {
     console.log("使用者方案ID為 " + plan);
     console.log("請訂閱Robotmon X FGO方案");
   }
@@ -69,7 +62,7 @@ function startScript(loopTime, script, scriptName, be) {
     spaceUltColor = -1;
     isReplay = false;
     runScript(script);
-    if (plan != user_plan_fgo) {
+    if (plan != "user_plan_fgo" && plan != 3) {
       console.log(
         "方案ID為" + plan + "," + getUserPlan() + "，判斷未訂閱方案，結束周回"
       );

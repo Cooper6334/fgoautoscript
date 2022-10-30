@@ -5,10 +5,10 @@ var itemPath;
 var server;
 var loadApiCnt;
 
-var version = "V3.48";
+var version = "V3.49";
 
-function start(loopTime, script, scriptName, be) {
-  startScript(loopTime, script, scriptName, be);
+function start(loopTime, script, scriptName, be, pref) {
+  startScript(loopTime, script, scriptName, be, pref);
 }
 
 function stop() {
