@@ -1,5 +1,5 @@
 var blackEdge = [0,0,0,0]; //l 52,t 0,r 2176,b 1035
-var friendStrict = 0;//0 normal 1 strict
+var selectFriendLoose = 0;//0 strict 1 loose
 var servantDirection = 0;//0 l->r 1 r->l
 var skillDirection = 0;//0 l->r 1 r->l
 
@@ -26,7 +26,7 @@ function loadPreference() {
   for (var i = 0; i < 4; i++) {
     blackEdge[i] = split[i];
   }
-  friendStrict = split[4];
+  selectFriendLoose = split[4];
   servantDirection = split[5];
   skillDirection = split[6];
   if (valueMissing) {
@@ -39,14 +39,14 @@ function loadPreference() {
 function savePreference(pref){
     console.log("儲存偏好設定",pref);
     blackEdge = pref.slice(0,4);
-    friendStrict = pref[4];
+    selectFriendLoose = pref[4];
     servantDirection = pref[5];
     skillDirection = pref[6];
     return writeFile(itemPath + "preference.js", getPreferenceString());
 }
 
 function setOtherPreference(pref){
-    friendStrict = pref[0];
+  selectFriendLoose = pref[0];
     servantDirection = pref[1];
     skillDirection = pref[2];
 }
@@ -57,7 +57,7 @@ function getPreferenceString(){
         p+=blackEdge[i];
         p+=",";
     }
-    p+=friendStrict;
+    p+=selectFriendLoose;
     p+=",";
     p+=servantDirection;
     p+=",";

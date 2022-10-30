@@ -24,6 +24,9 @@ function startScript(loopTime, script, scriptName, be, pref) {
   isScriptRunning = true;
   runningScriptName = scriptName;
   var plan = getUserPlan();
+  if(plan.length <= 0){
+    plan = "user_plan_fgo";
+  }
   if (plan != "user_plan_fgo" && plan != 3) {
     console.log("使用者方案ID為 " + plan);
     console.log("請訂閱Robotmon X FGO方案");

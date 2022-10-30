@@ -737,6 +737,20 @@ function saveServantConfirm(time) {
       }
     },
   });
+
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
 }
 
 function saveItemConfirm(time) {
@@ -777,6 +791,20 @@ function saveItemConfirm(time) {
       }
     },
   });
+
+  $("#deleteCropImageSelect").children().remove().end();
+  for (var i = 0; i < friendServantList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + i + '">' + friendServantList[i] + "</option>"
+    );
+  }
+  for (var i = 0; i < friendItemList.length; i++) {
+    $("#deleteCropImageSelect").append(
+      '<option value = "' + (friendServantList.length+i) + '">' + friendItemList[i] + "</option>"
+    );
+  }
+  $("#deleteCropImageSelect").val(-1).trigger("change");
+  $("#deleteCropImg").css("height", 40);
 }
 
 function createEmptyScriptConfirm(result) {
