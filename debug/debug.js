@@ -1,6 +1,7 @@
 //var deviceId = "98071FFAZ002JS";
 //var deviceId = "127.0.0.1:62025";
-var deviceId = "emulator-5554";
+var deviceId = "29161FDH200FZ0";
+// var deviceId = "emulator-5554";
 function saveMyImage(name, image) {
   var path = getStoragePath();
   var filepath = path + "/" + name + ".png";
