@@ -128,9 +128,21 @@ function useSkill(player, skill, target) {
       return;
     }
   }
-
   if (!isScriptRunning) {
     return;
+  }
+  if (isBattleKklDialog()) {
+    var kkl = getKKLArray()[skill];
+    if (kkl != 0) {
+      tapScale(1420, 640);
+      sleep(1000);
+      if (isBattleKklDialog()) {
+        console.log("星星數量不足");
+        clickIcon("kkl");
+      }
+    } else {
+      clickIcon("kkl");
+    }
   }
   if (isBattleSkillSpaceDialog()) {
     if (spaceUltColor == undefined || spaceUltColor < 0 || spaceUltColor > 2) {

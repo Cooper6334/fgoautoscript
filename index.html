@@ -146,13 +146,17 @@
               <option value="2">綠</option>
             </select>
           </div>
-          <div class='blockDiv'>庫庫魯坎技能使用星星</div>
           <div class="commandSelectDiv">
-            <div class='commandItem'>技能1</div>
-            <select id="kukulkanUseStar0Select" class="commandItem">
-              <option value="0">不使用</option>
-              <option value="1" selected>使用</option>
-            </select>
+            <div class='commandItem'>庫庫魯坎技能使用星星</div>
+          </div>
+          <div class="blockDiv">
+            <div class="commandSelectDiv">
+              <div class='commandItem'>技能1</div>
+              <select id="kukulkanUseStar0Select" class="commandItem">
+                <option value="0">不使用</option>
+                <option value="1" selected>使用</option>
+              </select>
+            </div>
             <div class="commandSelectDiv">
               <div class='commandItem'>技能2</div>
               <select id="kukulkanUseStar1Select" class="commandItem">
@@ -170,7 +174,7 @@
           </div>
         </div>
         <div class="blockDiv">
-          <button id="savePreferenceButton" class="cmdButton">儲存偏好與黑邊設定</button>
+          <button id="savePreferenceButton" class="cmdButton">儲存設定</button>
         </div>
       </div>
       <div id="getServantBlock" class="blockDiv" style="display:none">
@@ -277,6 +281,9 @@
         <div class="blockDiv">
           <div class="blockTitle">其他指令</div>
           <div class="discriptionText">此排指令請放在最上面</div>
+          <button id="addSpaceUlt" class="cmdButton">
+            設定技能改變寶具顏色
+          </button>
           <button id="additionalFriendServant" class="cmdButton">
             好友從者多選
           </button>
