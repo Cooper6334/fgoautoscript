@@ -27,7 +27,6 @@ var ultPositionY = 187;
 var emiyaUltPositionX = [1125, 675];
 var spaceUltPositionX = [1350, 900, 450];
 var spaceUltPositionY = 675;
-var spaceUltColor = 2;
 var colorName = ["紅", "藍", "綠"];
 
 var useMargin = undefined;
