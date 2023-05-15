@@ -14,12 +14,11 @@ function saveCropIcon(name) {
   if (iconMargin[name] != true) {
     margin = defaultMarginX;
   }
-  var path = getStoragePath();
   var x = icon[name][0] + margin;
   var y = icon[name][1];
   var width = icon[name][2];
   var height = icon[name][3];
-  var filepath = path + "/cropImage/" + name + ".png";
+  var filepath = getStoragePath() + "/cropImage/" + name + ".png";
   var screenshot = getScreenshotResize();
   var crop = cropImage(screenshot, x, y, width, height);
   saveImage(crop, filepath);

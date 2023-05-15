@@ -1,7 +1,6 @@
 98071FFAZ002JS
 127.0.0.1:62025
 
-//TW adb shell wm size 1080x2040
 adb shell wm size 1080x1920
 adb shell wm size reset
 
