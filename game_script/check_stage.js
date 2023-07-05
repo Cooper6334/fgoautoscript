@@ -198,6 +198,9 @@ icon["main"] = [1710, 924, 150, 75];
 icon["apple"] = [795, 67, 300, 75];
 icon["selectStageItemFull"] = [487, 225, 900, 187];
 icon["selectStageServantFull"] = [487, 225, 900, 187];
+icon["whiteConfirm"] = [450, 700, 500, 200];
+icon["whiteFinish"] = [550, 550, 800, 350];
+icon["whiteStartFailed"] = [550, 400, 800, 500];
 
 function isMainPage() {
   return checkIconInScreen("main");
@@ -220,6 +223,18 @@ function isItemOrServantFullDialog() {
 
 function isUseAppleDialog() {
   return checkIconInScreen("apple", 0.75);
+}
+
+function isWhiteConfirmDialog() {
+  return checkIconInScreen("whiteConfirm");
+}
+
+function iswhiteStartFailedDialog() {
+  return checkIconInScreen("whiteStartFailed");
+}
+
+function isWhiteFinishDialog() {
+  return checkIconInScreen("whiteFinish");
 }
 
 //select friend-----------------------------------------------

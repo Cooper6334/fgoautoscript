@@ -37,21 +37,21 @@ function saveScreenShotImage() {
   console.log("adb -s " + deviceId + " pull " + filepath);
 }
 
-function saveCropImage(l, t, w, h) {
+function saveCropImage(l, t, r, b) {
   var path = getStoragePath();
-  var width = w;
-  var height = h;
+  var width = r - l;
+  var height = b - t;
   var x = l;
   var y = t;
   var currentdate = new Date();
-  var filepath =
-    path + "/crop" + "_" + x + "_" + y + "_" + width + "_" + height + ".png";
+  var filepath = path + "/crop" + "_" + x + "_" + y + "_" + width + "_" + height + ".png";
   var screenShot = getScreenshot();
   var crop = cropImage(screenShot, x, y, width, height);
   saveImage(crop, filepath);
   releaseImage(screenShot);
   releaseImage(crop);
   console.log("adb -s " + deviceId + " pull " + filepath);
+  console.log('icon[""] = [' + l + ", " + t + ", " + width + ", " + height + "];");
 }
 
 function testCard() {
