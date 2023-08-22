@@ -27,10 +27,13 @@ function saveCropIcon(name) {
   console.log("adb -s " + deviceId + " pull " + filepath);
 }
 
-function saveScreenShotImage() {
+function saveScreenShotImage(name) {
+  if(name == undefined){
+    var currentdate = new Date();
+    name = "screenshot" + currentdate.getTime();
+  }
   var path = getStoragePath();
-  var currentdate = new Date();
-  var filepath = path + "/screenshot" + currentdate.getTime() + ".png";
+  var filepath = path + "/" + name + ".png";
   var screenShot = getScreenshot();
   saveImage(screenShot, filepath);
   releaseImage(screenShot);
