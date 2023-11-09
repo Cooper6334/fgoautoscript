@@ -451,6 +451,7 @@ function isItemPage() {
 
 //friendPoint-----------------------------------------------
 icon["friendPointMain"] = [675, 538, 675, 108];
+icon["friendPointMainEvent"] = [675, 538, 675, 108];
 icon["friendPointFree"] = [787, 740, 337, 75];
 icon["friendPointContinue"] = [1050, 975, 187, 63];
 icon["friendPointTen"] = [1125, 740, 240, 75];
@@ -458,7 +459,14 @@ icon["friendPointServantFull"] = [487, 225, 900, 187];
 icon["friendPointItemFull"] = [487, 225, 900, 187];
 
 function isFriendPointMainPage() {
-  return checkIconInScreen("friendPointMain");
+  if(server == "TW"){
+    return checkIconListInScreen(
+      ["friendPointMain", "friendPointMainEvent"],
+      false
+    );
+  }else{
+    return checkIconInScreen("friendPointMain");
+  }
 }
 
 function isFriendPointFree() {
@@ -484,7 +492,14 @@ function isFriendPointFull() {
 }
 
 function isFriendPointContinue() {
-  return checkIconInScreen("friendPointContinue");
+  if(server == "TW"){
+    return checkIconListInScreen(
+      ["friendPointContinue", "friendPointContinueEvent"],
+      false
+    );
+  }else{
+    return checkIconInScreen("friendPointContinue");
+  }
 }
 
 function isPresentBoxFull() {

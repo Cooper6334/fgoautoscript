@@ -1,10 +1,11 @@
-98071FFAZ002JS
+//98071FFAZ002JS
+29161FDH200FZ0
 127.0.0.1:62025
 
 adb shell wm size 1080x1920
 adb shell wm size reset
 
-adb -s 98071FFAZ002JS  shell tail -n 10 /sdcard/Robotmon/robotmon.log
+adb -s 29161FDH200FZ0  shell tail -n 10 /sdcard/Robotmon/robotmon.log
 
 adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
@@ -12,6 +13,39 @@ adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw
 
 
 
+
+#Windows
+#JP
+#To device
+cd c:\code\fgoautoscript
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
+adb -s 29161FDH200FZ0 push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
+
+#Build
+cd c:\code\fgoautoscript
+rm index.zip
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
+rm -rf c:\code\robotmon-scripts\scripts\com.cooper.FGO
+mkdir c:\code\robotmon-scripts\scripts\com.cooper.FGO
+mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
+"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGO -y -spf
+
+#TW
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
+adb  -s 29161FDH200FZ0 push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
+
+cd c:\code\fgoautoscript
+rm index.zip
+"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
+rm -rf c:\code\robotmon-scripts\scripts\com.cooper.FGOTW
+mkdir c:\code\robotmon-scripts\scripts\com.cooper.FGOTW
+mv index.zip c:\code\robotmon-scripts\scripts\com.cooper.FGOTW\
+"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon-scripts\scripts\com.cooper.FGOTW\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGOTW -y -spf
+
+
+
+
+===============================
 #Mac
 #JP device
 cd ~/code_cooper/fgoautoscript
@@ -49,32 +83,3 @@ mkdir ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW
 mv index.zip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/
 unzip ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/index.zip -d ~/code_cooper/robotmon-scripts/scripts/com.cooper.FGOTW/
 cd ~/code_cooper/robotmon-scripts
-
-===============================
-
-#Windows
-#JP
-#To device
-cd f:\code\fgoautoscript
-"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
-adb -s 98071FFAZ002JS push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
-
-#Build
-cd f:\code\fgoautoscript
-"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
-rm -rf \code\robotmon-scripts\scripts\com.cooper.FGO
-mkdir \code\robotmon-scripts\scripts\com.cooper.FGO
-mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
-"%ProgramFiles%"\7-Zip\7z.exe e \code\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGO -y -spf
-
-#TW
-"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
-adb push index.zip /sdcard/robotmon/scripts/com.cooper.fgotw
-
-cd f:\code\fgoautoscript
-"%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
-rm -rf \code\robotmon-scripts\scripts\com.cooper.FGOTW
-mkdir \code\robotmon-scripts\scripts\com.cooper.FGOTW
-mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGOTW\
-"%ProgramFiles%"\7-Zip\7z.exe e \code\robotmon-scripts\scripts\com.cooper.FGOTW\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGOTW -y -spf
-
