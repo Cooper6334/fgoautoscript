@@ -4,7 +4,7 @@
 
 adb shell wm size 1080x1920
 adb shell wm size reset
-
+//TW BlackEdge 200 0 2335 1079
 adb -s 29161FDH200FZ0  shell tail -n 10 /sdcard/Robotmon/robotmon.log
 
 adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
