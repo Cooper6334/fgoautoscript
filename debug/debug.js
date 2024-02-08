@@ -5,6 +5,7 @@ var deviceId = "29161FDH200FZ0";
 
 
 function initDebug(){
+  server = "JP";
   setBlackEdgeByHtmlValue([0,0,0,0]);
   setOtherPreference([0,0,0,0,0]);
   initScreenSize();
