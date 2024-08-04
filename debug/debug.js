@@ -4,8 +4,11 @@ var deviceId = "29161FDH200FZ0";
 // var deviceId = "emulator-5554";
 
 
-function initDebug(){
-  server = "JP";
+function initDebug(s){
+  if(s == null || s == undefined){
+    s = "JP";
+  }
+  server = s;
   setBlackEdgeByHtmlValue([0,0,0,0]);
   setOtherPreference([0,0,0,0,0]);
   initScreenSize();

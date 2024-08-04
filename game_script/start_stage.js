@@ -33,7 +33,7 @@ function selectStage(useApple) {
     console.log("請使用黑邊設定功能");
     console.log("3.模擬器不支援火箭模式:");
     console.log("請使用Simple Manager啟動");
-    console.log("選擇關卡失敗 可能原因如上");
+    console.log("選擇關卡失敗 可能原因請下拉訊息");
     isScriptRunning = false;
     return;
   } else {
