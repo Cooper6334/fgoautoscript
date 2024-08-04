@@ -167,7 +167,14 @@ function selectTeam(team, useTeamAutoBuild) {
   if (useTeamAutoBuild == undefined || useTeamAutoBuild == null) {
     useTeamAutoBuild = 0;
   }
-  if (team < 0 || team >= 10) {
+  var teamMaxCnt = 15;
+  var teamOffset = 2;
+  if(server == "TW"){
+    teamMaxCnt = 10;
+    teamOffset = 0;
+  }
+  }
+  if (team < 0 || team >= teamMaxCnt) {
     return;
   }
   if (isReplay) {
@@ -184,8 +191,8 @@ function selectTeam(team, useTeamAutoBuild) {
     console.log("不在選擇隊伍畫面");
     return;
   }
-  var x = 787 + 37 * team;
-  var x2 = 787 + 37 * ((team + 1) % 10);
+  var x = 787 + 37 * (team - teamOffset);
+  var x2 = 787 + 37 * ((team + 1) % teamMaxCnt - teamOffset);
   tapScale(x2, 75);
   sleep(1000);
   tapScale(x, 75);
