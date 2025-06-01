@@ -10,7 +10,7 @@ function initDebug(s){
   }
   server = s;
   setBlackEdgeByHtmlValue([0,0,0,0]);
-  setOtherPreference([0,0,0,0,0]);
+  setOtherPreference([0,0,0,0,0,0]);
   initScreenSize();
 }
 
