@@ -1,4 +1,3 @@
 *.zip
-/debug/test.js
-/debug/debug.js
 /*.png
+./debug/test.js
