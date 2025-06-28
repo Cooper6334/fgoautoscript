@@ -4,13 +4,13 @@ var deviceId = "29161FDH200FZ0";
 // var deviceId = "emulator-5554";
 
 
-function initDebug(s){
-  if(s == null || s == undefined){
+function initDebug(s) {
+  if (s == null || s == undefined) {
     s = "JP";
   }
   server = s;
-  setBlackEdgeByHtmlValue([0,0,0,0]);
-  setOtherPreference([0,0,0,0,0,0]);
+  setBlackEdgeByHtmlValue([0, 0, 0, 0]);
+  setOtherPreference([0, 0, 0, 0, 0, 0]);
   initScreenSize();
 }
 
@@ -40,7 +40,7 @@ function saveCropIcon(name) {
 }
 
 function saveScreenShotImage(name) {
-  if(name == undefined){
+  if (name == undefined) {
     var currentdate = new Date();
     name = "screenshot" + currentdate.getTime();
   }
@@ -74,4 +74,30 @@ function testCard() {
   releaseAllImage();
 }
 
+function testTemplate() {
+  console.log("test start");
+  initScreenSize();
+  isScriptRunning = true;
+  isDebug = true;
+  //=======================================
+
+  var screenshot = getScreenshotResize();
+  var friendLinePosition = getFriendLine(screenshot);
+  // console.log(checkFriendIsFriend(screenshot, friendLinePosition[0]));
+  // checkGrandKitsunaItem(friendLinePosition[0], screenshot, 0);
+
+  var x = 76 + friendGrandIcon[0];
+  var y = friendLinePosition[0] + friendGrandIcon[1]
+  saveCropImage(x, y, x + friendGrandIcon[2], y + friendGrandIcon[3]);
+  releaseImage(screenshot);
+
+  // saveCropIcon("teamAutoBuild");
+  // console.log(icon["teamAutoBuild"]);
+  // clickIcon("teamAutoBuild");
+  // saveCropIcon("teamPage");
+
+  //=======================================
+  isScriptRunning = false;
+  console.log("test finish");
+}
 console.log("load debug api finish");
