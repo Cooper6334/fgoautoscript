@@ -8,7 +8,7 @@ var JavaScriptInterface = {
     console.log("JS runScriptCallback", name, callback);
     if (name == `initHTML("TW");` || name == `initHTML("JP");`) {
       initHTML(
-        `default;csaber,cskadi;kitune,qp;basic_item/FGOV3/;debug version;0,0,0,0,0,1,0,0,0,0`
+        `default;csaber,cskadi;kitsuna,qp;basic_item/FGOV3/;debug version;0,0,0,0,0,1,0,0,0,0`
       );
     } else if (name.startsWith(`readScript`)) {
       var scriptName = name.split(`"`)[1];

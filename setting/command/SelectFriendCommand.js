@@ -58,12 +58,12 @@ function getSelectFriend(id) {
       '"></div>' +
       "<div class='commandSelectDiv'>建議優先使用遊戲內建的禮裝篩選</div>" +
       "<div class='commandSelectDiv'>" +
-      "<div class='commandItem'>指定突滿</div>" +
+      "<div class='commandItem'>禮裝滿突</div>" +
       '<select id = "selectFriendItemFull' +
       id +
       '">' +
       '<option value = "0">不限制</option>' +
-      '<option value = "1" selected>突滿</option></select></div>' +
+      '<option value = "1" selected>滿突</option></select></div>' +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>限定好友</div>" +
       '<select id = "selectFriendOnlyFriend' +
@@ -80,23 +80,43 @@ function getSelectFriend(id) {
       '<option value = "0">不下拉</option>' +
       '<option value = "1">一次</option>' +
       '<option value = "2">兩次</option>' +
-      '<option value = "3">三次</option></select></div>' +
+      '<option value = "3">三次</option>' +      
+      '<option value = "-2">直到出現非好友</option>' +
+      '<option value = "-3">直到出現非冠位從者</option>' +
+      '</select></div>' +
       //冠位從者選項
+      // TODO      
+      // 僅限冠位從者
+      "<div class='commandSelectDiv'></div>" +
+      "<div class='commandSelectDiv'>以下選項僅在冠位戴冠戰中生效</div>" +
       "<div class='commandSelectDiv'>" +
       "<div class='commandItem'>僅限冠位從者</div>" +
-      '<select id = "selectFriendScrollCnt' +
+      '<select id = "selectFriendGrandOnly' +
       id +
       '">' +
       '<option value = "0" selected>不限定</option>' +
       '<option value = "1">限定</option></select></div>' +
+
+      // 絆禮裝
       "<div class='commandSelectDiv'>" +
-      "<div class='commandItem'>絆禮裝</div>" +
-      '<select id = "selectFriendScrollCnt' +
+      "<div class='commandItem'>冠位從者絆禮裝</div>" +
+      '<select id = "selectFriendGrandKitsunaItem' +
       id +
       '">' +
-      '<option value = "0" selected>不限定</option>' +
-      '<option value = "1">通常效果</option>' +
-      '<option value = "2">限定效果(50np)</option></select></div>'
+      '<option value = "-1" selected>不限定禮裝</option>' +
+      '<option value = "0" selected>絆禮裝不限效果</option>'+
+      '<option value = "1">絆禮裝通常效果</option>' +
+      '<option value = "2">絆禮裝限定效果(50np)</option></select></div>' +
+      // 報酬禮裝
+      "<div class='commandSelectDiv'>" +
+      "<div class='commandItem'>冠位從者報酬禮裝</div>" +
+      '<select id = "selectFriendGrandRewardItem' +
+      id +
+      '">' +
+      '<option value = "-1" selected>無</option></select>' +
+      '<img class = "selectFriendItemImg" id = "selectFriendGrandRewardItemImg' +
+      id +
+      '"></div>'
   );
 }
 
@@ -126,6 +146,9 @@ function addSelectFriend(commandId, content) {
     $("#selectFriendItem" + commandId).append(
       '<option value = "' + i + '">' + friendItemList[i] + "</option>"
     );
+    $("#selectFriendGrandRewardItem" + commandId).append(
+      '<option value = "' + i + '">' + friendItemList[i] + "</option>"
+    );
   }
   $("#selectFriendItem" + commandId).change(function () {
     if ($(this).val() != -1) {
@@ -141,6 +164,20 @@ function addSelectFriend(commandId, content) {
     minimumResultsForSearch: -1,
     width: "160px",
   });
+  $("#selectFriendGrandRewardItem" + commandId).change(function () {
+    if ($(this).val() != -1) {
+      var path = itemImgPath + $(this).select2("data")[0].text + ".png";
+      $("#selectFriendGrandRewardItemImg" + commandId).attr("src", path);
+    } else {
+      $("#selectFriendGrandRewardItemImg" + commandId)
+        .removeAttr("src")
+        .replaceWith($("#selectFriendGrandRewardItemImg" + commandId).clone());
+    }
+  });
+  $("#selectFriendGrandRewardItem" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+  });
   $("#selectFriendItemFull" + commandId).select2({
     minimumResultsForSearch: -1,
     width: "160px",
@@ -150,6 +187,14 @@ function addSelectFriend(commandId, content) {
     width: "160px",
   });
   $("#selectFriendScrollCnt" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+  });
+  $("#selectFriendGrandOnly" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+  });
+  $("#selectFriendGrandKitsunaItem" + commandId).select2({
     minimumResultsForSearch: -1,
     width: "160px",
   });
