@@ -167,7 +167,10 @@ function checkImageAndColor(screenshot, icon, x, y, width, height) {
   return r;
 }
 
-function checkPixel(x, y, r, g, b, screenshot) {
+function checkPixel(x, y, r, g, b, screenshot, threshold) {
+  if (threshold == undefined) {
+    threshold = 20;
+  }
   var needRelease = false;
   if (screenshot == undefined) {
     needRelease = true;
@@ -183,7 +186,7 @@ function checkPixel(x, y, r, g, b, screenshot) {
   if (isDebug) {
     console.log("get color " + x + "," + y + ":" + color.r + "," + color.g + "," + color.b);
   }
-  if (isSameColor(color.r, color.g, color.b, r, g, b)) {
+  if (isSameColor(color.r, color.g, color.b, r, g, b, threshold)) {
     return true;
   }
   return false;

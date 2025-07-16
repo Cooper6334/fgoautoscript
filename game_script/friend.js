@@ -414,12 +414,12 @@ function getFriendLine(screenshot) {
   // console.log("line y " + lineY);
 
   // 彈性變數，預設2px
-  var tolerance = 2;
+  var tolerance = 1;
   
-  // 條件1：忽略所有大於750的線
+  // 條件1：忽略所有大於800的線
   var validLines = [];
   for (var i = 0; i < lineY.length; i++) {
-    if (lineY[i] <= 780) {
+    if (lineY[i] <= 800) {
       validLines[validLines.length] = lineY[i];
     }
   }
@@ -760,8 +760,9 @@ function checkGrandKitsunaItem(screenshot, kitsuna, lineY) {
   var result = -1;
   var centerX = friendX + friendGrandKitsunaItemOffset[0];
   var centerY = lineY + friendGrandKitsunaItemOffset[1];
-  for (var x = centerX - 2; x < centerX + 2; x++) {
-    for (var y = centerY - 2; y < centerY + 2; y++) {
+  var scanSize = 4;
+  for (var x = centerX - scanSize; x < centerX + scanSize; x++) {
+    for (var y = centerY - scanSize; y < centerY + scanSize; y++) {
 
       if (checkPixel(x, y, 101, 101, 101, screenshot)) {
         //none

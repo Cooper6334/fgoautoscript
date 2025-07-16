@@ -191,7 +191,7 @@ function testFriendFunctions() {
       // console.log("=== 測試 checkFriendIsFriend ===");
       var isFriend = checkFriendIsFriend(screenshot, lineY);
       // console.log("限定好友檢查 (0=不限制，1=僅限好友)：" + (isFriend ? "1 (是好友)" : "0 (非好友)"));
-      friendLog += ((isFriend ? "" : "非") + "好友：");
+      friendLog += ((isFriend ? "" : "非") + "好友");
       console.log(friendLog);
 
       // console.log("=== 測試座標計算 ===");
@@ -207,7 +207,8 @@ function testFriendFunctions() {
 
     releaseImage(screenshot);
     sleep(10000);
-    scrollFriendList();
+    // scrollFriendList();
+    break;
     if (isSelectFriendEnd()) {
       console.log("已經移到畫面底部，結束測試");
       break;
