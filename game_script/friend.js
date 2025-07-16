@@ -6,18 +6,10 @@ var friendServantPosition = [
 var friendItemPosition = [
   [friendX, 492, 232, 45],
   [friendX, 792, 232, 45],
-];
-
-//0:normal item, 1:reward item
-var friendGrandItemPosition = [
-  [
-    [friendX + 255, 346, 232, 45],
-    [friendX + 255, 485, 232, 45],
-  ],
-  [
-    [friendX + 255, 646, 232, 45],
-    [friendX + 255, 785, 232, 45],
-  ],
+  [friendX + 255, 346, 232, 45],
+  [friendX + 255, 485, 232, 45],
+  [friendX + 255, 646, 232, 45],
+  [friendX + 255, 785, 232, 45],
 ];
 
 var classPositionX = [135, 237, 337, 438, 543, 645, 745, 847, 948, 1048];
@@ -43,14 +35,14 @@ var friendItemSize = [232, 45];
 
 var friendIsFriendOffsetX = 1646; // TODO check resolution
 
-var friendGrandIcon = [50, 240, 140, 20]; // offsetx, offsety, width, height
+//default grand icon at 126,536 140x20
+var friendGrandIcon = [50, 241, 140, 20]; // offsetx, offsety, width, height
 var friendGrandItemXOffset = 255;
 var friendGrandItemYOffset = [51, 190];
-var friendGrandKitsunaItemOffset = [275, 140];
+var friendGrandKitsunaItemOffset = [275, 136];
 
-var friendStarXOffset = 209;
-var friendStarYOffset = 244;
-var friendStarSize = 7;
+var imageStarOffset = [211, 50];
+var friendStarSize = 8;
 
 var reloadPosition = 1400;
 var barMargin = 0;
@@ -69,6 +61,10 @@ function setFriendMargin() {
     friendServantPosition[1][0] = friendX;
     friendItemPosition[0][0] = friendX;
     friendItemPosition[1][0] = friendX;
+    friendItemPosition[2][0] = friendX + 255;
+    friendItemPosition[3][0] = friendX + 255;
+    friendItemPosition[4][0] = friendX + 255;
+    friendItemPosition[5][0] = friendX + 255;
     lineOffsetX[0] = 600;
     lineOffsetX[1] = 1200;
     return;
@@ -84,14 +80,32 @@ function setFriendMargin() {
   friendServantPosition[1][0] = friendX;
   friendItemPosition[0][0] = friendX;
   friendItemPosition[1][0] = friendX;
+  friendItemPosition[2][0] = friendX + 255;
+  friendItemPosition[3][0] = friendX + 255;
+  friendItemPosition[4][0] = friendX + 255;
+  friendItemPosition[5][0] = friendX + 255;
   lineOffsetX[0] = 600 + offset;
   lineOffsetX[1] = 1200 + offset;
 }
-//selectFriend(0,"csaber",null,0,0,0);
+
+//filter: 職階篩選 (位元遮罩，0=全部，1=劍，2=弓，4=槍，8=騎，16=術，32=殺，64=狂，128=特，256=混)
+//servant: 指定從者名稱 (字串，空字串表示無指定)
+//item: 指定禮裝名稱 (字串，空字串表示無指定)
+//star: 禮裝滿突 (0=不限制，1=滿突)
+//checkIsFriend: 限定好友 (0=不限制，1=僅限好友)
+//scrollTimes: 下拉次數 (-1=到最後，0=不下拉，1-3=指定次數，-2=直到出現非好友，-3=直到出現非冠位從者)
+//grandServantOnly: 僅限冠位從者 (0=不限定，1=限定)
+//grandKitsunaItem: 冠位從者絆禮裝 (-1=不限定禮裝，0=絆禮裝不限效果，1=絆禮裝通常效果，2=絆禮裝限定效果(50np))
+//grandRewardItem: 冠位從者報酬禮裝名稱 (字串，空字串表示無指定)
+
+//範例：selectFriend(0,"csaber","",0,0,0,0,-1,"");
 function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, grandServantOnly, grandKitsunaItem, grandRewardItem) {
   var scrollUntilNoFriend = false;
   var scrollUntilNoGrand = false;
-  var grandServantImage = openImage(imagePath + "grandServant.png");
+  var grandServantImage = [];
+  grandServantImage[0] = openImage(imagePath + "grandServant.png");
+  grandServantImage[1] = openImage(imagePath + "grandServant2.png");
+
   if (!isScriptRunning) {
     return;
   }
@@ -119,9 +133,9 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
   if (scrollTimes == undefined) {
     scrollTimes = 3;
   } else if (scrollTimes < 0) {
-    if (scrollTime == -2) {
+    if (scrollTimes == -2) {
       scrollUntilNoFriend = true;
-    } else if (scrollTime == -3) {
+    } else if (scrollTimes == -3) {
       scrollUntilNoGrand = true;
     }
     scrollTimes = 15;
@@ -210,9 +224,9 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
           var isSameGrandKitsunaItem = true;
           var isSameGrandRewardItem = true;
 
-          var isGrandServant = checkIsGrandServant(screenshot, lineY, grandServantImage);
+          var isGrandServant = checkIsGrandServant(screenshot, grandServantImage, lineY);
           if (isGrandServant) {
-            if (!checkGrandKitsunaItem(screenshot, lineY, grandKitsunaItem)) {
+            if (grandKitsunaItem >= 0 && !checkGrandKitsunaItem(screenshot, grandKitsunaItem, lineY)) {
               isSameGrandKitsunaItem = false;
             }
             if (grandRewardItemImage != undefined) {
@@ -262,6 +276,7 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
 
           if (itemImage != undefined) {
             if (isGrandServant) {
+              isSameItem = checkFriendItem(screenshot, itemImage, lineY, star, 0);
             } else {
               isSameItem = checkFriendItem(screenshot, itemImage, lineY, star, -1);
             }
@@ -293,7 +308,8 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
         // end loop line
 
         if (found) {
-          releaseImage(grandServantImage);
+          releaseImage(grandServantImage[0]);
+          releaseImage(grandServantImage[1]);
           for (var k = 0; k < servantImage.length; k++) {
             if (servantImage[k] != undefined) {
               releaseImage(servantImage[k]);
@@ -386,8 +402,8 @@ function getFriendLine(screenshot) {
     }
     if (isLine) {
       if (lineCnt > 0) {
-        if (y - lineY[lineCnt - 1] < 100) {
-          //same line or get under line
+        if (y - lineY[lineCnt - 1] < 10) {
+          //same line, use lowest
           lineCnt--;
         }
       }
@@ -395,12 +411,122 @@ function getFriendLine(screenshot) {
       lineCnt++;
     }
   }
-  console.log("line y " + lineY);
+  // console.log("line y " + lineY);
+
+  // 彈性變數，預設2px
+  var tolerance = 2;
+  
+  // 條件1：忽略所有大於750的線
+  var validLines = [];
+  for (var i = 0; i < lineY.length; i++) {
+    if (lineY[i] <= 780) {
+      validLines[validLines.length] = lineY[i];
+    }
+  }
+  
+  if (validLines.length == 0) {
+    return [];
+  }
+  
+  // 排序線條
+  validLines.sort(function(a, b) { return a - b; });
+  
+  var correctLines = [];
+  var uncertainLines = [];
+  
+  // 處理每一條線
+  for (var i = 0; i < validLines.length; i++) {
+    var currentLine = validLines[i];
+    var isCorrect = false;
+    var isWrong = false;
+    // 檢查與其他線的關係
+    for (var j = 0; j < validLines.length; j++) {
+      if (i == j) continue;
+      var otherLine = validLines[j];
+      var diff = Math.abs(currentLine - otherLine);
+      // 條件2：當兩條線相差36px時，下面的線為正確的線，上面的線為錯誤的線
+      if (diff >= (36 - tolerance) && diff <= (36 + tolerance)) {
+        if (currentLine > otherLine) {
+          isCorrect = true;
+        } else {
+          isWrong = true;
+        }
+      }
+    }
+    
+    // 分類線條
+    if (isCorrect && !isWrong) {
+      correctLines[correctLines.length] = currentLine;
+    } else if (!isWrong) {
+      uncertainLines[uncertainLines.length] = currentLine;
+    }
+  }
+  
+  // 條件3：當兩條線相差300px時且其中一條是正確的線，另一條也為正確的線
+  var additionalCorrectLines = [];
+  for (var i = 0; i < correctLines.length; i++) {
+    var correctLine = correctLines[i];
+    for (var j = 0; j < validLines.length; j++) {
+      var otherLine = validLines[j];
+      var diff = Math.abs(correctLine - otherLine);
+      
+      if (diff >= (300 - tolerance) && diff <= (300 + tolerance)) {
+        // 檢查otherLine是否已經在correctLines中
+        var alreadyCorrect = false;
+        for (var k = 0; k < correctLines.length; k++) {
+          if (correctLines[k] == otherLine) {
+            alreadyCorrect = true;
+            break;
+          }
+        }
+        if (!alreadyCorrect) {
+          additionalCorrectLines[additionalCorrectLines.length] = otherLine;
+        }
+      }
+    }
+  }
+  
+  // 將額外的正確線條加入正確線條陣列
+  for (var i = 0; i < additionalCorrectLines.length; i++) {
+    correctLines[correctLines.length] = additionalCorrectLines[i];
+  }
+  
+  // 從不確定線條中移除已升級為正確的線條
+  var newUncertainLines = [];
+  for (var i = 0; i < uncertainLines.length; i++) {
+    var isUpgraded = false;
+    for (var j = 0; j < additionalCorrectLines.length; j++) {
+      if (uncertainLines[i] == additionalCorrectLines[j]) {
+        isUpgraded = true;
+        break;
+      }
+    }
+    if (!isUpgraded) {
+      newUncertainLines[newUncertainLines.length] = uncertainLines[i];
+    }
+  }
+  uncertainLines = newUncertainLines;
+  
+  var filteredLineY = [];
+  
+  // 條件4：當有正確的線時，僅回傳所有正確的線
+  if (correctLines.length > 0) {
+    filteredLineY = correctLines;
+  } else {
+    // 條件5：當沒有正確的線時，則保留所有不確定的線
+    filteredLineY = uncertainLines;
+  }
+
+  // 從小到大排序
+  filteredLineY.sort(function(a, b) { return a - b; });
 
   if (isDebug) {
-    console.log("Line at " + lineY);
+    console.log("原始Line: " + lineY);
+    console.log("正確Line: " + correctLines);
+    console.log("不確定Line: " + uncertainLines);
+    console.log("過濾後Line: " + filteredLineY);
   }
-  return lineY;
+  return filteredLineY;
 }
 
 function checkFriendServant(screenshot, servantImage, lineY) {
@@ -412,50 +538,53 @@ function checkFriendServant(screenshot, servantImage, lineY) {
   );
 }
 
-function checkFriendItem(screenshot, itemImage, lineY, needStar, grandServantItem) {
+function checkFriendItem(screenshot, itemImage, lineY, needStar, grandServantItemIndex) {
   if (isDebug) {
-    console.log("checkFriendItem " + lineY);
+    console.log("checkFriendItem " + lineY + " " + needStar + " " + grandServantItemIndex);
   }
-  if (grandServantItem == undefined) {
-    grandServantItem = -1;
+  if (grandServantItemIndex == undefined) {
+    grandServantItemIndex = -1;
   }
   var x = friendX
   var y = lineY + friendItemYOffset
-  if (grandServantItem >= 0) {
+  if (grandServantItemIndex != -1) {
     x = friendX + friendGrandItemXOffset;
-    y = friendX + friendGrandItemYOffset[grandServantItem];
+    y = lineY + friendGrandItemYOffset[grandServantItemIndex];
   }
-  if (!checkImage(screenshot, itemImage, x, y, friendItemSize[0], friendItemSize[1], friendThreshole)) {
+  var croppedItemImage = cropImage(itemImage, 0, 0, friendItemSize[0] - 40, friendItemSize[1]);
+  var result = checkImage(screenshot, croppedItemImage, x, y, friendItemSize[0] - 40, friendItemSize[1], friendThreshole);
+  releaseImage(croppedItemImage);
+  if (!result) {
     return false;
   }
   if (needStar) {
-    if (!checkItemStar(screenshot, lineY)) {
+    if (!checkItemStar(screenshot, x, y)) {
+      if (isDebug) {
+        console.log("No star");
+      }
       return false;
     }
   }
   return true;
 }
 
-function checkItemStar(screenshot, lineY) {
-  if (isDebug) {
-    console.log("checkItemStar " + lineY);
-  }
-  var friendStarY = lineY + friendStarYOffset;
+function checkItemStar(screenshot, imagePositionX, imagePositionY) {
   var isG = 0;
   var notG = 0;
+  var starLeft = imagePositionX + imageStarOffset[0] - friendStarSize / 2;
+  var starTop = imagePositionY + imageStarOffset[1] - friendStarSize / 2;
   for (var i = 0; i < friendStarSize; i++) {
     for (var j = 0; j < friendStarSize; j++) {
-      var color = getImageColor(
-        screenshot,
-        friendX + friendStarXOffset + i,
-        friendStarY + j
-      );
+      var color = getImageColor(screenshot, starLeft + i, starTop + i);
       if (color.g > color.r && color.g > color.b) {
         isG++;
       } else {
         notG++;
       }
     }
+  }
+  if (isDebug) {
+    console.log("checkItemStar " + starLeft + "," + starTop + "," + friendStarSize + "," + friendStarSize);
   }
   if (isG > notG * 3) {
     return true;
@@ -498,7 +627,7 @@ function scrollFriendList() {
   swipeScale(600, 750, 600, 150, 300);
 }
 
-function saveFriendServantImage(cnt, be) {
+function saveFriendServantImage(positionIndex, be) {
   sleep(1000);
   setBlackEdgeByHtmlValue(be);
   initScreenSize();
@@ -506,24 +635,13 @@ function saveFriendServantImage(cnt, be) {
   if (screenShot == null) {
     return null;
   }
-  var crop;
-  if (cnt == 1) {
-    crop = cropImage(
-      screenShot,
-      friendServantPosition[0][0],
-      friendServantPosition[0][1],
-      friendServantPosition[0][2],
-      friendServantPosition[0][3]
-    );
-  } else {
-    crop = cropImage(
-      screenShot,
-      friendServantPosition[1][0],
-      friendServantPosition[1][1],
-      friendServantPosition[1][2],
-      friendServantPosition[1][3]
-    );
-  }
+  var crop = cropImage(
+    screenShot,
+    friendServantPosition[positionIndex][0],
+    friendServantPosition[positionIndex][1],
+    friendServantPosition[positionIndex][2],
+    friendServantPosition[positionIndex][3]
+  );
   var currentdate = new Date();
   var time = currentdate.getTime();
   var filePath = itemPath + "tmp_servant_" + time + ".png";
@@ -534,7 +652,7 @@ function saveFriendServantImage(cnt, be) {
   return time;
 }
 
-function saveFriendItemImage(cnt, be) {
+function saveFriendItemImage(positionIndex, be) {
   sleep(1000);
   setBlackEdgeByHtmlValue(be);
   initScreenSize();
@@ -542,24 +660,13 @@ function saveFriendItemImage(cnt, be) {
   if (screenShot == null) {
     return null;
   }
-  var crop;
-  if (cnt == 1) {
-    crop = cropImage(
-      screenShot,
-      friendItemPosition[0][0],
-      friendItemPosition[0][1],
-      friendItemPosition[0][2],
-      friendItemPosition[0][3]
-    );
-  } else {
-    crop = cropImage(
-      screenShot,
-      friendItemPosition[1][0],
-      friendItemPosition[1][1],
-      friendItemPosition[1][2],
-      friendItemPosition[1][3]
-    );
-  }
+  var crop = cropImage(
+    screenShot,
+    friendItemPosition[positionIndex][0],
+    friendItemPosition[positionIndex][1],
+    friendItemPosition[positionIndex][2],
+    friendItemPosition[positionIndex][3]
+  );
   var currentdate = new Date();
   var time = currentdate.getTime();
   var filePath = itemPath + "tmp_item_" + time + ".png";
@@ -624,31 +731,62 @@ function additionalFriendServant(friend) {
   selectFriendList[selectFriendList.length] = friend;
 }
 
-function checkIsGrandServant(lineY, screenshot, grandServantImage) {
-  return checkImage(screenshot, grandServantImage,
-    friendX + friendGrandIcon[0], lineY + friendGrandIcon[1], friendGrandIcon[2], friendGrandIcon[3], friendThreshole
+function checkIsGrandServant(screenshot, grandServantImage, lineY) {
+  var result1 = checkImage(
+    screenshot,
+    grandServantImage[0],
+    friendX + friendGrandIcon[0],
+    lineY + friendGrandIcon[1],
+    friendGrandIcon[2],
+    friendGrandIcon[3],
+    0.9
   );
+  var result2 = checkImage(
+    screenshot,
+    grandServantImage[1],
+    friendX + friendGrandIcon[0],
+    lineY + friendGrandIcon[1],
+    friendGrandIcon[2],
+    friendGrandIcon[3],
+    0.9
+  );
+  if (isDebug) {
+    console.log("checkIsGrandServant " + result1 + " " + result2);
+  }
+  return result1 || result2;
 }
 
-function checkGrandKitsunaItem(lineY, screenshot, kitsuna) {
+function checkGrandKitsunaItem(screenshot, kitsuna, lineY) {
   var result = -1;
-  var x = friendX + friendGrandKitsunaItemOffset[0];
-  var y = lineY + friendGrandKitsunaItemOffset[1];
-  if (checkPixel(x, y, 101, 101, 101, screenshot)) {
-    //none
-    result = 0;
-  } else if (checkPixel(x, y, 148, 186, 206, screenshot)) {
-    //normal effect
-    result = 1;
-  } else if (checkPixel(x, y, 247, 128, 7, screenshot)) {
-    //np effect
-    result = 2;
+  var centerX = friendX + friendGrandKitsunaItemOffset[0];
+  var centerY = lineY + friendGrandKitsunaItemOffset[1];
+  for (var x = centerX - 2; x < centerX + 2; x++) {
+    for (var y = centerY - 2; y < centerY + 2; y++) {
+
+      if (checkPixel(x, y, 101, 101, 101, screenshot)) {
+        //none
+        result = 0;
+        break;
+      } else if (checkPixel(x, y, 209, 249, 122, screenshot)) {
+        //normal effect
+        result = 1;
+        break;
+      } else if (checkPixel(x, y, 241, 115, 8, screenshot)) {
+        //np effect
+        result = 2;
+        break;
+      }
+    }
   }
   if (isDebug) {
     var color = getImageColor(screenshot, x, y);
     console.log("checkGrandKitsunaItem check color at " + x + "," + y);
     console.log("checkGrandKitsunaItem get color " + color.r + "," + color.g + "," + color.b);
     console.log("checkGrandKitsunaItem result " + result);
+  }
+
+  if (isDebug) {
+    console.log("checkGrandKitsunaItem" + (kitsuna == result));
   }
   return kitsuna == result;
 }

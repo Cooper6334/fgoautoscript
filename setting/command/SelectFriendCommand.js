@@ -174,10 +174,6 @@ function addSelectFriend(commandId, content) {
         .replaceWith($("#selectFriendGrandRewardItemImg" + commandId).clone());
     }
   });
-  $("#selectFriendGrandRewardItem" + commandId).select2({
-    minimumResultsForSearch: -1,
-    width: "160px",
-  });
   $("#selectFriendItemFull" + commandId).select2({
     minimumResultsForSearch: -1,
     width: "160px",
@@ -195,6 +191,10 @@ function addSelectFriend(commandId, content) {
     width: "160px",
   });
   $("#selectFriendGrandKitsunaItem" + commandId).select2({
+    minimumResultsForSearch: -1,
+    width: "160px",
+  });
+  $("#selectFriendGrandRewardItem" + commandId).select2({
     minimumResultsForSearch: -1,
     width: "160px",
   });
@@ -245,6 +245,22 @@ function addSelectFriend(commandId, content) {
       .val(scriptValue[5])
       .trigger("change");
   }
+  if (scriptValue.length > 8) {
+    $("#selectFriendGrandOnly" + commandId)
+      .val(scriptValue[6])
+      .trigger("change");
+    $("#selectFriendGrandKitsunaItem" + commandId)
+      .val(scriptValue[7])
+      .trigger("change");
+    for (var i = 0; i < friendItemList.length; i++) {
+      if (friendItemList[i] == scriptValue[8]) {
+        $("#selectFriendGrandRewardItem" + commandId)
+          .val(i)
+          .trigger("change");
+        break;
+      }
+    }
+  }
 }
 
 function getSelectFriendScript(itemId) {
@@ -264,6 +280,10 @@ function getSelectFriendScript(itemId) {
   if ($("#selectFriendItem" + itemId).val() != -1) {
     item = $("#selectFriendItem" + itemId).select2("data")[0].text;
   }
+  var grandRewardItem = "";
+  if ($("#selectFriendGrandRewardItem" + itemId).val() != -1) {
+    grandRewardItem = $("#selectFriendGrandRewardItem" + itemId).select2("data")[0].text;
+  }
   return (
     "selectFriend(" +
     filter +
@@ -277,6 +297,12 @@ function getSelectFriendScript(itemId) {
     $("#selectFriendOnlyFriend" + itemId).val() +
     "," +
     $("#selectFriendScrollCnt" + itemId).val() +
-    ");"
+    "," +
+    $("#selectFriendGrandOnly" + itemId).val() +
+    "," +
+    $("#selectFriendGrandKitsunaItem" + itemId).val() +
+    ',"' +
+    grandRewardItem +
+    '");'
   );
 }

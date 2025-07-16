@@ -80,42 +80,27 @@ function initButton() {
   });
 
   //set crop btn
-  $("#getServantImage1").click(function () {
-    var blackEdge = getBlackEdgeValue();
-    JavaScriptInterface.hideMenu();
-    JavaScriptInterface.setXY(3000, 0);
-    JavaScriptInterface.runScriptCallback(
-      "saveFriendServantImage(1,[" + blackEdge + "]);",
-      "saveServantConfirm"
-    );
-  });
-  $("#getServantImage2").click(function () {
-    var blackEdge = getBlackEdgeValue();
-    JavaScriptInterface.hideMenu();
-    JavaScriptInterface.setXY(3000, 0);
-    JavaScriptInterface.runScriptCallback(
-      "saveFriendServantImage(2,[" + blackEdge + "]);",
-      "saveServantConfirm"
-    );
-  });
-  $("#getItemImage1").click(function () {
-    var blackEdge = getBlackEdgeValue();
-    JavaScriptInterface.hideMenu();
-    JavaScriptInterface.setXY(3000, 0);
-    JavaScriptInterface.runScriptCallback(
-      "saveFriendItemImage(1,[" + blackEdge + "]);",
-      "saveItemConfirm"
-    );
-  });
-  $("#getItemImage2").click(function () {
-    var blackEdge = getBlackEdgeValue();
-    JavaScriptInterface.hideMenu();
-    JavaScriptInterface.setXY(3000, 0);
-    JavaScriptInterface.runScriptCallback(
-      "saveFriendItemImage(2,[" + blackEdge + "]);",
-      "saveItemConfirm"
-    );
-  });
+  function setupImageCaptureButton(buttonId, functionName, index, callback) {
+    $("#" + buttonId).click(function () {
+      var blackEdge = getBlackEdgeValue();
+      JavaScriptInterface.hideMenu();
+      JavaScriptInterface.setXY(3000, 0);
+      JavaScriptInterface.runScriptCallback(
+        functionName + "(" + index + ",[" + blackEdge + "]);",
+        callback
+      );
+    });
+  }
+
+  // 設定所有圖片擷取按鈕
+  setupImageCaptureButton("getServantImage1", "saveFriendServantImage", 0, "saveServantConfirm");
+  setupImageCaptureButton("getServantImage2", "saveFriendServantImage", 1, "saveServantConfirm");
+  setupImageCaptureButton("getItemImage1", "saveFriendItemImage", 0, "saveItemConfirm");
+  setupImageCaptureButton("getItemImage2", "saveFriendItemImage", 1, "saveItemConfirm");
+  setupImageCaptureButton("getGrandNormalItem1", "saveFriendItemImage", 2, "saveItemConfirm");
+  setupImageCaptureButton("getGrandRewardItem1", "saveFriendItemImage", 3, "saveItemConfirm");
+  setupImageCaptureButton("getGrandNormalItem2", "saveFriendItemImage", 4, "saveItemConfirm");
+  setupImageCaptureButton("getGrandRewardItem2", "saveFriendItemImage", 5, "saveItemConfirm");
 
   //set black edge btn
   $("#getBlackEdge").click(function () {
