@@ -1,0 +1,102 @@
+# CLAUDE.md
+
+本文件為 Claude Code (claude.ai/code) 在操作此專案程式碼時提供指引。
+
+## 專案概述
+
+這是一個基於 JavaScript 的 Fate/Grand Order (FGO) 手機遊戲自動化腳本，運行在 Robotmon 平台上。該腳本自動執行各種遊戲任務，包括任務運行、卡片選擇、技能使用和友情點收集。支援日本版 (JP) 和台灣版 (TW) 伺服器。
+
+## 開發環境
+
+此專案設計為在 Robotmon 平台上運行，該平台提供 Android 自動化功能。主要入口點是 `index.html`，它載入用於腳本配置的網頁介面。
+
+### 關鍵配置文件
+- `robotmon-settings.json` - Robotmon 平台配置，包括 ADB 路徑和模擬器設定
+- `index.html` - 腳本配置的主要網頁介面
+- `index.js` - 主要入口點和初始化邏輯
+
+## 專案結構
+
+### 核心遊戲腳本 (`game_script/`)
+- `basic.js` - 核心腳本執行引擎和工具函數
+- `screen.js` - 螢幕檢測和圖像處理工具
+- `auto_attack_ai.js` - 自動戰鬥 AI 邏輯
+- `in_stage.js` - 戰鬥中的關卡管理
+- `start_stage.js` - 任務開始和關卡選擇
+- `check_stage.js` - 關卡驗證和錯誤檢查
+- `friend.js` - 好友選擇和管理
+- `get_box.js` - 寶箱/抽獎自動化
+- `preference.js` - 使用者偏好設定和設定管理
+
+### UI 和指令系統 (`setting/`)
+- `setting.js` - 主要 UI 邏輯和事件處理器
+- `command.js` - 建構自動化腳本的指令系統
+- `command/` - 個別指令實作：
+  - `AutoCommand.js` - 自動戰鬥指令
+  - `SelectCardCommand.js` - 卡片選擇邏輯
+  - `SkillCommand.js` - 技能使用指令
+  - `SelectFriendCommand.js` - 好友選擇指令
+  - `StartQuestCommand.js` - 任務開始指令
+  - 其他專用指令文件
+
+### 圖像資源
+- `image_jp/` - 日本版伺服器的圖像模板
+- `image_tw/` - 台灣版伺服器的圖像模板
+- `basic_item/FGOV3/` - 預設配置和模板
+
+### 除錯和測試 (`debug/`)
+- `debug.js` - 除錯工具和日誌記錄
+- `test/` - 測試配置和腳本
+
+## 關鍵架構概念
+
+### 腳本執行流程
+1. **初始化**：`index.js` 初始化環境，載入 API 模組，並設定圖像路徑
+2. **配置**：使用者透過網頁介面 (`index.html`) 配置自動化
+3. **指令建構**：使用 `setting/command/` 中的指令系統建構指令
+4. **執行**：腳本在迴圈中執行，包含錯誤處理和狀態管理
+
+### 圖像識別系統
+自動化重度依賴圖像模板匹配：
+- 模板儲存在 `image_jp/` 和 `image_tw/` 目錄中
+- 螢幕截圖和圖像處理由 `screen.js` 處理
+- 針對不同裝置螢幕配置的黑邊檢測
+
+### 伺服器支援
+- **JP 伺服器**：使用 `image_jp/` 模板和 JP 專用邏輯
+- **TW 伺服器**：使用 `image_tw/` 模板和 TW 專用邏輯
+- 伺服器選擇影響圖像路徑和部分遊戲邏輯
+
+### 指令系統
+- 指令是可以串聯的模組化 JavaScript 物件
+- 每種指令類型都有特定的 UI 配置和執行邏輯
+- 指令被序列化為主腳本引擎的可執行 JavaScript
+
+## 常見開發模式
+
+### 新增新指令
+1. 在 `setting/command/` 中建立新的指令文件
+2. 實作指令 UI 生成和腳本生成函數
+3. 在 `setting/command.js` 中添加指令註冊
+4. 更新 HTML 介面以包含新的指令按鈕
+
+### 圖像模板管理
+- 模板應儲存為適當伺服器目錄中的 PNG 文件
+- 對相關模板使用一致的命名慣例
+- 在不同裝置配置中測試模板
+
+### 錯誤處理
+- 腳本包含失敗操作的重試邏輯
+- 執行指令前的狀態驗證
+- 當模板不匹配時的優雅降級
+
+## 開發注意事項
+
+- 這是一個運行在 WebView 中的客戶端 JavaScript 應用程式
+- 沒有建構系統或套件管理 - 文件直接載入
+- 廣泛使用 jQuery 進行 DOM 操作
+- 圖像處理和 Android 自動化由 Robotmon 平台處理
+- 整個程式碼庫使用中文介面和註解
+
+## 版本資訊
+目前版本：V3.68 (如 `index.js:8` 中定義)

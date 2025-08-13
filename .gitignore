@@ -1,3 +1,6 @@
 *.zip
 /*.png
 /debug/test.js
+
+# Claude Code files
+CLAUDE.md
