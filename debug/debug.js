@@ -10,7 +10,7 @@ function initDebug(s) {
   }
   server = s;
   setBlackEdgeByHtmlValue([0, 0, 0, 0]);
-  setOtherPreference([0, 0, 0, 0, 0, 0]);
+  setOtherPreference([0, 0, 0, 0, 0, 0, 0]);
   initScreenSize();
 }
 
@@ -86,7 +86,7 @@ function testTemplate() {
   //=======================================
 
   var screenshot = getScreenshotResize();
-  var friendLinePosition = getFriendLine(screenshot);
+  var friendLinePosition = getFriendLineByPixel(screenshot);
   // console.log(checkFriendIsFriend(screenshot, friendLinePosition[0]));
   // checkGrandKitsunaItem(friendLinePosition[0], screenshot, 0);
 
@@ -115,19 +115,39 @@ function testTemplate() {
 //grandKitsunaItem: 冠位從者絆禮裝 (-1=不限定禮裝，0=絆禮裝不限效果，1=絆禮裝通常效果，2=絆禮裝限定效果(50np))
 //grandRewardItem: 冠位從者報酬禮裝名稱 (字串，空字串表示無指定)
 
-function testFriendFunctions() {
+function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
   console.log("開始測試 friend.js 函數功能");
+  if (loop == undefined) {
+    loop = false; 
+  }
+  if (debugFriendAlgorithm == undefined) {
+    debugFriendAlgorithm = 0;
+  }
+  console.log("使用演算法: " + (debugFriendAlgorithm == 1 ? "圖片比對" : "傳統像素檢測"));
   setFriendMargin();
   initScreenSize();
   while (isScriptRunning) {
-    var screenshot = getScreenshotResize();
+    var screenshot = null;
+    if(defaultScreenshot != null && defaultScreenshot != undefined) {
+      console.log("使用提供的螢幕截圖進行測試");
+      screenshot = defaultScreenshot;
+      loop = false;
+    } else {
+      console.log("使用即時螢幕截圖進行測試"); 
+      screenshot = getScreenshotResize();
+    }
     if (screenshot == null) {
       console.log("無法取得螢幕截圖，測試終止");
       return;
     }
 
     // console.log("=== 測試 getFriendLine ===");
-    var friendLinePosition = getFriendLine(screenshot);
+    var friendLinePosition;
+    if (debugFriendAlgorithm == 1) {
+      friendLinePosition = getFriendLineByIcon(screenshot);
+    } else {
+      friendLinePosition = getFriendLineByPixel(screenshot);
+    }
     console.log("找到好友行數：" + friendLinePosition.length);
 
     for (var i = 0; i < friendLinePosition.length; i++) {
@@ -207,13 +227,15 @@ function testFriendFunctions() {
 
     releaseImage(screenshot);
     sleep(10000);
-    // scrollFriendList();
-    break;
+    if(loop) {
+      scrollFriendList();
+    }else{
+      break;
+    }
     if (isSelectFriendEnd()) {
       console.log("已經移到畫面底部，結束測試");
       break;
     }
-
   }
   console.log("friend.js 函數測試完成");
 }

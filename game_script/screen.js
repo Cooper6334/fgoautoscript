@@ -225,5 +225,6 @@ function detectBlackEdge() {
   return result.toString();
 }
 
+
 loadApiCnt++;
 console.log("Load screen api finish");
