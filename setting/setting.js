@@ -83,10 +83,11 @@ function initButton() {
   function setupImageCaptureButton(buttonId, functionName, index, callback) {
     $("#" + buttonId).click(function () {
       var blackEdge = getBlackEdgeValue();
+      var captureMethod = parseInt($("#captureMethodSelect").val());
       JavaScriptInterface.hideMenu();
       JavaScriptInterface.setXY(3000, 0);
       JavaScriptInterface.runScriptCallback(
-        functionName + "(" + index + ",[" + blackEdge + "]);",
+        functionName + "(" + index + ",[" + blackEdge + "]," + captureMethod + ");",
         callback
       );
     });
@@ -508,6 +509,11 @@ function initButton() {
     width: "120px",
   });
   $("#friendAlgorithmSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+
+  $("#captureMethodSelect").select2({
     minimumResultsForSearch: -1,
     width: "120px",
   });
@@ -979,9 +985,18 @@ function saveFriendItemConfirm(result) {
   for (var i = 0; i < commandId + 1; i++) {
     if ($("#selectFriendItem" + i).length) {
       $("#selectFriendItem" + i).append(
-        '<option value = "' + commandId + '">' + result + "</option>"
+         '<option value = "' + commandId + '">' + result + "</option>"
       );
       $("#selectFriendItem" + i).select2({
+        minimumResultsForSearch: -1,
+        width: "160px",
+      });
+    }
+    if ($("#selectFriendGrandRewardItem" + i).length) {
+      $("#selectFriendGrandRewardItem" + i).append(
+         '<option value = "' + commandId + '">' + result + "</option>"
+      );
+      $("#selectFriendGrandRewardItem" + i).select2({
         minimumResultsForSearch: -1,
         width: "160px",
       });
@@ -1085,6 +1100,14 @@ function deleteFriendItemConfirm(image) {
           .trigger("change");
       }
       $("#selectFriendItem" + i + " option[value='" + index + "']").remove();
+    }
+    if ($("#selectFriendGrandRewardItem" + i).length) {
+      if ($("#selectFriendGrandRewardItem" + i).val() == index) {
+        $("#selectFriendGrandRewardItem" + i)
+          .val(-1)
+          .trigger("change");
+      }
+      $("#selectFriendGrandRewardItem" + i + " option[value='" + index + "']").remove();
     }
   }
   bootbox.alert("截圖刪除成功");

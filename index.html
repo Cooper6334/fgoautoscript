@@ -34,14 +34,14 @@
     <script>
       var server = "JP";
       // var server = "TW";
-      var isDebug = false;
+      var isDebug = true;
     </script>
 
     <!--       ====================For debug================          -->
-    <!-- <script>
+    <script>
       isDebug = true;
     </script>
-    <script src="./debug/debug_html.js"></script>  -->
+    <script src="./debug/debug_html.js"></script> 
     <!--       ====================For debug================          -->
 
     <script src="./jquery/jquery.min.js"></script>
@@ -215,6 +215,19 @@
       <div id="getServantBlock" class="blockDiv" style="display:none">
         <div class="blockDiv">
           <div class="blockTitle">
+            讀取座標方式
+          </div>
+          <div class="commandSelectDiv">
+            <select id="captureMethodSelect" class="commandItem">
+              <option value="0">絕對位置</option>
+              <option value="1">傳統像素定位</option>
+              <option value="2">圖片比對定位</option>
+            </select>
+          </div>
+          <div class="blockDiv">使用絕對位置時，僅限擷取好友清單最上面的兩個好友</div>
+        </div>
+        <div class="blockDiv">
+          <div class="blockTitle">
             擷取圖片
           </div>
           <div class="blockDiv">
@@ -228,9 +241,6 @@
             <button id="getGrandRewardItem1" class="cmdButton">擷取冠位報酬禮裝1</button>
             <button id="getGrandNormalItem2" class="cmdButton">擷取冠位普通禮裝2</button>
             <button id="getGrandRewardItem2" class="cmdButton">擷取冠位報酬禮裝2</button>
-          </div>
-          <div class="blockDiv">
-            請用不同排序方式找到需要的從者禮裝，不要上下滑動
           </div>
         </div>
         <div class="blockDiv">

@@ -73,37 +73,6 @@ function saveCropImage(x, y, width, height) {
   saveCropImageByBounds(x, y, x + width, y + height);
 }
 
-function testCard() {
-  loadAllImage();
-  releaseAllImage();
-}
-
-function testTemplate() {
-  console.log("test start");
-  initScreenSize();
-  isScriptRunning = true;
-  isDebug = true;
-  //=======================================
-
-  var screenshot = getScreenshotResize();
-  var friendLinePosition = getFriendLineByPixel(screenshot);
-  // console.log(checkFriendIsFriend(screenshot, friendLinePosition[0]));
-  // checkGrandKitsunaItem(friendLinePosition[0], screenshot, 0);
-
-  var x = 76 + friendGrandIcon[0];
-  var y = friendLinePosition[0] + friendGrandIcon[1]
-  saveCropImage(x, y, friendGrandIcon[2], friendGrandIcon[3]);
-  releaseImage(screenshot);
-
-  // saveCropIcon("teamAutoBuild");
-  // console.log(icon["teamAutoBuild"]);
-  // clickIcon("teamAutoBuild");
-  // saveCropIcon("teamPage");
-
-  //=======================================
-  isScriptRunning = false;
-  console.log("test finish");
-}
 
 //filter: 職階篩選 (位元遮罩，0=全部，1=劍，2=弓，4=槍，8=騎，16=術，32=殺，64=狂，128=特，256=混)
 //servant: 指定從者名稱 (字串，空字串表示無指定)
@@ -118,7 +87,7 @@ function testTemplate() {
 function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
   console.log("開始測試 friend.js 函數功能");
   if (loop == undefined) {
-    loop = false; 
+    loop = false;
   }
   if (debugFriendAlgorithm == undefined) {
     debugFriendAlgorithm = 0;
@@ -128,12 +97,12 @@ function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
   initScreenSize();
   while (isScriptRunning) {
     var screenshot = null;
-    if(defaultScreenshot != null && defaultScreenshot != undefined) {
+    if (defaultScreenshot != null && defaultScreenshot != undefined) {
       console.log("使用提供的螢幕截圖進行測試");
       screenshot = defaultScreenshot;
       loop = false;
     } else {
-      console.log("使用即時螢幕截圖進行測試"); 
+      console.log("使用即時螢幕截圖進行測試");
       screenshot = getScreenshotResize();
     }
     if (screenshot == null) {
@@ -227,9 +196,9 @@ function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
 
     releaseImage(screenshot);
     sleep(10000);
-    if(loop) {
+    if (loop) {
       scrollFriendList();
-    }else{
+    } else {
       break;
     }
     if (isSelectFriendEnd()) {
@@ -240,4 +209,99 @@ function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
   console.log("friend.js 函數測試完成");
 }
 
+// 定義 captureType 枚舉
+var CAPTURE_TYPE = {
+  SERVANT: 0,
+  ITEM: 1
+};
+
+function compareCaptureMethod(positionIndex, captureType) {
+  console.log("開始比較三種截圖方法，positionIndex=" + positionIndex + ", captureType=" + captureType);
+
+  if (captureType != CAPTURE_TYPE.SERVANT && captureType != CAPTURE_TYPE.ITEM) {
+    console.log("錯誤：captureType 必須是 CAPTURE_TYPE.SERVANT (0) 或 CAPTURE_TYPE.ITEM (1)");
+    return;
+  }
+
+  var methodNames = ["絕對位置", "傳統像素定位", "圖片比對定位"];
+  var captureTypeName = captureType == CAPTURE_TYPE.SERVANT ? "servant" : "item";
+  var blackEdge = [0, 0, 0, 0];
+  var timeStamps = [];
+  var crops = [];
+
+  // 使用三種方法截圖
+  for (var captureMethod = 0; captureMethod < 3; captureMethod++) {
+    console.log("=== 使用 " + methodNames[captureMethod] + " 截圖 ===");
+
+    var timeStamp;
+    if (captureType == CAPTURE_TYPE.SERVANT) {
+      timeStamp = saveFriendServantImage(positionIndex, blackEdge, captureMethod);
+    } else {
+      timeStamp = saveFriendItemImage(positionIndex, blackEdge, captureMethod);
+    }
+
+    if (timeStamp == null) {
+      console.log(methodNames[captureMethod] + " 截圖失敗");
+      continue;
+    }
+
+    timeStamps[captureMethod] = timeStamp;
+
+    // 讀取截圖檔案
+    var filePath = itemPath + "tmp_" + captureTypeName + "_" + timeStamp + ".png";
+    console.log("讀取截圖檔案: " + filePath);
+    crops[captureMethod] = openImage(filePath);
+
+    if (crops[captureMethod] == null) {
+      console.log("無法讀取截圖檔案: " + filePath);
+    } else {
+      console.log(methodNames[captureMethod] + " 截圖成功");
+    }
+  }
+
+  // 比較截圖相似度
+  console.log("=== 開始比較截圖相似度 ===");
+
+  for (var i = 0; i < crops.length; i++) {
+    for (var j = i + 1; j < crops.length; j++) {
+      if (crops[i] && crops[j]) {
+        var result = findImage(crops[i], crops[j]);
+        console.log(methodNames[i] + " vs " + methodNames[j] + " 相似度: " + result.score);
+      }
+    }
+  }
+
+  // 釋放資源
+  for (var i = 0; i < crops.length; i++) {
+    if (crops[i]) {
+      releaseImage(crops[i]);
+    }
+  }
+
+  // 清除臨時檔案
+  for (var i = 0; i < timeStamps.length; i++) {
+    if (timeStamps[i]) {
+      var filePath = itemPath + "tmp_" + captureTypeName + "_" + timeStamps[i] + ".png";
+      execute("rm " + filePath);
+      console.log("已刪除臨時檔案: " + filePath);
+    }
+  }
+
+  console.log("截圖比較完成");
+}
+
+function copyScriptToStorage() {
+  var scriptName = ["劍冠位", "槍冠位", "雙殺狐", "雙殺狐換人", "月姬雙殺狐", "雙術傻換人"];
+  var scriptContent = [
+    'additionalFriendServant("麻雀2");selectStage(-1);selectFriend(0,"麻雀1","",1,0,2);startQuest(-1,0);useSkill(0,0,1);useSkill(0,1,2);switchServant(0,3);autoAttack(3,0,1,1,0,0,0,2,0,0,0,2,0,0,2,0,2,0,2,0,0,2,0,2,0,2,false,0,-1,-1,-1,-1,-1);finishQuest();',
+    'additionalFriendServant("槍師匠3");additionalFriendServant("槍師匠2");selectStage(-1);selectFriend(0,"槍師匠1","黑杯",1,0,-3,1,2,"");startQuest(-1,0);useSkill(0,0,1);useSkill(0,1,2);switchServant(0,3);autoAttack(3,0,1,1,0,0,0,2,0,0,-1,2,0,0,2,-1,2,0,2,0,-1,2,0,2,0,2,false,0,-1,-1,-1,-1,-1);finishQuest();',
+    'additionalFriendServant("殺狐2");additionalFriendServant("殺狐3");selectStage(2);selectFriend(64,"殺狐1","",1,0,-1);startQuest(-1,0);autoAttack(1,0,1,1,0,0,0,-1,0,-1,-1,-1,-1,-1,0,0,0,0,0,-1,-1,0,0,0,0,0,false,-1,-1,-1,-1,-1,-1);useSkill(2,0,0);useSkill(1,0,0);autoAttack(3,0,1,1,3,0,0,-1,0,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,0,false,-1,-1,2,0,-1,-1);finishQuest();',
+    'additionalFriendServant("殺狐2");additionalFriendServant("殺狐3");selectStage(2);selectFriend(64,"殺狐1","",1,0,-1);startQuest(-1,0);autoAttack(1,0,1,1,0,0,0,-1,0,-1,0,-1,-1,-1,0,-1,0,0,0,-1,-1,0,-1,0,0,0,false,-1,-1,-1,-1,-1,-1);useSkill(2,0,0);useSkill(0,2,-1);switchServant(2,3);autoAttack(3,0,1,1,3,0,2,-1,2,-1,2,-1,-1,0,0,-1,-1,-1,-1,-1,0,-1,2,0,2,0,false,2,-1,-1,-1,-1,-1);',
+    'additionalFriendServant("殺狐2");additionalFriendServant("殺狐3");selectStage(2);selectFriend(64,"殺狐1","",1,0,-1,0,0,"");startQuest(-1,0);autoAttack(0,0,1,1,0,0,0,-1,0,-1,-1,-1,-1,-1,0,0,0,0,0,-1,-1,0,0,0,0,0,false,-1,-1,-1,-1,-1,-1);useSkill(1,0,0);useSkill(2,0,0);autoAttack(0,0,1,1,3,0,0,-1,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,0,false,-1,-1,-1,-1,-1,-1);autoAttack(3,0,1,1,3,0,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,false,0,-1,-1,-1,-1,-1);finishQuest();',
+    'additionalFriendServant("csaber");additionalFriendServant("術傻4");selectStage(2);selectFriend(32,"術傻2","",1,0,-1);startQuest(-1,0);useSkill(2,0,-1);useSkill(2,2,1);switchServant(2,3);autoAttack(3,0,1,1,3,0,0,-1,-1,-1,2,-1,1,2,1,2,1,1,-1,-1,0,-1,2,0,1,1,false,2,-1,-1,-1,-1,-1);finishQuest();'
+  ];
+  for (var i = 0; i < scriptName.length; i++) {
+    writeFile("/sdcard/Download/Robotmon/FGOV3/script/" + scriptName[i] + ".js", scriptContent[i]);
+  }
+}
 console.log("load debug api finish");

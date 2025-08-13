@@ -632,7 +632,7 @@ function scrollFriendList() {
   swipeScale(600, 750, 600, 150, 300);
 }
 
-function saveFriendServantImage(positionIndex, be) {
+function saveFriendServantImage(positionIndex, be, captureMethod) {
   sleep(1000);
   setBlackEdgeByHtmlValue(be);
   initScreenSize();
@@ -640,13 +640,34 @@ function saveFriendServantImage(positionIndex, be) {
   if (screenShot == null) {
     return null;
   }
-  var crop = cropImage(
-    screenShot,
-    friendServantPosition[positionIndex][0],
-    friendServantPosition[positionIndex][1],
-    friendServantPosition[positionIndex][2],
-    friendServantPosition[positionIndex][3]
-  );
+  
+  var cropX = friendServantPosition[positionIndex][0];
+  var cropY = friendServantPosition[positionIndex][1];
+  var cropW = friendServantPosition[positionIndex][2];
+  var cropH = friendServantPosition[positionIndex][3];
+  
+  // 根據 captureMethod 決定是否使用 getFriendLine
+  if (captureMethod == 1) {
+    var friendLinePosition = getFriendLineByPixel(screenShot);
+    if (friendLinePosition.length > positionIndex) {
+      cropY = friendLinePosition[positionIndex] + friendServantYOffset;
+    } else {
+      console.log("positionIndex " + positionIndex + " 超出好友行數量 " + friendLinePosition.length);
+      releaseImage(screenShot);
+      return null;
+    }
+  } else if (captureMethod == 2) {
+    var friendLinePosition = getFriendLineByIcon(screenShot);
+    if (friendLinePosition.length > positionIndex) {
+      cropY = friendLinePosition[positionIndex] + friendServantYOffset;
+    } else {
+      console.log("positionIndex " + positionIndex + " 超出好友行數量 " + friendLinePosition.length);
+      releaseImage(screenShot);
+      return null;
+    }
+  }
+  
+  var crop = cropImage(screenShot, cropX, cropY, cropW, cropH);
   var currentdate = new Date();
   var time = currentdate.getTime();
   var filePath = itemPath + "tmp_servant_" + time + ".png";
@@ -657,7 +678,7 @@ function saveFriendServantImage(positionIndex, be) {
   return time;
 }
 
-function saveFriendItemImage(positionIndex, be) {
+function saveFriendItemImage(positionIndex, be, captureMethod) {
   sleep(1000);
   setBlackEdgeByHtmlValue(be);
   initScreenSize();
@@ -665,13 +686,60 @@ function saveFriendItemImage(positionIndex, be) {
   if (screenShot == null) {
     return null;
   }
-  var crop = cropImage(
-    screenShot,
-    friendItemPosition[positionIndex][0],
-    friendItemPosition[positionIndex][1],
-    friendItemPosition[positionIndex][2],
-    friendItemPosition[positionIndex][3]
-  );
+  
+  var cropX = friendItemPosition[positionIndex][0];
+  var cropY = friendItemPosition[positionIndex][1];
+  var cropW = friendItemPosition[positionIndex][2];
+  var cropH = friendItemPosition[positionIndex][3];
+  
+  // 根據 captureMethod 決定是否使用 getFriendLine
+  if (captureMethod == 1) {
+    var friendLinePosition = getFriendLineByPixel(screenShot);
+    var friendIndex, itemOffset;
+    
+    if (positionIndex <= 1) {
+      // positionIndex 0,1: friend 0,1 的預設禮裝
+      friendIndex = positionIndex;
+      itemOffset = friendItemYOffset;
+    } else {
+      // positionIndex 2-5: 冠位禮裝
+      friendIndex = Math.floor((positionIndex - 2) / 2);  // positionIndex 2,3->0; 4,5->1
+      var grandItemIndex = (positionIndex - 2) % 2;  // positionIndex 2,4->0(普通); 3,5->1(報酬)
+      itemOffset = friendGrandItemYOffset[grandItemIndex];
+    }
+    
+    if (friendLinePosition.length > friendIndex) {
+      cropY = friendLinePosition[friendIndex] + itemOffset;
+    } else {
+      console.log("positionIndex " + positionIndex + " 對應好友行 " + friendIndex + " 超出好友行數量 " + friendLinePosition.length);
+      releaseImage(screenShot);
+      return null;
+    }
+  } else if (captureMethod == 2) {
+    var friendLinePosition = getFriendLineByIcon(screenShot);
+    var friendIndex, itemOffset;
+    
+    if (positionIndex <= 1) {
+      // positionIndex 0,1: friend 0,1 的預設禮裝
+      friendIndex = positionIndex;
+      itemOffset = friendItemYOffset;
+    } else {
+      // positionIndex 2-5: 冠位禮裝
+      friendIndex = Math.floor((positionIndex - 2) / 2);  // positionIndex 2,3->0; 4,5->1
+      var grandItemIndex = (positionIndex - 2) % 2;  // positionIndex 2,4->0(普通); 3,5->1(報酬)
+      itemOffset = friendGrandItemYOffset[grandItemIndex];
+    }
+    
+    if (friendLinePosition.length > friendIndex) {
+      cropY = friendLinePosition[friendIndex] + itemOffset;
+    } else {
+      console.log("positionIndex " + positionIndex + " 對應好友行 " + friendIndex + " 超出好友行數量 " + friendLinePosition.length);
+      releaseImage(screenShot);
+      return null;
+    }
+  }
+  
+  var crop = cropImage(screenShot, cropX, cropY, cropW, cropH);
   var currentdate = new Date();
   var time = currentdate.getTime();
   var filePath = itemPath + "tmp_item_" + time + ".png";
