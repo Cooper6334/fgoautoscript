@@ -22,6 +22,100 @@ function saveMyImage(name, image) {
   console.log("adb -s " + deviceId + " pull " + filepath);
 }
 
+function selectCardsV2Debug(cardOrder, ult, currentStage) {
+  console.log("DEBUG selectCardsV2: 開始選卡，順序=" + cardOrder + ",寶具=" + ult + ",波數=" + currentStage);
+  
+  // 先執行 updateCardList() 來獲取卡片資訊
+  updateCardList();
+  var cardListText = "";
+  for (var i = 0; i < cardList.length; i++) {
+    cardListText += colorName[cardList[i]]+" ";
+  }
+  console.log("DEBUG selectCardsV2: Card:" + cardListText);
+  console.log("DEBUG selectCardsV2: Status:" + cardStatus);
+  
+  var ultIndex = 0;
+  var cardSelected = [false, false, false, false, false];
+  for (var i = 0; i < cardOrder.length; i++) {
+    console.log("DEBUG selectCardsV2: 處理" + i + ":" + cardOrder.charAt(i));
+    var selectCardIndex = -1;
+    var selectUlt = false;
+    switch (cardOrder.charAt(i)) {
+      case 'B':
+        cardColor = 0;
+        console.log("DEBUG selectCardsV2: 設定卡片顏色為B(紅色)");
+        break;
+      case 'A':
+        cardColor = 1;
+        console.log("DEBUG selectCardsV2: 設定卡片顏色為A(藍色)");
+        break;
+      case 'Q':
+        cardColor = 2;
+        console.log("DEBUG selectCardsV2: 設定卡片顏色為Q(綠色)");
+        break;
+      case 'N':
+        selectUlt = true;
+        while (ultIndex < 3) {
+          if (ult[ultIndex] >= 0 && currentStage >= ult[ultIndex]) {
+            console.log("DEBUG selectCardsV2: 選擇寶具，從者" + (ultIndex + 1));
+            console.log("DEBUG: useUlt(" + ultIndex + ")");
+            ultIndex++;
+            break;
+          }
+          ultIndex++;
+        }
+        break;
+    }
+    if (selectUlt) {
+      continue;
+    }
+
+    //選卡
+    for (var j = 0; j < 5; j++) {
+      if (!cardSelected[j] && cardList[j] == cardColor) {
+        if (selectCardIndex == -1) {
+          selectCardIndex = j;
+        } else {
+          if (cardStatus[selectCardIndex] < cardStatus[j]) {
+            selectCardIndex = j;
+          }
+        }
+      }
+    }
+    if (selectCardIndex != -1) {
+      console.log("DEBUG selectCardsV2: 選擇卡片" + colorName[cardColor] + "，卡片位置" + (selectCardIndex + 1));
+      console.log("DEBUG: selectCard(" + selectCardIndex + ")");
+      cardSelected[selectCardIndex] = true;
+    } else if (!selectUlt) {
+      for (var j = 0; j < 5; j++) {
+        if (!cardSelected[j]) {
+          console.log("DEBUG selectCardsV2: 找不到符合條件的卡片，任選一張");
+          console.log("DEBUG: selectCard(" + j + ")");
+          cardSelected[j] = true;
+          break;
+        }
+      }
+    }
+  }
+
+  //補足沒選到的卡
+  for (var i = ultIndex; i < 3; i++) {
+    if (ult[ultIndex] >= 0 && currentStage >= ult[ultIndex]) {
+      console.log("DEBUG selectCardsV2: 補足寶具，從者" + (i + 1));
+      console.log("DEBUG: useUlt(" + i + ")");
+      break;
+    }
+  }
+  for (var i = 0; i < 5; i++) {
+    if (!cardSelected[i]) {
+      console.log("DEBUG selectCardsV2: 補足卡片，位置" + (i + 1));
+      console.log("DEBUG: selectCard(" + i + ")");
+    }
+  }
+
+  console.log("DEBUG selectCardsV2: 選卡完成");
+}
+
 function saveCropIcon(name) {
   var margin = 0;
   if (iconMargin[name] != true) {
