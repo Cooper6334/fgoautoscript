@@ -1,6 +1,7 @@
 //var deviceId = "98071FFAZ002JS";
 //var deviceId = "127.0.0.1:62025";
-var deviceId = "29161FDH200FZ0";
+// var deviceId = "29161FDH200FZ0";
+var deviceId = "192.168.11.5:5555";
 // var deviceId = "emulator-5554";
 
 
@@ -10,7 +11,7 @@ function initDebug(s) {
   }
   server = s;
   setBlackEdgeByHtmlValue([0, 0, 0, 0]);
-  setOtherPreference([0, 0, 0, 0, 0, 0, 0]);
+  setOtherPreference([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   initScreenSize();
 }
 
@@ -83,6 +84,34 @@ function saveCropImage(x, y, width, height) {
 //grandServantOnly: 僅限冠位從者 (0=不限定，1=限定)
 //grandKitsunaItem: 冠位從者絆禮裝 (-1=不限定禮裝，0=絆禮裝不限效果，1=絆禮裝通常效果，2=絆禮裝限定效果(50np))
 //grandRewardItem: 冠位從者報酬禮裝名稱 (字串，空字串表示無指定)
+
+function testSkillDialogs() {
+  console.log("=== 測試技能對話框檢測函數 ===");
+  console.log("當前螢幕狀態檢測結果：");
+  
+  var dialogResults = [
+    {name: "isBattleSkillRabbitDialog", func: isBattleSkillRabbitDialog},
+    {name: "isBattleSkillKishinamiDialog", func: isBattleSkillKishinamiDialog},
+    {name: "isBattleKklDialog", func: isBattleKklDialog},
+    {name: "isBattleSkillEmiyaDialog", func: isBattleSkillEmiyaDialog},
+    {name: "isBattleSkillDubaiDialog", func: isBattleSkillDubaiDialog},
+    {name: "isBattleSkillTargetDialog", func: isBattleSkillTargetDialog},
+    {name: "isBattleSkillSpaceDialog", func: isBattleSkillSpaceDialog}
+  ];
+  
+  for (var i = 0; i < dialogResults.length; i++) {
+    var result = false;
+    try {
+      result = dialogResults[i].func();
+    } catch (e) {
+      console.log(dialogResults[i].name + ": ERROR - " + e);
+      continue;
+    }
+    console.log(dialogResults[i].name + ": " + (result ? "TRUE" : "FALSE"));
+  }
+  
+  console.log("=== 測試完成 ===");
+}
 
 function testFriendFunctions(debugFriendAlgorithm, loop, defaultScreenshot) {
   console.log("開始測試 friend.js 函數功能");

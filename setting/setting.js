@@ -508,6 +508,14 @@ function initButton() {
     minimumResultsForSearch: -1,
     width: "120px",
   });
+  $("#rabbitSkillSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
+  $("#kishinamiSkillSelect").select2({
+    minimumResultsForSearch: -1,
+    width: "120px",
+  });
   $("#friendAlgorithmSelect").select2({
     minimumResultsForSearch: -1,
     width: "120px",
@@ -743,6 +751,18 @@ function initHTML(result) {
       dubai = 0;
     }
     $("#dubaiSkillSelect").val(dubai).trigger("change");
+
+    var rabbit = parseInt(result[5][11]);
+    if (rabbit == undefined || rabbit == null || isNaN(rabbit)) {
+      rabbit = 0;
+    }
+    $("#rabbitSkillSelect").val(rabbit).trigger("change");
+
+    var kishinami = parseInt(result[5][12]);
+    if (kishinami == undefined || kishinami == null || isNaN(kishinami)) {
+      kishinami = 0;
+    }
+    $("#kishinamiSkillSelect").val(kishinami).trigger("change");
 
     var friendAlgorithm = parseInt(result[5][10]);
     if (
@@ -1161,6 +1181,8 @@ function getOtherPreferenceValue() {
   preference[4] = kkl;
   preference[5] = parseInt($("#dubaiSkillSelect").val());
   preference[6] = parseInt($("#friendAlgorithmSelect").val());
+  preference[7] = parseInt($("#rabbitSkillSelect").val());
+  preference[8] = parseInt($("#kishinamiSkillSelect").val());
   return preference;
 }
 
@@ -1177,6 +1199,8 @@ function getPreferenceValue() {
   preference[8] = kkl;
   preference[9] = parseInt($("#dubaiSkillSelect").val());
   preference[10] = parseInt($("#friendAlgorithmSelect").val());
+  preference[11] = parseInt($("#rabbitSkillSelect").val());
+  preference[12] = parseInt($("#kishinamiSkillSelect").val());
   return preference;
 }
 

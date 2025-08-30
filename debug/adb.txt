@@ -1,11 +1,12 @@
 //98071FFAZ002JS
 29161FDH200FZ0
 127.0.0.1:62025
+192.168.11.5:5555 
 
 adb shell wm size 1080x1920
 adb shell wm size reset
 //TW BlackEdge 200 0 2335 1079
-adb -s 29161FDH200FZ0  shell tail -n 10 /sdcard/Robotmon/robotmon.log
+adb -s 192.168.11.5:5555   shell tail -n 10 /sdcard/Robotmon/robotmon.log
 
 adb -s 127.0.0.1:62025 push index.zip /sdcard/robotmon/scripts/com.cooper.fgo
 adb push image_tw/swim2.png /sdcard/robotmon/scripts/com.cooper.FGOTW/image_tw
@@ -19,7 +20,7 @@ adb connect 192.168.11.5
 #To device
 cd c:\code\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
-adb -s 29161FDH200FZ0 push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
+adb -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
 
 #Build
 cd c:\code\fgoautoscript
@@ -33,7 +34,7 @@ mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
 #TW
 cd c:\code\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
-adb  -s 29161FDH200FZ0 push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
+adb  -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
 
 cd c:\code\fgoautoscript
 rm index.zip

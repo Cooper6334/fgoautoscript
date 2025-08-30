@@ -6,9 +6,12 @@ var spaceUltColor = 1;
 var kukulkanUseStar = 7;
 var dubaiSkill = 0;
 var friendAlgorithm = 0; //0 pixel detection 1 image matching
-var PREFERENCE_DEFAULT_VALUE = "0,0,0,0,0,0,0,1,7,0,0"
+var rabbitSkill = 0;
+var kishinamiSkill = 0;
+var PREFERENCE_DEFAULT_VALUE = "0,0,0,0,0,0,0,1,7,0,0,0,0"
 
 function loadPreference() {
+  console.log("讀取偏好設定");
   var fileName = "preferencejp.js";
   if (server == "TW") {
     fileName = "preferencetw.js";
@@ -22,6 +25,7 @@ function loadPreference() {
     valueMissing = true;
   }
   if (preference == undefined || preference == null || preference.length == 0) {
+    console.log("偏好設定檔案不存在,使用預設值");
     preference = PREFERENCE_DEFAULT_VALUE;
     valueMissing = true;
   }
@@ -43,6 +47,8 @@ function loadPreference() {
   kukulkanUseStar = split[8];
   dubaiSkill = split[9];
   friendAlgorithm = split[10];
+  rabbitSkill = split[11];
+  kishinamiSkill = split[12];
   if (valueMissing) {
     console.log("偏好設定缺損，重新建立");
     writeFile(itemPath + fileName, getPreferenceString());
@@ -64,6 +70,8 @@ function savePreference(pref) {
   kukulkanUseStar = pref[8];
   dubaiSkill = pref[9];
   friendAlgorithm = pref[10];
+  rabbitSkill = pref[11];
+  kishinamiSkill = pref[12];
   return writeFile(itemPath + fileName, getPreferenceString());
 }
 
@@ -75,6 +83,8 @@ function setOtherPreference(pref) {
   kukulkanUseStar = pref[4];
   dubaiSkill = pref[5];
   friendAlgorithm = pref[6];
+  rabbitSkill = pref[7];
+  kishinamiSkill = pref[8];
 }
 
 function getPreferenceString() {
@@ -96,6 +106,10 @@ function getPreferenceString() {
   p += dubaiSkill;
   p += ",";
   p += friendAlgorithm;
+  p += ",";
+  p += rabbitSkill;
+  p += ",";
+  p += kishinamiSkill;
 
   return p;
 }
