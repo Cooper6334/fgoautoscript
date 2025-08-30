@@ -29,7 +29,9 @@ function loadPreference() {
     preference = PREFERENCE_DEFAULT_VALUE;
     valueMissing = true;
   }
-  var split = preference.split(",");
+  var lines = preference.split("\n");
+  var preferenceData = lines[0];
+  var split = preferenceData.split(",");
   var defaultSplit = PREFERENCE_DEFAULT_VALUE.split(",");
   for (var i = 0; i < defaultSplit.length; i++) {
     if (split[i] == undefined || split[i] == null || isNaN(split[i])) {
@@ -51,7 +53,12 @@ function loadPreference() {
   kishinamiSkill = split[12];
   if (valueMissing) {
     console.log("偏好設定缺損，重新建立");
-    writeFile(itemPath + fileName, getPreferenceString());
+    var lastScript = "";
+    if (lines.length > 1 && lines[1] != undefined && lines[1] != null) {
+      lastScript = lines[1];
+    }
+    var content = getPreferenceString() + "\n" + lastScript;
+    writeFile(itemPath + fileName, content);
   }
   return getPreferenceString();
 }
@@ -72,7 +79,9 @@ function savePreference(pref) {
   friendAlgorithm = pref[10];
   rabbitSkill = pref[11];
   kishinamiSkill = pref[12];
-  return writeFile(itemPath + fileName, getPreferenceString());
+  var lastScript = getLastScriptName();
+  var content = getPreferenceString() + "\n" + lastScript;
+  return writeFile(itemPath + fileName, content);
 }
 
 function setOtherPreference(pref) {
@@ -112,6 +121,41 @@ function getPreferenceString() {
   p += kishinamiSkill;
 
   return p;
+}
+
+function getLastScriptName() {
+  var fileName = "preferencejp.js";
+  if (server == "TW") {
+    fileName = "preferencetw.js";
+  }
+  try {
+    var content = readFile(itemPath + fileName);
+    if (content == undefined || content == null || content.length == 0) {
+      return "";
+    }
+    var lines = content.split("\n");
+    if (lines.length > 1 && lines[1] != undefined && lines[1] != null) {
+      return lines[1];
+    }
+  } catch (e) {
+    console.log("讀取上次腳本名稱失敗");
+  }
+  return "";
+}
+
+function saveLastScriptName(scriptName) {
+  var fileName = "preferencejp.js";
+  if (server == "TW") {
+    fileName = "preferencetw.js";
+  }
+  try {
+    var preferenceString = getPreferenceString();
+    var content = preferenceString + "\n" + scriptName;
+    writeFile(itemPath + fileName, content);
+    console.log("已儲存上次執行腳本名稱: " + scriptName);
+  } catch (e) {
+    console.log("儲存上次腳本名稱失敗: " + e);
+  }
 }
 
 function getKKLArray() {

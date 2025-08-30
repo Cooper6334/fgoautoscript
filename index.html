@@ -97,8 +97,8 @@
         </div>
       </div>
       <div class="blockDiv">
-        <button id = "switchPreferenceBlock" class="blockTitle">黑邊、好友、技能設定</button>
-        <button id = "switchGetServantBlock" class="blockTitle">擷取好友從者禮裝</button>
+        <button id = "switchPreferenceBlock" class="blockTitle">使用者設定</button>
+        <button id = "switchGetServantBlock" class="blockTitle">好友設定與擷取</button>
       </div>
       <div id="preferenceBlock" class="blockDiv" style="display:none">
         <div class="blockDiv">
@@ -123,27 +123,7 @@
             <button id="getBlackEdge" class="cmdButton">偵測黑邊</button>
             <button id="clearBlackEdge" class="cmdButton">清除黑邊數值</button>
           </div>
-        </div>
-        <div class="blockDiv">
-          <div class="blockTitle">
-            好友設定
-          </div>
-          <div class="commandSelectDiv">
-            <div class='commandItem'>選擇好友精確度</div>
-            <select id="friendStrictSelect" class="commandItem">
-              <option value="0">嚴格</option>
-              <option value="1">寬鬆</option>
-            </select>
-          </div>
-          <div class="commandSelectDiv">
-            <div class='commandItem'>好友偵測演算法</div>
-            <select id="friendAlgorithmSelect" class="commandItem">
-              <option value="0">傳統像素檢測</option>
-              <option value="1">圖片比對</option>
-            </select>
-          </div>
-          <div class="blockDiv">若有誤選或是沒有選到指定從者禮裝，請調整此選項</div>
-        </div>
+        </div>        
         <div class="blockDiv">
           <div class="blockTitle">
             技能設定
@@ -238,13 +218,36 @@
       <div id="getServantBlock" class="blockDiv" style="display:none">
         <div class="blockDiv">
           <div class="blockTitle">
-            讀取座標方式
+            好友設定
+          </div>
+          <div class="commandSelectDiv">
+            <div class='commandItem'>選擇好友精確度</div>
+            <select id="friendStrictSelect" class="commandItem">
+              <option value="0">嚴格</option>
+              <option value="1">寬鬆</option>
+            </select>
+          </div>
+          <div class="commandSelectDiv">
+            <div class='commandItem'>好友偵測演算法</div>
+            <select id="friendAlgorithmSelect" class="commandItem">
+              <option value="0">傳統像素檢測</option>
+              <option value="1" selected>圖片比對</option>
+            </select>
+          </div>
+          <div class="blockDiv">若有誤選或是沒有選到指定從者禮裝，請調整此選項</div>          
+          <div class="blockDiv">
+            <button id="savePreferenceButton2" class="cmdButton">儲存設定</button>
+          </div>
+        </div>
+        <div class="blockDiv">
+          <div class="blockTitle">
+            擷取方式
           </div>
           <div class="commandSelectDiv">
             <select id="captureMethodSelect" class="commandItem">
               <option value="0">絕對位置</option>
               <option value="1">傳統像素定位</option>
-              <option value="2">圖片比對定位</option>
+              <option value="2" selected>圖片比對定位</option>
             </select>
           </div>
           <div class="blockDiv">使用絕對位置時，僅限擷取好友清單最上面的兩個好友</div>

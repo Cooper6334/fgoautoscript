@@ -219,5 +219,8 @@ function resetScript(result) {
     }
   });
   insertDirection = currentDirection;
-  bootbox.alert("讀取成功");
+  if(!initLoadScript){
+    bootbox.alert("讀取成功");
+  }
+  initLoadScript = false;
 }

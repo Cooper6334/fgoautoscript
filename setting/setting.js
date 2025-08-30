@@ -9,6 +9,7 @@ var itemImgPath;
 var insertDirection = 0;
 var listenScriptMode = true;
 var isPlayingScript = false;
+var initLoadScript = false;
 
 $(function () {
   try {
@@ -26,7 +27,7 @@ $(function () {
     JavaScriptInterface.showMenu();
     JavaScriptInterface.runScriptCallback(
       'initHTML("' + server + '");',
-      "initHTML"
+      "initHTMLCallback"
     );
   }, 1500);
 });
@@ -116,6 +117,13 @@ function initButton() {
     setBlackEdgeValue([0, 0, 0, 0]);
   });
   $("#savePreferenceButton").click(function () {
+    var preference = getPreferenceValue();
+    JavaScriptInterface.runScriptCallback(
+      "savePreference([" + preference + "])",
+      "savePreferenceConfirm"
+    );
+  });
+  $("#savePreferenceButton2").click(function () {
     var preference = getPreferenceValue();
     JavaScriptInterface.runScriptCallback(
       "savePreference([" + preference + "])",
@@ -601,9 +609,9 @@ function getCheckSwitchStatus(id) {
 }
 
 //Callback------------------------------------------------------------------------------------------------------------------------
-function initHTML(result) {
+function initHTMLCallback(result) {
   if (isDebug) {
-    console.log("initHTML:" + result);
+    console.log("initHTMLCallback:" + result);
   }
   if (result == undefined || result.includes("UNAVAILABLE")) {
     $("#serverMessage").text(
@@ -775,6 +783,23 @@ function initHTML(result) {
     $("#friendAlgorithmSelect").val(friendAlgorithm).trigger("change");
   }
   setBlackEdgeValue(blackEdge);
+
+  // Load last script name and set to script selector
+  if (result[6] != undefined && result[6].length > 0) {
+    var lastScriptName = result[6];
+    console.log("上次執行的腳本: " + lastScriptName);
+    
+    // Find script by name and select it
+    var scriptOptions = $("#scriptMode option");
+    for (var i = 0; i < scriptOptions.length; i++) {
+      if ($(scriptOptions[i]).text() === lastScriptName) {
+        initLoadScript = true;
+        $("#scriptMode").val(i-1).trigger("change");
+        console.log("已自動選擇上次執行的腳本: " + lastScriptName);
+        break;
+      }
+    }
+  }
 
   var gaEvent = "app" + server;
   ga("set", "page", gaEvent);
@@ -1217,6 +1242,7 @@ function onEvent(eventType) {
     var scriptName = $("#scriptMode").select2("data")[0].text;
     var blackEdge = getBlackEdgeValue();
     var preference = getOtherPreferenceValue();
+    JavaScriptInterface.runScript("saveLastScriptName('" + scriptName + "');");
     JavaScriptInterface.runScriptCallback(
       "start(" +
         loopTime +

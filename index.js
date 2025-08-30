@@ -89,7 +89,9 @@ function initHTML(serverString) {
     ";" +
     version +
     ";" +
-    loadPreference()
+    loadPreference() +
+    ";" +
+    getLastScriptName()
   );
 }
 
