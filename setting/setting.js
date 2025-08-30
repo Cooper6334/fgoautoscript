@@ -210,6 +210,18 @@ function initButton() {
     clearScript();
   });
 
+  $("#insertFriendMultiSelect").click(function () {
+    var currentDirection = insertDirection;
+    insertDirection = 0; // 插入到前面
+    
+    // 在腳本列表前面插入3個AdditionalFriendServantCommand
+    for (var i = 0; i < 3; i++) {
+      commandId++;
+      addAdditionalFriendServant(commandId);
+    }    
+    insertDirection = currentDirection;
+  });
+
   //set load script btn
   $("#saveScript").click(function () {
     var currentScript = getCurrentScript();
