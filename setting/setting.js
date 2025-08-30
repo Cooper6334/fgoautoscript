@@ -145,7 +145,7 @@ function initButton() {
     commandId++;
     addStartQuest(commandId);
     commandId++;
-    addAuto(commandId);
+    addAutoV2(commandId);
     commandId++;
     addFinish(commandId);
     insertDirection = currentDirection;
@@ -164,14 +164,25 @@ function initButton() {
     commandId++;
     addStartQuest(commandId);
     commandId++;
-    addAuto(
+    addAutoV2(
       commandId,
-      "1,0,1,1,0,0,-1,-1,-1,-1,-1,-1,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,false,-1,-1,-1,-1,-1,-1"
+      "1,NNNBBB,0," +
+      "0,0,0,0,0,0,0," +   // p0
+      "-1,0,0,0,0,0,0," +  // p1
+      "-1,0,0,0,0,0,0," +  // p2
+      "-1,-1,-1,-1,-1,-1"  // cloth
     );
     commandId++;
     addSwitchServant(commandId, "2,3");
     commandId++;
-    addAuto(commandId);
+    addAutoV2(
+      commandId,
+      "3,NNNBBB,0," +
+      "0,-1,-1,-1,-1,-1,-1," +   // p0
+      "-1,-1,-1,-1,-1,-1,-1," +  // p1
+      "-1,0,0,0,0,0,0," +        // p2
+      "0,0,-1,-1,-1,-1"          // cloth
+    );
     commandId++;
     addFinish(commandId);
     insertDirection = currentDirection;
@@ -197,9 +208,13 @@ function initButton() {
     commandId++;
     addSwitchServant(commandId, "2,3");
     commandId++;
-    addAuto(
+    addAutoV2(
       commandId,
-      "3,0,1,1,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1,0,0,0,0,0,0,false,2,-1,-1,-1,-1,-1"
+      "3,NNNBBB,0," +
+      "0,0,0,0,0,0,0," +   // p0
+      "-1,0,0,0,0,0,0," +  // p1
+      "-1,0,0,0,0,0,0," +  // p2
+      "2,-1,-1,-1,-1,-1"   // cloth
     );
     commandId++;
     addFinish(commandId);
@@ -213,12 +228,12 @@ function initButton() {
   $("#insertFriendMultiSelect").click(function () {
     var currentDirection = insertDirection;
     insertDirection = 0; // 插入到前面
-    
+
     // 在腳本列表前面插入3個AdditionalFriendServantCommand
     for (var i = 0; i < 3; i++) {
       commandId++;
       addAdditionalFriendServant(commandId);
-    }    
+    }
     insertDirection = currentDirection;
   });
 
@@ -426,6 +441,10 @@ function initButton() {
   $("#addAuto").click(function () {
     commandId++;
     addAuto(commandId);
+  });
+  $("#addAutoV2").click(function () {
+    commandId++;
+    addAutoV2(commandId);
   });
   $("#addSkill").click(function () {
     commandId++;
@@ -663,10 +682,10 @@ function initHTMLCallback(result) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
 
@@ -800,13 +819,13 @@ function initHTMLCallback(result) {
   if (result[6] != undefined && result[6].length > 0) {
     var lastScriptName = result[6];
     console.log("上次執行的腳本: " + lastScriptName);
-    
+
     // Find script by name and select it
     var scriptOptions = $("#scriptMode option");
     for (var i = 0; i < scriptOptions.length; i++) {
       if ($(scriptOptions[i]).text() === lastScriptName) {
         initLoadScript = true;
-        $("#scriptMode").val(i-1).trigger("change");
+        $("#scriptMode").val(i - 1).trigger("change");
         console.log("已自動選擇上次執行的腳本: " + lastScriptName);
         break;
       }
@@ -922,10 +941,10 @@ function saveItemConfirm(time) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
   $("#deleteCropImageSelect").val(-1).trigger("change");
@@ -1024,10 +1043,10 @@ function saveFriendServantConfirm(result) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
   $("#deleteCropImageSelect").val(-1).trigger("change");
@@ -1042,7 +1061,7 @@ function saveFriendItemConfirm(result) {
   for (var i = 0; i < commandId + 1; i++) {
     if ($("#selectFriendItem" + i).length) {
       $("#selectFriendItem" + i).append(
-         '<option value = "' + commandId + '">' + result + "</option>"
+        '<option value = "' + commandId + '">' + result + "</option>"
       );
       $("#selectFriendItem" + i).select2({
         minimumResultsForSearch: -1,
@@ -1051,7 +1070,7 @@ function saveFriendItemConfirm(result) {
     }
     if ($("#selectFriendGrandRewardItem" + i).length) {
       $("#selectFriendGrandRewardItem" + i).append(
-         '<option value = "' + commandId + '">' + result + "</option>"
+        '<option value = "' + commandId + '">' + result + "</option>"
       );
       $("#selectFriendGrandRewardItem" + i).select2({
         minimumResultsForSearch: -1,
@@ -1068,10 +1087,10 @@ function saveFriendItemConfirm(result) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
   $("#deleteCropImageSelect").val(-1).trigger("change");
@@ -1096,10 +1115,10 @@ function deleteFriendServantConfirm(image) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
   $("#deleteCropImageSelect").val(-1).trigger("change");
@@ -1140,10 +1159,10 @@ function deleteFriendItemConfirm(image) {
   for (var i = 0; i < friendItemList.length; i++) {
     $("#deleteCropImageSelect").append(
       '<option value = "' +
-        (friendServantList.length + i) +
-        '">' +
-        friendItemList[i] +
-        "</option>"
+      (friendServantList.length + i) +
+      '">' +
+      friendItemList[i] +
+      "</option>"
     );
   }
   $("#deleteCropImageSelect").val(-1).trigger("change");
@@ -1251,22 +1270,25 @@ function onEvent(eventType) {
     }
     var currentScript = getCurrentScript();
     var l = server + "_" + version;
-    var scriptName = $("#scriptMode").select2("data")[0].text;
+    var scriptData = $("#scriptMode").select2("data");
+    var scriptName = (scriptData && scriptData.length > 0 && scriptData[0].text) ? scriptData[0].text : "";
     var blackEdge = getBlackEdgeValue();
     var preference = getOtherPreferenceValue();
-    JavaScriptInterface.runScript("saveLastScriptName('" + scriptName + "');");
+    if (scriptName !== "") {
+      JavaScriptInterface.runScript("saveLastScriptName('" + scriptName + "');");
+    }
     JavaScriptInterface.runScriptCallback(
       "start(" +
-        loopTime +
-        ",'" +
-        currentScript +
-        "','" +
-        scriptName +
-        "',[" +
-        blackEdge +
-        "],[" +
-        preference +
-        "]);",
+      loopTime +
+      ",'" +
+      currentScript +
+      "','" +
+      scriptName +
+      "',[" +
+      blackEdge +
+      "],[" +
+      preference +
+      "]);",
       "scriptFinish"
     );
     JavaScriptInterface.hideMenu();
