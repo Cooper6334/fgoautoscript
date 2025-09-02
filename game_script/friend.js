@@ -109,6 +109,22 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
   if (!isScriptRunning) {
     return;
   }
+
+  while(isScriptRunning){
+    if(isSelectFriendEmpty()){
+      break;
+    }
+    var checkLoadingScreenshot = getScreenshotResize();
+    var friendLinePosition = getFriendLineByIcon(checkLoadingScreenshot);
+    if(friendLinePosition.length >0){
+      // console.log("getFriendLineByIcon "+friendLinePosition);
+      break;
+    }
+    console.log("等待進入選擇好友頁面");
+    releaseImage(checkLoadingScreenshot);
+    sleep(1000);
+  }
+
   if (selectFriendLoose) {
     friendThreshole = 0.9;
   } else {
@@ -533,14 +549,17 @@ function getFriendLineByPixel(screenshot) {
   }
   return filteredLineY;
 }
-
 function checkFriendServant(screenshot, servantImage, lineY) {
   if (isDebug) {
     console.log("checkFriendServant " + lineY);
   }
-  return checkImage(screenshot, servantImage,
-    friendX, lineY + friendServantYOffset, friendServantSize[0], friendServantSize[1], friendThreshole
+  var ignoreIcon = [52,0,140,100];
+  var croppedServantImage = cropImage(servantImage, ignoreIcon[0], ignoreIcon[1], ignoreIcon[2], ignoreIcon[3]);
+  var result = checkImage(screenshot, croppedServantImage,
+    friendX + ignoreIcon[0], lineY + friendServantYOffset, ignoreIcon[2], ignoreIcon[3], friendThreshole
   );
+  releaseImage(croppedServantImage);
+  return result;
 }
 
 function checkFriendItem(screenshot, itemImage, lineY, needStar, grandServantItemIndex) {
@@ -616,9 +635,9 @@ function reloadFriend() {
     sleep(1000);
     if (isSelectFriendRefreshDialog()) {
       tapScale(1275, 850);
-      sleep(3000);
-      waitLoading();
+      sleep(5000);
       if (isSelectFriendRefreshDialog()) {
+        //click cancel
         tapScale(937, 850);
         sleep(1000);
       } else {
@@ -629,7 +648,7 @@ function reloadFriend() {
 }
 
 function scrollFriendList() {
-  swipeScale(600, 750, 600, 150, 300);
+  swipeScale(600, 750, 600, 150, 200);
 }
 
 function saveFriendServantImage(positionIndex, be, captureMethod) {

@@ -123,13 +123,10 @@ function selectStage(useApple) {
       tapScale(1250, 850);
       sleep(1000);
     } else if (isSelectFriendPage()) {
-      waitLoading();
-      sleep(1000);
       break;
     } else if (isSelectTeamPage()) {
       console.log("關卡跳過選擇好友介面");
       waitLoading();
-      sleep(1000);
       break;
     }
   }

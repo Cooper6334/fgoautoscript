@@ -6,7 +6,6 @@
 adb shell wm size 1080x1920
 adb shell wm size reset
 
-adb shell rm -rf /sdcard/Download/Robotmon/scripts/com.cooper.fgo/*
 
 //TW BlackEdge 200 0 2335 1079
 adb -s 192.168.11.5:5555   shell tail -n 10 /sdcard/Robotmon/robotmon.log
@@ -17,6 +16,8 @@ adb -s 127.0.0.1:62025 push index.html /sdcard/robotmon/scripts/com.cooper.fgotw
 
 adb tcpip 5555
 adb connect 192.168.11.5
+
+adb shell rm -rf /sdcard/Download/Robotmon/scripts/com.cooper.fgo/*
 
 #Windows
 #JP
