@@ -114,15 +114,17 @@ function useSkill(player, skill, target) {
   if (!isScriptRunning) {
     return;
   }
-  if (isBattleServantDialog()) {
+
+  var screenshot = getScreenshotResize();
+  if (isBattleServantDialog(screenshot)) {
     console.log("使用技能-無此技能");
     //skill null
     tapScale(1575, 127);
-  } else if (isBattleSkillFailedDialog()) {
+  } else if (isBattleSkillFailedDialog(screenshot)) {
     //skill can not use
     console.log("使用技能-條件未達成，無法使用");
     tapScale(960, 832);
-  } else if (isBattleSkillDetailDialog()) {
+  } else if (isBattleSkillDetailDialog(screenshot)) {
     //need confirm or in cd
     console.log("使用技能-確認畫面");
     tapScale(1275, 637);
@@ -134,10 +136,12 @@ function useSkill(player, skill, target) {
       return;
     }
   }
+  releaseImage(screenshot);
   if (!isScriptRunning) {
     return;
   }
-  if (isBattleSkillRabbitDialog()) {
+  screenshot = getScreenshotResize();
+  if (isBattleSkillRabbitDialog(screenshot)) {
     if (rabbitSkill == undefined || rabbitSkill < 0 || rabbitSkill > 1) {
       console.log("未指定模式，設為全體");
       rabbitSkill = 0;
@@ -152,7 +156,7 @@ function useSkill(player, skill, target) {
         clickIcon("rabbitSkill2");
         break;
     }
-  } else if (isBattleSkillKishinamiDialog()) {
+  } else if (isBattleSkillKishinamiDialog(screenshot)) {
     if (kishinamiSkill == undefined || kishinamiSkill < 0 || kishinamiSkill > 2) {
       console.log("未指定模式，設為天");
       kishinamiSkill = 0;
@@ -170,7 +174,7 @@ function useSkill(player, skill, target) {
         clickIcon("kishinamiSkill3");
         break;
     }
-  } else if (isBattleKklDialog()) {
+  } else if (isBattleKklDialog(screenshot)) {
     sleep(1000);
     if (isBattleKklDialog()) {
       var kkl = getKKLArray()[skill];
@@ -188,29 +192,30 @@ function useSkill(player, skill, target) {
       }
       sleep(2000);
     }
-  }
-  else if (isBattleSkillSpaceDialog()) {
-    if (spaceUltColor == undefined || spaceUltColor < 0 || spaceUltColor > 2) {
-      console.log("未指定顏色，設為綠色");
-      spaceUltColor = 2;
-    }
-    console.log("使用技能-宇宙伊斯塔寶具顏色 " + colorName[spaceUltColor]);
-    tapScale(spaceUltPositionX[spaceUltColor], spaceUltPositionY);
-  } else if (isBattleSkillEmiyaDialog()) {
+  }else if (isBattleSkillEmiyaDialog(screenshot)) {
     if (spaceUltColor == undefined || spaceUltColor < 0 || spaceUltColor >= 2) {
       console.log("未指定顏色，設為藍色");
       spaceUltColor = 1;
     }
     console.log("使用技能-紅A寶具顏色 " + colorName[spaceUltColor]);
     tapScale(emiyaUltPositionX[spaceUltColor], spaceUltPositionY);
-  } else if (isBattleSkillDubaiDialog()) {
+  } else if (isBattleSkillSpaceDialog(screenshot)) {
+    if (spaceUltColor == undefined || spaceUltColor < 0 || spaceUltColor > 2) {
+      console.log("未指定顏色，設為綠色");
+      spaceUltColor = 2;
+    }
+    console.log("使用技能-宇宙伊斯塔寶具顏色 " + colorName[spaceUltColor]);
+    tapScale(spaceUltPositionX[spaceUltColor], spaceUltPositionY);
+  } else if (isBattleSkillDubaiDialog(screenshot)) {
     if (dubaiSkill == undefined || dubaiSkill < 0 || dubaiSkill > 2) {
       console.log("未指定模式，設為攻擊模式");
       dubaiSkill = 0;
     }
     console.log("使用技能-杜拜BB技能模式 " + dubaiSkillName[dubaiSkill]);
     tapScale(dubaiSkillPositionX[dubaiSkill], dubaiSkillPositionY);
-  }
+  }  
+  releaseImage(screenshot);
+
   if (isBattleSkillTargetDialog()) {
     console.log("使用技能-選擇目標");
     if (target == undefined || target < 0) {

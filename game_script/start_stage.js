@@ -282,7 +282,7 @@ function tryOpenSettingDialog() {
     clickIcon("battleMain1");
     sleep(1000);
     if (isSettingDialog()) {
-      clickIcon("battleMain1");
+      clickIcon("battleMain1",30);
       sleep(1000);
       break;
     }

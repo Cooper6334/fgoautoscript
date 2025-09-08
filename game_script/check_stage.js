@@ -2,8 +2,8 @@ var icon = [];
 var iconMargin = [];
 
 function setMarginIcon() {
-  if(isDebug){
-    console.log("setMarginIcon "+server);
+  if (isDebug) {
+    console.log("setMarginIcon " + server);
   }
   if (server == "TW") {
     icon["boxNoPoint"] = [360, 630, 195, 82];
@@ -13,7 +13,7 @@ function setMarginIcon() {
     icon["friendPointFree"] = [787, 740, 337, 75];
   } else {
     icon["boxNoPoint"] = [470, 530, 200, 100];
-    icon["settingDialog"] = [750, 220, 350, 60];
+    icon["settingDialog"] = [750, 140, 350, 70];
     icon["stageFailed"] = [750, 160, 300, 60];
     icon["stageRestart"] = [1140, 836, 240, 75];
     icon["friendPointFree"] = [810, 740, 300, 75];
@@ -110,11 +110,14 @@ function setMarginIcon() {
   icon["itemPage"][0] = 160;
   iconMargin["itemPage"] = true;
 }
-function checkIconListInScreen(iconList, allPass, threshold) {
+function checkIconListInScreen(iconList, allPass, threshold, sharedScreenshot) {
   if (threshold == undefined) {
     threshold = 0.85;
   }
-  var screenshot = getScreenshotResize();
+  var screenshot = sharedScreenshot;
+  if (screenshot == undefined || screenshot == null) {
+    screenshot = getScreenshotResize();
+  }
   if (screenshot == null) {
     return false;
   }
@@ -147,19 +150,26 @@ function checkIconListInScreen(iconList, allPass, threshold) {
       console.log("checkIconInScreen result " + result);
     }
     if (result && !allPass) {
-      releaseImage(screenshot);
+      if (sharedScreenshot == undefined || sharedScreenshot == null) {
+        releaseImage(screenshot);
+      }
       return true;
     }
     if (!result && allPass) {
-      releaseImage(screenshot);
+      if (sharedScreenshot == undefined || sharedScreenshot == null) {
+        releaseImage(screenshot);
+      }
       return false;
     }
   }
-  releaseImage(screenshot);
+
+  if (sharedScreenshot == undefined || sharedScreenshot == null) {
+    releaseImage(screenshot);
+  }
   return allPass;
 }
 
-function checkIconInScreen(iconName, threshold, screenshot) {
+function checkIconInScreen(iconName, threshold, sharedScreenshot) {
   if (!isScriptRunning) {
     return false;
   }
@@ -167,7 +177,8 @@ function checkIconInScreen(iconName, threshold, screenshot) {
     console.log("checkIconInScreen no icon " + iconName);
     return false;
   }
-  if (screenshot == undefined) {
+  var screenshot = sharedScreenshot;
+  if (screenshot == undefined || screenshot == null) {
     screenshot = getScreenshotResize();
   }
   if (screenshot == null) {
@@ -195,7 +206,10 @@ function checkIconInScreen(iconName, threshold, screenshot) {
     icon[iconName][3],
     threshold
   );
-  releaseImage(screenshot);
+  if (sharedScreenshot == undefined || sharedScreenshot == null) {
+    console.log("checkIconInScreen release screenshot");
+    releaseImage(screenshot);
+  }
   releaseImage(iconImage);
   if (isDebug) {
     console.log("checkIconInScreen result " + result);
@@ -203,14 +217,20 @@ function checkIconInScreen(iconName, threshold, screenshot) {
   return result;
 }
 
-function clickIcon(iconName) {
+function clickIcon(iconName, xOffset, yOffset) {
   var margin = 0;
+  if (xOffset == undefined) {
+    xOffset = 0;
+  }
+  if (yOffset == undefined) {
+    yOffset = 0;
+  }
   if (iconMargin[iconName] != true) {
     margin = defaultMarginX;
   }
   tapScale(
-    icon[iconName][0] + icon[iconName][2] / 2 + margin,
-    icon[iconName][1] + icon[iconName][3] / 2,
+    icon[iconName][0] + icon[iconName][2] / 2 + margin + xOffset,
+    icon[iconName][1] + icon[iconName][3] / 2 + yOffset,
     100,
     0
   );
@@ -306,10 +326,10 @@ function isUseItemDialog() {
   return false;
 }
 
-function isTeamMemberCheckDialog(){  
+function isTeamMemberCheckDialog() {
   if (server == "TW") {
     //TODO
-    return false
+    return false;
   }
   return checkIconInScreen("teamMemberCheckDialog");
 }
@@ -341,14 +361,14 @@ icon["emiyaColor"] = [690, 240, 540, 90];
 icon["dubaiSkill"] = [760, 220, 395, 90];
 icon["dubaiSkill2"] = [760, 220, 395, 90];
 icon["dubaiSkill3"] = [760, 220, 395, 90];
-icon["rabbitSkill"] = [765,600,370,60];
-icon["rabbitSkill2"] = [1245,600,370,60];
-icon["kishinamiSkill"] = [660,600,260,60];
-icon["kishinamiSkill2"] = [1000,600,260,60];
-icon["kishinamiSkill3"] = [1360,600,260,60];
+icon["rabbitSkill"] = [765, 600, 370, 60];
+icon["rabbitSkill2"] = [1245, 600, 370, 60];
+icon["kishinamiSkill"] = [660, 600, 260, 60];
+icon["kishinamiSkill2"] = [1000, 600, 260, 60];
+icon["kishinamiSkill3"] = [1360, 600, 260, 60];
 icon["ultFailed"] = [900, 637, 123, 60];
 icon["skillFailed"] = [870, 802, 180, 60];
-icon["settingDialog"] = [750, 220, 350, 60];
+icon["settingDialog"] = [750, 140, 350, 60];
 
 function isBattleMainPage() {
   if (
@@ -362,16 +382,16 @@ function isBattleMainPage() {
     return true;
     //}
     /*
-		// double check ring color
-		var screenshot = getScreenshotResize();
-		if(checkPixel(1075,665,163,146,121,screenshot)
-			&& checkPixel(1135,690,191,175,150,screenshot)
-			&& checkPixel(1200,665,163,146,121,screenshot)){
-			releaseImage(screenshot);
-			return true;
-		}
-		releaseImage(screenshot);
-		*/
+    // double check ring color
+    var screenshot = getScreenshotResize();
+    if(checkPixel(1075,665,163,146,121,screenshot)
+      && checkPixel(1135,690,191,175,150,screenshot)
+      && checkPixel(1200,665,163,146,121,screenshot)){
+      releaseImage(screenshot);
+      return true;
+    }
+    releaseImage(screenshot);
+    */
   }
   return false;
 }
@@ -385,65 +405,79 @@ function isBattleCardPage() {
   return false;
 }
 
-function isBattleServantDialog() {
+function isBattleServantDialog(screenshot) {
   return checkIconListInScreen(
     ["battleServant1", "battleServant2"],
     false,
-    0.9
+    0.9,
+    screenshot
   );
 }
 
-function isBattleSkillFailedDialog() {
-  return checkIconInScreen("skillFailed");
+function isBattleSkillFailedDialog(screenshot) {
+  return checkIconInScreen("skillFailed", 0.85, screenshot);
 }
 
 function isBattleUltFailedDialog() {
   return checkIconInScreen("ultFailed");
 }
 
-function isBattleSkillDetailDialog() {
-  return checkIconInScreen("battleSkill");
+function isBattleSkillDetailDialog(screenshot) {
+  return checkIconInScreen("battleSkill", 0.85, screenshot);
 }
 
-function isBattleKklDialog() {
-  return checkIconListInScreen(["kkl", "kkl2"], true);
+function isBattleKklDialog(screenshot) {
+  return checkIconListInScreen(["kkl", "kkl2"], true, 0.85, screenshot);
 }
 
-function isBattleSkillTargetDialog() {
-  return checkIconInScreen("battleTarget");
+function isBattleSkillSpaceDialog(screenshot) {
+  return checkIconInScreen("spaceColor", 0.75, screenshot);
 }
 
-function isBattleSkillSpaceDialog() {
-  if (isBattleSkillEmiyaDialog()) {
-    return false;
-  }
-  return checkIconInScreen("spaceColor", 0.75);
+function isBattleSkillEmiyaDialog(screenshot) {
+  //Warning: will conflic with Space, shoude run before isBattleSkillSpaceDialog
+  return checkIconInScreen("emiyaColor", 0.75, screenshot);
 }
 
-function isBattleSkillEmiyaDialog() {
-  return checkIconInScreen("emiyaColor", 0.75);
-}
-
-function isBattleSkillDubaiDialog() {  
+function isBattleSkillDubaiDialog(screenshot) {
   if (server == "TW") {
     return false;
   }
-  return checkIconListInScreen(["dubaiSkill", "dubaiSkill2", "dubaiSkill3"], false);
+  return checkIconListInScreen(
+    ["dubaiSkill", "dubaiSkill2", "dubaiSkill3"],
+    false,
+    0.85,
+    screenshot
+  );
 }
 
-function isBattleSkillRabbitDialog() {
+function isBattleSkillRabbitDialog(screenshot) {
   //Warning: will conflic with kkl, shoude run before isBattleKklDialog
   if (server == "TW") {
     return false;
   }
-  return checkIconListInScreen(["rabbitSkill", "rabbitSkill2"], true);
+  return checkIconListInScreen(
+    ["rabbitSkill", "rabbitSkill2"],
+    true,
+    0.85,
+    screenshot
+  );
 }
 
-function isBattleSkillKishinamiDialog() {  
+function isBattleSkillKishinamiDialog(screenshot) {
   if (server == "TW") {
     return false;
   }
-  return checkIconListInScreen(["kishinamiSkill", "kishinamiSkill2", "kishinamiSkill3"], true);
+  return checkIconListInScreen(
+    ["kishinamiSkill", "kishinamiSkill2", "kishinamiSkill3"],
+    true,
+    0.85,
+    screenshot
+  );
+}
+
+function isBattleSkillTargetDialog() {
+  return checkIconInScreen("battleTarget");
 }
 
 //finish-----------------------------------------------
@@ -513,10 +547,10 @@ function isFriendPointFree() {
 }
 
 function isFriendPointTen() {
-    return checkIconListInScreen(
-      ["friendPointTen", "friendPointTenEvent", "friendPointHundred"],
-      false
-    );
+  return checkIconListInScreen(
+    ["friendPointTen", "friendPointTenEvent", "friendPointHundred"],
+    false
+  );
 }
 
 function isFriendPointNew() {
@@ -534,7 +568,7 @@ function isFriendPointFull() {
 }
 
 function isFriendPointContinue() {
-    return checkIconInScreen("friendPointContinue");
+  return checkIconInScreen("friendPointContinue");
 }
 
 function isPresentBoxFull() {

@@ -110,21 +110,6 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
     return;
   }
 
-  while(isScriptRunning){
-    if(isSelectFriendEmpty()){
-      break;
-    }
-    var checkLoadingScreenshot = getScreenshotResize();
-    var friendLinePosition = getFriendLineByIcon(checkLoadingScreenshot);
-    if(friendLinePosition.length >0){
-      // console.log("getFriendLineByIcon "+friendLinePosition);
-      break;
-    }
-    console.log("等待進入選擇好友頁面");
-    releaseImage(checkLoadingScreenshot);
-    sleep(1000);
-  }
-
   if (selectFriendLoose) {
     friendThreshole = 0.9;
   } else {
@@ -156,6 +141,22 @@ function selectFriend(filter, servant, item, star, checkIsFriend, scrollTimes, g
     }
     scrollTimes = 15;
   }
+
+  while(isScriptRunning){
+    if(isSelectFriendEmpty()){
+      break;
+    }
+    var checkLoadingScreenshot = getScreenshotResize();
+    var friendLinePosition = getFriendLineByIcon(checkLoadingScreenshot);
+    if(friendLinePosition.length >0){
+      // console.log("getFriendLineByIcon "+friendLinePosition);
+      break;
+    }
+    console.log("等待進入選擇好友頁面");
+    releaseImage(checkLoadingScreenshot);
+    sleep(1000);
+  }
+  
   console.log("-選擇好友-");
   if (!isSelectFriendPage()) {
     console.log("不在選擇好友頁面-選擇好友失敗");
