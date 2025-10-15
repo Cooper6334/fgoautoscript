@@ -24,7 +24,8 @@ adb shell rm -rf /sdcard/Download/Robotmon/scripts/com.cooper.fgo/*
 #To device
 cd c:\code\robotmon\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
-adb -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
+adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
+//adb -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgo
 
 #Build
 cd c:\code\robotmon\fgoautoscript
@@ -32,13 +33,14 @@ rm index.zip
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_jp\ jquery\ setting\ index.html index.js
 rm -rf c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO
 mkdir c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO
-mv index.zip \code\robotmon-scripts\scripts\com.cooper.FGO\
+mv index.zip c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\
 "%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGO -y -spf
 
 #TW
 cd c:\code\robotmon\fgoautoscript
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
-adb  -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
+adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
+//adb  -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
 
 cd c:\code\robotmon\fgoautoscript
 rm index.zip
