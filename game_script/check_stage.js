@@ -207,7 +207,6 @@ function checkIconInScreen(iconName, threshold, sharedScreenshot) {
     threshold
   );
   if (sharedScreenshot == undefined || sharedScreenshot == null) {
-    console.log("checkIconInScreen release screenshot");
     releaseImage(screenshot);
   }
   releaseImage(iconImage);
