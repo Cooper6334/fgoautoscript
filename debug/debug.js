@@ -1,7 +1,7 @@
 //var deviceId = "98071FFAZ002JS";
-//var deviceId = "127.0.0.1:62025";
-// var deviceId = "29161FDH200FZ0";
-var deviceId = "192.168.11.13:5555";
+// var deviceId = "127.0.0.1:62025";
+var deviceId = "29161FDH200FZ0";
+// var deviceId = "192.168.11.13:5555";
 // var deviceId = "emulator-5554";
 
 
