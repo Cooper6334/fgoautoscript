@@ -34,7 +34,7 @@ rm index.zip
 rm -rf c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO
 mkdir c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO
 mv index.zip c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\
-"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGO -y -spf
+"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\index.zip -o\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO -y -spf
 
 #TW
 cd c:\code\robotmon\fgoautoscript
@@ -48,7 +48,7 @@ rm index.zip
 rm -rf c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW
 mkdir c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW
 mv index.zip c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW\
-"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW\index.zip -o\code\robotmon-scripts\scripts\com.cooper.FGOTW -y -spf
+"%ProgramFiles%"\7-Zip\7z.exe e c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW\index.zip -o\code\robotmon\robotmon-scripts\scripts\com.cooper.FGOTW -y -spf
 
 
 
