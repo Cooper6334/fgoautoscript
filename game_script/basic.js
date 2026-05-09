@@ -184,7 +184,7 @@ function checkPixel(x, y, r, g, b, screenshot, threshold) {
     releaseImage(screenshot);
   }
   if (isDebug) {
-    console.log("get color " + x + "," + y + ":" + color.r + "," + color.g + "," + color.b);
+    // console.log("get color " + x + "," + y + ":" + color.r + "," + color.g + "," + color.b);
   }
   if (isSameColor(color.r, color.g, color.b, r, g, b, threshold)) {
     return true;
@@ -275,19 +275,18 @@ function swipeScale(x, y, endX, endY, step) {
     moveTo(x + s * xStep, y + s * yStep, 4);
   }
   moveTo(endX, endY, 4);
-  sleep(1000);
+  sleep(500);
   tapUp(endX, endY, 40);
-  sleep(1000);
 }
 
 function waitLoading() {
-  while (isScriptRunning) {
-    sleep(3000);
-    // if (!checkPixel(1800 + defaultMarginX, 1006, 255, 255, 255)) {
-    //   return;
-    // }
-    return;
-  }
+  // while (isScriptRunning) {
+    sleep(1500);
+  //   // if (!checkPixel(1800 + defaultMarginX, 1006, 255, 255, 255)) {
+  //   //   return;
+  //   // }
+  //   return;
+  // }
 }
 
 function isSameColor(r1, g1, b1, r2, g2, b2, threshold) {

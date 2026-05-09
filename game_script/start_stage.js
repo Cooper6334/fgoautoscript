@@ -91,6 +91,7 @@ function selectStage(useApple) {
         break;
       case 0: //bronze
         swipeScale(600, 750, 600, 150, 300);
+        sleep(2000);
         tapScale(900, 840);
         console.log("使用赤銅蘋果");
         sendNormalMessage(runningScriptName, "使用赤銅蘋果");
@@ -123,13 +124,10 @@ function selectStage(useApple) {
       tapScale(1250, 850);
       sleep(1000);
     } else if (isSelectFriendPage()) {
-      waitLoading();
-      sleep(1000);
       break;
     } else if (isSelectTeamPage()) {
       console.log("關卡跳過選擇好友介面");
       waitLoading();
-      sleep(1000);
       break;
     }
   }
@@ -285,7 +283,7 @@ function tryOpenSettingDialog() {
     clickIcon("battleMain1");
     sleep(1000);
     if (isSettingDialog()) {
-      clickIcon("battleMain1");
+      clickIcon("battleMain1",30);
       sleep(1000);
       break;
     }
