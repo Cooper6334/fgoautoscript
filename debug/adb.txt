@@ -38,8 +38,10 @@ mv index.zip c:\code\robotmon\robotmon-scripts\scripts\com.cooper.FGO\
 
 #TW
 cd c:\code\robotmon\fgoautoscript
+rm index.zip
 "%ProgramFiles%"\7-Zip\7z.exe a -tzip index.zip basic_item\ game_script\ image_tw\ jquery\ setting\ index.html index.js
 adb push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
+
 //adb  -s 192.168.11.5:5555  push index.zip /sdcard/download/robotmon/scripts/com.cooper.fgotw
 
 cd c:\code\robotmon\fgoautoscript
